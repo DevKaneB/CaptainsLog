@@ -70,7 +70,7 @@
                     Grid.Row="5"
                     x:Name="DeleteDateBtn"
                     Text="Delete Date" 
-                    SemanticProperties.Hint="View Percentages since last refill"
+                    SemanticProperties.Hint="Clear hours for this date"
                     Clicked="OnDeleteDateClicked"
                     HorizontalOptions="Fill" />
 

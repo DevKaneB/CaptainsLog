@@ -35,8 +35,25 @@
                 x:Name="DateEntry"
                 MinimumDate="01/01/2025"
                 MaximumDate="12/31/2100"
-                Format="dd-MMM-yyyy"
-                />
+                Format="dd-MMM-yyyy"/>
+                <Button
+                Grid.Column="1"
+                Grid.ColumnSpan="4"
+                Grid.Row="5"
+                x:Name="AddLitresBtn"
+                Text="Add Litres" 
+                SemanticProperties.Hint="Add Litres to database"
+                Clicked="OnAddLitresClicked"
+                HorizontalOptions="Fill" />
+                        <Button
+                Grid.Column="1"
+                Grid.ColumnSpan="4"
+                Grid.Row="6"
+                x:Name="DeleteLitresBtn"
+                Text="Delete Litres" 
+                SemanticProperties.Hint="Clear litres for this date"
+                Clicked="OnDeleteLitresClicked"
+                HorizontalOptions="Fill" /> 
             </Grid>
         </Border>
     </ContentPage.Content>
