@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CaptainsLog.DieselCalcPage"
+             Title="DieselCalcPage">
+    <ContentPage.Content>
+        <Border Padding="10,10">
+            <Grid RowSpacing="6"
+                  ColumnSpacing="6">
+                <!-- Define number of rows and columns -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!-- Propulsion hours button and view -->
+                <Label Grid.Column="0"
+                       Grid.ColumnSpan="3"
+                       Grid.Row="0"
+                       Text="Propulsion % &#10; Tap to add hours" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+                <Button
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Grid.Row="1"
+                    x:Name="PropHrsBtn"
+                    Text="0%" 
+                    SemanticProperties.Hint="Log/view your propulsion hours"
+                    Clicked="OnPropHrsClicked"
+                    HorizontalOptions="Fill" />
+                <!-- Diesel hours button and view -->
+                <Label Grid.Column="3"
+                       Grid.ColumnSpan="3"
+                       Grid.Row="0"
+                       Text="Diesel % &#10; Tap to add hours"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+                <Button
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Grid.Row="1"
+                    x:Name="DiesHrsBtn"
+                    Text="0%" 
+                    SemanticProperties.Hint="Log/view your Diesel hours"
+                    Clicked="OnDiesHrsClicked"
+                    HorizontalOptions="Fill" />
+                <!-- View Percentages since last refill -->
+                <Button
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="2"
+                    x:Name="LastRefillBtn"
+                    Text="Last Refuel" 
+                    SemanticProperties.Hint="View Percentages since last refill"
+                    Clicked="OnLastRefillClicked"
+                    HorizontalOptions="Fill" />
+                <!-- View Percentages last 30 days -->
+                <Button
+                    Grid.Column="2"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="2"
+                    x:Name="LastThirtyDaysBtn"
+                    Text="Last 30 Days" 
+                    SemanticProperties.Hint="View Percentages over the last 30 days"
+                    Clicked="OnLastThirtyDaysClicked"
+                    HorizontalOptions="Fill" />
+                <!-- View Percentages last Year -->
+                <Button
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="2"
+                    x:Name="LastYearBtn"
+                    Text="Last Year" 
+                    SemanticProperties.Hint="View Percentages over the last year"
+                    Clicked="OnLastYearClicked"
+                    HorizontalOptions="Fill" />
+                <!-- Add a diesel Refill -->
+                <Button
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="3"
+                    x:Name="DieselRefillBtn"
+                    Text="Add a Diesel Refill" 
+                    SemanticProperties.Hint="Add diesel refill by litres and date"
+                    Clicked="OnDieselRefillClicked"
+                    HorizontalOptions="Fill" />
+                <!-- View History Log -->
+                <Button
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="4"
+                    x:Name="ViewHistoryBtn"
+                    Text="View History" 
+                    SemanticProperties.Hint="View History for the last year"
+                    Clicked="OnViewHistoryClicked"
+                    HorizontalOptions="Fill" />
+
+
+            </Grid>
+        </Border>
+    </ContentPage.Content>
+</ContentPage>

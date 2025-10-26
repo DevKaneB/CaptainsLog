@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CaptainsLog.AddDieselLitresPage"
+             Title="AddDieselLitresPage">
+    <ContentPage.Content>
+        <Border Padding="10,10">
+            <Grid RowSpacing="6"
+              ColumnSpacing="6">
+                <!-- Define number of rows and columns -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
+                x:Name="DiesLitreEntry"
+                Placeholder="Enter Litres"
+                Keyboard="Numeric"
+                MaxLength="6"
+                HorizontalTextAlignment="Center"/>
+                <DatePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" 
+                x:Name="DateEntry"
+                MinimumDate="01/01/2025"
+                MaximumDate="12/31/2100"
+                Format="dd-MMM-yyyy"
+                />
+            </Grid>
+        </Border>
+    </ContentPage.Content>
+</ContentPage>

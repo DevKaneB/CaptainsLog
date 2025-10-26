@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CaptainsLog.AddHoursPage"
+             Title="AddHoursPage">
+    <ContentPage.Content>
+        <Border Padding="10,10">
+            <Grid RowSpacing="6"
+                  ColumnSpacing="6">
+                <!-- Define number of rows and columns -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!-- Add Diesel Hours -->
+                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"
+                       Text="Diesel"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+                <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                    x:Name="DiesEntry"
+                    Placeholder="Enter Hours"
+                    Keyboard="Numeric"
+                    MaxLength="2"
+                    HorizontalTextAlignment="Center"
+                />
+                <!-- Add Propulsion Hours -->
+                <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1"
+                       Text="Propulsion"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+                <Entry Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
+                       x:Name="PropEntry"
+                       Placeholder="Enter Hours"
+                       Keyboard="Numeric"
+                       MaxLength="2"
+                       HorizontalTextAlignment="Center"
+                />
+                <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" 
+                            x:Name="DateEntry"
+                            MinimumDate="01/01/2025"
+                            MaximumDate="12/31/2100"
+                            Format="dd-MMM-yyyy"
+                            />
+                <Button
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="4"
+                    x:Name="AddHoursBtn"
+                    Text="Add Hours" 
+                    SemanticProperties.Hint="Add Hours to database"
+                    Clicked="OnAddHoursClicked"
+                    HorizontalOptions="Fill" />
+                <Button
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="5"
+                    x:Name="DeleteDateBtn"
+                    Text="Delete Date" 
+                    SemanticProperties.Hint="View Percentages since last refill"
+                    Clicked="OnDeleteDateClicked"
+                    HorizontalOptions="Fill" />
+
+            </Grid>
+        </Border>
+    </ContentPage.Content>
+</ContentPage>
