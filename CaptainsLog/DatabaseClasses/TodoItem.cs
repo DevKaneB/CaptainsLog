@@ -13,7 +13,7 @@ namespace CaptainsLog.DatabaseClasses
         public int ID { get; set; }
         public int DieselHours { get; set; }
         public int PropHours { get; set; }
-        public float DieselRefill { get; set; }
+        public int DieselRefill { get; set; }
         public string Date { get; set; }
     }
 }

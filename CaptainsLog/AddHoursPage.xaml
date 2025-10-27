@@ -34,7 +34,6 @@
                     x:Name="DiesEntry"
                     Placeholder="Enter Hours"
                     Keyboard="Numeric"
-                    MaxLength="2"
                     HorizontalTextAlignment="Center"
                 />
                 <!-- Add Propulsion Hours -->
@@ -46,7 +45,6 @@
                        x:Name="PropEntry"
                        Placeholder="Enter Hours"
                        Keyboard="Numeric"
-                       MaxLength="2"
                        HorizontalTextAlignment="Center"
                 />
                 <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" 

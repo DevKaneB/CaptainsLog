@@ -17,12 +17,10 @@ public partial class AddDieselLitresPage : ContentPage
 
     async void OnAddLitresClicked(object? sender, EventArgs e)
     {
-
-        //Get users date from the form
-        var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
-
-        try
+            try
         {
+            //Get users date from the form
+            var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
 
             //Check and get any entries from the database for this date, there should always be 1. 
             databaseItems =
@@ -69,24 +67,36 @@ public partial class AddDieselLitresPage : ContentPage
 
     }
 
-    async void OnDeleteLitresButton(object? sender, EventArgs e)
+    async void OnDeleteLitresClicked(object? sender, EventArgs e)
     {
-        var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
-
+    
         try
         {
+            bool answer = await DisplayAlert("Confirm Delete", "Are you sure you want to delete the diesel litres for this date?", "Yes", "No");
+
+            if (!answer)
+                return;
+
+            //Get users date from the form
+            var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
+
+            //Check and get any entries from the database for this date
             databaseItems =
                 await database.GetItemsViaQueryAsync($"Select * from TodoItem where Date = '{dateSelected}'");
 
             switch (databaseItems.Count)
             {
+                // If database has no records for that date, nothing to delete
                 case 0:
                     await DisplayAlert("Alert", "There is nothing to delete for this date", "OK");
                     break;
+                //Otherwise set the diesel litres to 0
                 case 1:
                     databaseItems[0].DieselRefill = 0;
                     await database.SaveItemAsync(databaseItems[0]);
+                    DiesLitreEntry.Text = "";
                     break;
+                //Should never see this, it is an error
                 default:
                     Debug.WriteLine("More than 1 item found for this date");
                     break;

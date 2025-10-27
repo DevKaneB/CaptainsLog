@@ -29,7 +29,6 @@
                 x:Name="DiesLitreEntry"
                 Placeholder="Enter Litres"
                 Keyboard="Numeric"
-                MaxLength="6"
                 HorizontalTextAlignment="Center"/>
                 <DatePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" 
                 x:Name="DateEntry"
