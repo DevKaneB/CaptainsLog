@@ -2,8 +2,6 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
@@ -11,9 +9,14 @@
 
         async void OnCounterClicked(object? sender, EventArgs e)
         {
-            await Application.Current.MainPage.Navigation.PushAsync(
-                new DieselCalcPage());
+            // Fixes CS0618 and CS8602 by using the current window's page and null-checking
+            var window = Application.Current?.Windows.FirstOrDefault();
+            var navigation = window?.Page?.Navigation;
+            if (navigation != null)
+            {
+                await navigation.PushAsync(new DieselCalcPage());
+            }
+            // Optionally, handle the case where navigation is null (e.g., show an error or do nothing)
         }
-
     }
 }

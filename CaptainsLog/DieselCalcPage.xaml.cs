@@ -2,21 +2,27 @@ namespace CaptainsLog;
 
 public partial class DieselCalcPage : ContentPage
 {
-	public DieselCalcPage()
-	{
-		InitializeComponent();
-	}
+    public DieselCalcPage()
+    {
+        InitializeComponent();
+    }
 
     async void OnPropHrsClicked(object? sender, EventArgs e)
     {
-        await Application.Current.MainPage.Navigation.PushAsync(
-            new AddHoursPage());
+        var nav = this.Window?.Page?.Navigation;
+        if (nav != null)
+        {
+            await nav.PushAsync(new AddHoursPage());
+        }
     }
 
     async void OnDiesHrsClicked(object? sender, EventArgs e)
     {
-        await Application.Current.MainPage.Navigation.PushAsync(
-            new AddHoursPage());
+        var nav = this.Window?.Page?.Navigation;
+        if (nav != null)
+        {
+            await nav.PushAsync(new AddHoursPage());
+        }
     }
 
     async void OnLastRefillClicked(object? sender, EventArgs e)
@@ -36,8 +42,11 @@ public partial class DieselCalcPage : ContentPage
 
     async void OnDieselRefillClicked(object? sender, EventArgs e)
     {
-        await Application.Current.MainPage.Navigation.PushAsync(
-            new AddDieselLitresPage());
+        var nav = this.Window?.Page?.Navigation;
+        if (nav != null)
+        {
+            await nav.PushAsync(new AddDieselLitresPage());
+        }
     }
 
     async void OnViewHistoryClicked(object? sender, EventArgs e)
