@@ -6,7 +6,7 @@ namespace CaptainsLog;
 public partial class AddHoursPage : ContentPage
 {
     private TodoItemDatabase database;
-    private List<TodoItem> databaseItems;
+    private List<TodoItem>? databaseItems;
 
     public AddHoursPage()
 	{
@@ -17,6 +17,10 @@ public partial class AddHoursPage : ContentPage
     {
         try
         {
+            bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these hours?", "Yes", "No");
+            if (!answer)
+                return;
+
             //Get users date from the form
             var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
             var continueWrite = true;

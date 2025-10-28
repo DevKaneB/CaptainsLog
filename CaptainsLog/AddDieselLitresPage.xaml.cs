@@ -7,7 +7,7 @@ public partial class AddDieselLitresPage : ContentPage
 {
 
     private TodoItemDatabase database;
-    private List<TodoItem> databaseItems;
+    private List<TodoItem>? databaseItems;
 
     public AddDieselLitresPage()
 	{
@@ -17,8 +17,12 @@ public partial class AddDieselLitresPage : ContentPage
 
     async void OnAddLitresClicked(object? sender, EventArgs e)
     {
-            try
+        try
         {
+            bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these diesel litres?", "Yes", "No");
+            if (!answer)
+                return;
+
             //Get users date from the form
             var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
 
