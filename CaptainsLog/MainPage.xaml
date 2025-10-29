@@ -20,7 +20,7 @@
 
             <Button
                 x:Name="CounterBtn"
-                Text="Diesel and Propulsion" 
+                Text="Diesel Calculator" 
                 SemanticProperties.Hint="Log your leisure and propulsion hours to see the actual percentages"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />

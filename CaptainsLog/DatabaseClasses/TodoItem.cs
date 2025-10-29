@@ -11,9 +11,10 @@ namespace CaptainsLog.DatabaseClasses
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public int DieselHours { get; set; }
+        public int LeisureHours { get; set; }
         public int PropHours { get; set; }
         public int DieselRefill { get; set; }
+        public int ServiceReset { get; set; }
         public string Date { get; set; }
     }
 }

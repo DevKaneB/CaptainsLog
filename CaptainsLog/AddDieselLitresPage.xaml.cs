@@ -41,7 +41,7 @@ public partial class AddDieselLitresPage : ContentPage
                         ID = 0,
                         DieselRefill = Convert.ToInt32(DiesLitreEntry.Text),
                         PropHours = 0,
-                        DieselHours = 0
+                        LeisureHours = 0
                     });
                    
                     break;

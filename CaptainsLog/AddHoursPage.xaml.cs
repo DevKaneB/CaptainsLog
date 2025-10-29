@@ -46,7 +46,7 @@ public partial class AddHoursPage : ContentPage
                         {
                             Date = dateSelected,
                             ID = 0,
-                            DieselHours = Convert.ToInt32(DiesEntry.Text),
+                            LeisureHours = Convert.ToInt32(DiesEntry.Text),
                             PropHours = Convert.ToInt32(PropEntry.Text),
                             DieselRefill = 0
                         });
@@ -58,7 +58,7 @@ public partial class AddHoursPage : ContentPage
                 case 1:
                     //Check hours for this date are not above 24 hours 
                     if (
-                        databaseItems[0].DieselHours + Convert.ToInt32(DiesEntry.Text) +
+                        databaseItems[0].LeisureHours + Convert.ToInt32(DiesEntry.Text) +
                         databaseItems[0].PropHours + Convert.ToInt32(PropEntry.Text) > 24
                     )
                     {
@@ -68,7 +68,7 @@ public partial class AddHoursPage : ContentPage
                     }
                     else
                     {
-                        databaseItems[0].DieselHours += Convert.ToInt32(DiesEntry.Text);
+                        databaseItems[0].LeisureHours += Convert.ToInt32(DiesEntry.Text);
                         databaseItems[0].PropHours += Convert.ToInt32(PropEntry.Text);
                         continueWrite = true;
                     }
@@ -120,7 +120,7 @@ public partial class AddHoursPage : ContentPage
                     break;
                 //Delete the hours for this date by setting them to 0
                 case 1:
-                    databaseItems[0].DieselHours = 0;
+                    databaseItems[0].LeisureHours = 0;
                     databaseItems[0].PropHours = 0;
                     await database.SaveItemAsync(databaseItems[0]);
                     DiesEntry.Text = "";
