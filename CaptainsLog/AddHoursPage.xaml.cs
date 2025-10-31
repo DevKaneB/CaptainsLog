@@ -5,13 +5,13 @@ namespace CaptainsLog;
 
 public partial class AddHoursPage : ContentPage
 {
-    private TodoItemDatabase database;
-    private List<TodoItem>? databaseItems;
+    private DieselDatabaseDatabase database;
+    private List<DieselDatabase>? databaseItems;
 
     public AddHoursPage()
 	{
 		InitializeComponent();
-        database = new TodoItemDatabase();
+        database = new DieselDatabaseDatabase();
     }
     async void OnAddHoursClicked(object? sender, EventArgs e)
     {
@@ -27,7 +27,7 @@ public partial class AddHoursPage : ContentPage
 
             //Check and get any entries from the database for this date, there should always be 1. 
             databaseItems =
-                await database.GetItemsViaQueryAsync($"Select * from TodoItem where Date = '{dateSelected}'");
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where Date = '{dateSelected}'");
 
             switch (databaseItems.Count)
             {
@@ -42,7 +42,7 @@ public partial class AddHoursPage : ContentPage
                     }
                     else
                     {
-                        databaseItems.Add(new TodoItem
+                        databaseItems.Add(new DieselDatabase
                         {
                             Date = dateSelected,
                             ID = 0,
@@ -110,7 +110,7 @@ public partial class AddHoursPage : ContentPage
 
             //Check and get any entries from the database for this date
             databaseItems =
-                await database.GetItemsViaQueryAsync($"Select * from TodoItem where Date = '{dateSelected}'");
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where Date = '{dateSelected}'");
 
             switch (databaseItems.Count)
             {

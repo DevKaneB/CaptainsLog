@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CaptainsLog.DatabaseClasses
 {
-    public class TodoItem
+    public class DieselDatabase
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }

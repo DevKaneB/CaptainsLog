@@ -5,13 +5,13 @@ namespace CaptainsLog;
 
 public partial class DieselCalcPage : ContentPage
 {
-    private TodoItemDatabase database;
-    private List<TodoItem>? databaseItems;
+    private DieselDatabaseDatabase database;
+    private List<DieselDatabase>? databaseItems;
 
     public DieselCalcPage()
     {
         InitializeComponent();
-        database = new TodoItemDatabase();
+        database = new DieselDatabaseDatabase();
     }
 
     async void OnPropHrsClicked(object? sender, EventArgs e)
@@ -41,32 +41,40 @@ public partial class DieselCalcPage : ContentPage
     {
         try
         {
-            //Get last 30 records from database and sum up the hours
-            databaseItems =
-                    await database.GetItemsViaQueryAsync($"Select 99 AS ID, SUM(DieselHours) AS DieselHours, SUM(PropHours) AS PropHours, 0 AS DieselRefill, DATETIME('now') AS Date From TodoItem ORDER BY Date DESC LIMIT 30");
+            databaseItems = await database.GetItemsViaQueryAsync($"Select * from DieselDatabase");
 
-            //Check how many records were returned
-            switch (databaseItems.Count)
+            if (databaseItems.Count == 0)
             {
-                //No records found
-                case 0:
-                    await DisplayAlert("Alert", "No entries found", "OK");
-                    break;
-                //1 record found as expected
-                case 1:
-                    var item = databaseItems[0];
-                    float DHours = item.LeisureHours;
-                    float PHours = item.PropHours;
-                    var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100,0);
-                    var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
-                    PropHrsBtn.Text = $"{PropPercent}%";
-                    DiesHrsBtn.Text = $"{DieselPercent}%";
-                    break;
-                //error condition - multiple records found
-                default:
-                    await DisplayAlert("Alert", "Unexpected number of entries found", "OK");
-                    break;
+                await DisplayAlert("Alert", "No entries found", "OK");
+                return;
             }
+            else
+            {
+                databaseItems.Clear();
+
+                databaseItems =
+                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours,SUM(PropHours) AS PropHours from DieselDatabase where date > date('now','-30 day')");
+
+                switch (databaseItems.Count)
+                {
+                    //No records found
+                    case 1:
+                        var item = databaseItems[0];
+                        float DHours = item.LeisureHours;
+                        float PHours = item.PropHours;
+                        var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
+                        var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
+                        PropHrsBtn.Text = $"{PropPercent}%";
+                        DiesHrsBtn.Text = $"{DieselPercent}%";
+                        break;
+                    //error condition - multiple records found
+                    default:
+                        await DisplayAlert("Alert", "Unexpected number of entries found", "OK");
+                        break;
+                }
+
+            }
+
             databaseItems.Clear();
         }
         catch (Exception ex)
@@ -80,32 +88,40 @@ public partial class DieselCalcPage : ContentPage
     {
         try
         {
-            //Get last 30 records from database and sum up the hours
-            databaseItems =
-                    await database.GetItemsViaQueryAsync($"Select 99 AS ID, SUM(DieselHours) AS DieselHours, SUM(PropHours) AS PropHours, 0 AS DieselRefill, DATETIME('now') AS Date From TodoItem");
+            databaseItems = await database.GetItemsViaQueryAsync($"Select * from DieselDatabase");
 
-            //Check how many records were returned
-            switch (databaseItems.Count)
+            if (databaseItems.Count == 0)
             {
-                //No records found
-                case 0:
-                    await DisplayAlert("Alert", "No entries found", "OK");
-                    break;
-                //1 record found as expected
-                case 1:
-                    var item = databaseItems[0];
-                    float DHours = item.LeisureHours;
-                    float PHours = item.PropHours;
-                    var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
-                    var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
-                    PropHrsBtn.Text = $"{PropPercent}%";
-                    DiesHrsBtn.Text = $"{DieselPercent}%";
-                    break;
-                //error condition - multiple records found
-                default:
-                    await DisplayAlert("Alert", "Unexpected number of entries found", "OK");
-                    break;
+                await DisplayAlert("Alert", "No entries found", "OK");
+                return;
             }
+            else
+            {
+                databaseItems.Clear();
+
+                databaseItems =
+                       await database.GetItemsViaQueryAsync($"Select SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours From DieselDatabase");
+
+                switch (databaseItems.Count)
+                {
+                    //No records found
+                    case 1:
+                        var item = databaseItems[0];
+                        float DHours = item.LeisureHours;
+                        float PHours = item.PropHours;
+                        var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
+                        var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
+                        PropHrsBtn.Text = $"{PropPercent}%";
+                        DiesHrsBtn.Text = $"{DieselPercent}%";
+                        break;
+                    //error condition - multiple records found
+                    default:
+                        await DisplayAlert("Alert", "Unexpected number of entries found", "OK");
+                        break;
+                }
+
+            }
+
             databaseItems.Clear();
         }
         catch (Exception ex)
