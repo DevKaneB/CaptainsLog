@@ -27,7 +27,7 @@ public partial class AddHoursPage : ContentPage
 
             //Check and get any entries from the database for this date, there should always be 1. 
             databaseItems =
-                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where Date = '{dateSelected}'");
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
 
             switch (databaseItems.Count)
             {
@@ -44,7 +44,7 @@ public partial class AddHoursPage : ContentPage
                     {
                         databaseItems.Add(new DieselDatabase
                         {
-                            Date = dateSelected,
+                            EntryDate = dateSelected,
                             ID = 0,
                             LeisureHours = Convert.ToInt32(DiesEntry.Text),
                             PropHours = Convert.ToInt32(PropEntry.Text),
@@ -110,7 +110,7 @@ public partial class AddHoursPage : ContentPage
 
             //Check and get any entries from the database for this date
             databaseItems =
-                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where Date = '{dateSelected}'");
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
 
             switch (databaseItems.Count)
             {

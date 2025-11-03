@@ -53,7 +53,7 @@ public partial class DieselCalcPage : ContentPage
                 databaseItems.Clear();
 
                 databaseItems =
-                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours,SUM(PropHours) AS PropHours from DieselDatabase where date > date('now','-30 day')");
+                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours,SUM(PropHours) AS PropHours from DieselDatabase where EntryDate > date('now','-30 day')");
 
                 switch (databaseItems.Count)
                 {
