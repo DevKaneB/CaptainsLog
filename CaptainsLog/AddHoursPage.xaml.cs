@@ -17,6 +17,21 @@ public partial class AddHoursPage : ContentPage
     {
         try
         {
+            //check user has entered at least one value
+            if (String.IsNullOrEmpty(DiesEntry.Text) && String.IsNullOrEmpty(PropEntry.Text))
+            {
+                await DisplayAlert("Alert", "Please enter hours for either Diesel or Leisure", "OK");
+                return;
+            }
+
+            //Set any empty entries to 0
+            if (String.IsNullOrEmpty(DiesEntry.Text))
+                DiesEntry.Text = "0";
+            //set any empty entries to 0
+            if (String.IsNullOrEmpty(PropEntry.Text))
+                PropEntry.Text = "0";
+
+            //Confirm user wants to add
             bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these hours?", "Yes", "No");
             if (!answer)
                 return;

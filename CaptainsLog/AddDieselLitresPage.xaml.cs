@@ -19,6 +19,12 @@ public partial class AddDieselLitresPage : ContentPage
     {
         try
         {
+            if (String.IsNullOrEmpty(DiesLitreEntry.Text))
+            {
+                await DisplayAlert("Alert", "Please enter litres for Diesel", "OK");
+                return;
+            }
+
             bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these diesel litres?", "Yes", "No");
             if (!answer)
                 return;
