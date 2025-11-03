@@ -22,7 +22,7 @@ public partial class AddHoursPage : ContentPage
                 return;
 
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
+            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
             var continueWrite = true;
 
             //Check and get any entries from the database for this date, there should always be 1. 
@@ -106,7 +106,7 @@ public partial class AddHoursPage : ContentPage
                 return;
 
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("dd-MMM-yyyy");
+            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
 
             //Check and get any entries from the database for this date
             databaseItems =
