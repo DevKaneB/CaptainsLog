@@ -75,6 +75,13 @@
 	  <MauiXaml Update="DieselCalcPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="DieselLogPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="DieselCalculatorPages\" />
 	</ItemGroup>
 
 </Project>

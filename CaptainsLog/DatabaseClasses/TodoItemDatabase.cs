@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CaptainsLog.DatabaseClasses
 {
-    public class DieselDatabaseDatabase
+    public class DieselDatabaseMethods
     {
         SQLiteAsyncConnection database;
 

@@ -6,13 +6,13 @@ namespace CaptainsLog;
 public partial class AddDieselLitresPage : ContentPage
 {
 
-    private DieselDatabaseDatabase database;
+    private DieselDatabaseMethods database;
     private List<DieselDatabase>? databaseItems;
 
     public AddDieselLitresPage()
 	{
 		InitializeComponent();
-        database = new DieselDatabaseDatabase();
+        database = new DieselDatabaseMethods();
     }
 
     async void OnAddLitresClicked(object? sender, EventArgs e)

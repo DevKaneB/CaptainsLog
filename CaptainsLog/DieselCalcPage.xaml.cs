@@ -5,13 +5,13 @@ namespace CaptainsLog;
 
 public partial class DieselCalcPage : ContentPage
 {
-    private DieselDatabaseDatabase database;
+    private DieselDatabaseMethods database;
     private List<DieselDatabase>? databaseItems;
 
     public DieselCalcPage()
     {
         InitializeComponent();
-        database = new DieselDatabaseDatabase();
+        database = new DieselDatabaseMethods();
     }
 
     async void OnPropHrsClicked(object? sender, EventArgs e)
@@ -191,6 +191,10 @@ public partial class DieselCalcPage : ContentPage
 
     async void OnViewHistoryClicked(object? sender, EventArgs e)
     {
-
+        var nav = this.Window?.Page?.Navigation;
+        if (nav != null)
+        {
+            await nav.PushAsync(new DieselLogPage());
+        }
     }
 }

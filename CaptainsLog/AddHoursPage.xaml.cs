@@ -5,13 +5,13 @@ namespace CaptainsLog;
 
 public partial class AddHoursPage : ContentPage
 {
-    private DieselDatabaseDatabase database;
+    private DieselDatabaseMethods database;
     private List<DieselDatabase>? databaseItems;
 
     public AddHoursPage()
 	{
 		InitializeComponent();
-        database = new DieselDatabaseDatabase();
+        database = new DieselDatabaseMethods();
     }
     async void OnAddHoursClicked(object? sender, EventArgs e)
     {

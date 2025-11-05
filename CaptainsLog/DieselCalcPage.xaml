@@ -103,7 +103,7 @@
                     Grid.ColumnSpan="6"
                     Grid.Row="4"
                     x:Name="ViewHistoryBtn"
-                    Text="View History" 
+                    Text="View All Entries" 
                     SemanticProperties.Hint="View History for the last year"
                     Clicked="OnViewHistoryClicked"
                     HorizontalOptions="Fill" />
