@@ -15,6 +15,7 @@ namespace CaptainsLog.DatabaseClasses
         public int PropHours { get; set; }
         public int DieselRefill { get; set; }
         public int ServiceReset { get; set; }
+        // This is stored as a string because SQLite does not have a native DateTime type
         public string? EntryDate { get; set; }
     }
 }

@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:CaptainsLog.Converters"
              x:Class="CaptainsLog.DieselLogPage"
              Title="Diesel Useage Log">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:DateStringToFormattedDateConverter x:Key="DateStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <CollectionView x:Name="listDatabaseItems" 
                     Background="Transparent" 
                     >
@@ -22,7 +28,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Text="Date" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, StringFormat='\{0:dd-MMM-yyyy\}'}" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
 
                     <Label Grid.Column="1" Grid.Row="0" Text="Leisure Hours" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                     <Label Grid.Column="1" Grid.Row="1" Text="{Binding LeisureHours}" HorizontalTextAlignment="Center"/>
