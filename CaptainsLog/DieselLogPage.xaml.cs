@@ -1,31 +1,24 @@
 using CaptainsLog.DatabaseClasses;
+using CaptainsLog.ViewModels;
+using System.Threading.Tasks;
 
 namespace CaptainsLog;
 
 public partial class DieselLogPage : ContentPage
 {
-    private DieselDatabaseMethods database;
-    private List<DieselDatabase>? databaseItems;
+    private readonly LogViewModel _logViewModel;
 
     public DieselLogPage()
 	{
         InitializeComponent();
+        BindingContext = _logViewModel = new LogViewModel(new DieselDatabaseMethods());
 
-        database = new DieselDatabaseMethods();
-
-        //Load Diesel Database into View
-        LoadDatabaseItemsAsync();
     }
 
-    private async void LoadDatabaseItemsAsync()
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        databaseItems = await database.GetItemsViaQueryAsync("Select * from DieselDatabase Order By EntryDate DESC");
-        listDatabaseItems.ItemsSource = databaseItems;
-    }
-
-    async void OnDeleteRowClicked(object? sender, EventArgs e)
-    {
-        
+        base.OnNavigatedTo(args);
+        await _logViewModel.LoadDatabaseItemsAsync();   
     }
 
 

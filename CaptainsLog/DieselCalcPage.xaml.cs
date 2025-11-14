@@ -1,4 +1,5 @@
 using CaptainsLog.DatabaseClasses;
+using CaptainsLog.ViewModels;
 using System.Diagnostics;
 
 namespace CaptainsLog;

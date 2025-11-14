@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CaptainsLog.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace CaptainsLog
 {
@@ -18,6 +19,7 @@ namespace CaptainsLog
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
 
             return builder.Build();
         }
