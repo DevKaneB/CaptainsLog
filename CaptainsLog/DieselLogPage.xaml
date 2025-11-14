@@ -6,7 +6,8 @@
              xmlns:converters="clr-namespace:CaptainsLog.Converters"
              x:Class="CaptainsLog.DieselLogPage"
              Title="Diesel Useage Log"
-             x:DataType="vm:LogViewModel">
+             x:DataType="vm:LogViewModel"
+             x:Name="ThisPage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:DateStringToFormattedDateConverter x:Key="DateStringConverter" />
@@ -19,7 +20,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
-                        <RowDefinition Height="20"/>
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -40,11 +41,18 @@
                     <Label Grid.Column="3" Grid.Row="0" Text="Diesel Litres" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                     <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center"/>
 
+                    <Button
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="2"
+                        Text="Delete Entry" 
+                        SemanticProperties.Hint="Delete Entry from Database"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteEntryAsyncCommand}"
+                        CommandParameter="{Binding ID}"
+                        HorizontalOptions="Fill" />
 
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-                
-           
     </CollectionView>
 </ContentPage>

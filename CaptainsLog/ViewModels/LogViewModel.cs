@@ -1,13 +1,7 @@
 ﻿using CaptainsLog.DatabaseClasses;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace CaptainsLog.ViewModels
 {
@@ -18,11 +12,19 @@ namespace CaptainsLog.ViewModels
         public LogViewModel(DieselDatabaseMethods DatabaseClient)
         {
             _databaseClient = DatabaseClient;
+
+            // initialize the explicit command so XAML compile-time/type-checking sees it
+            DeleteEntryAsyncCommand = new AsyncRelayCommand<int>(async id =>
+            {
+                var itemToDelete = await _databaseClient.GetItemAsync(id);
+                await _databaseClient.DeleteItemAsync(itemToDelete);
+                await LoadDatabaseItemsAsync();
+            });
         }
 
-        // Fix for MVVMTK0045: Use a partial property instead of a field for [ObservableProperty]
         [ObservableProperty]
-        ObservableCollection<DieselDatabase> databaseItems = new();
+        public ObservableCollection<DieselDatabase>? databaseItems = new();
+
 
         [RelayCommand]
         public async Task LoadDatabaseItemsAsync()
@@ -30,5 +32,9 @@ namespace CaptainsLog.ViewModels
             var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase Order By EntryDate DESC");
             DatabaseItems = new ObservableCollection<DieselDatabase>(items);
         }
+
+        // Provide an explicit command property that XAML can see at compile-time.
+        // We create and wire it in the constructor above.
+        public IAsyncRelayCommand<int> DeleteEntryAsyncCommand { get; }
     }
 }
