@@ -14,25 +14,6 @@ public partial class DieselCalcPage : ContentPage
         InitializeComponent();
         database = new DieselDatabaseMethods();
     }
-
-    async void OnPropHrsClicked(object? sender, EventArgs e)
-    {
-        var nav = this.Window?.Page?.Navigation;
-        if (nav != null)
-        {
-            await nav.PushAsync(new AddHoursPage());
-        }
-    }
-
-    async void OnDiesHrsClicked(object? sender, EventArgs e)
-    {
-        var nav = this.Window?.Page?.Navigation;
-        if (nav != null)
-        {
-            await nav.PushAsync(new AddHoursPage());
-        }
-    }
-
     
     async void OnAddUpdateHoursClicked(object? sender, EventArgs e)
     {
@@ -73,8 +54,8 @@ public partial class DieselCalcPage : ContentPage
                         float PHours = item.PropHours;
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
-                        PropHrsBtn.Text = $"{PropPercent}%";
-                        DiesHrsBtn.Text = $"{DieselPercent}%";
+                        PropHrsLbl.Text = $"{PropPercent}%";
+                        DiesHrsLbl.Text = $"{DieselPercent}%";
                         break;
                     //error condition - multiple records found
                     default:
@@ -121,8 +102,8 @@ public partial class DieselCalcPage : ContentPage
                         float PHours = item.PropHours;
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
-                        PropHrsBtn.Text = $"{PropPercent}%";
-                        DiesHrsBtn.Text = $"{DieselPercent}%";
+                        PropHrsLbl.Text = $"{PropPercent}%";
+                        DiesHrsLbl.Text = $"{DieselPercent}%";
                         break;
                     //error condition - multiple records found
                     default:
@@ -172,8 +153,8 @@ public partial class DieselCalcPage : ContentPage
                         float PHours = item.PropHours;
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
-                        PropHrsBtn.Text = $"{PropPercent}%";
-                        DiesHrsBtn.Text = $"{DieselPercent}%";
+                        PropHrsLbl.Text = $"{PropPercent}%";
+                        DiesHrsLbl.Text = $"{DieselPercent}%";
                         break;
                     //error condition - multiple records found
                     default:
