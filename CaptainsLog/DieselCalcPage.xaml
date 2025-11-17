@@ -87,11 +87,21 @@
                     SemanticProperties.Hint="View Percentages of All Time"
                     Clicked="OnAllTimeClicked"
                     HorizontalOptions="Fill" />
-                <!-- Add a diesel Refill -->
+                <!-- Add or Update Hours -->
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
                     Grid.Row="3"
+                    x:Name="AddUpdateHoursBtn"
+                    Text="Add/Update Hours" 
+                    SemanticProperties.Hint="Add Hours or update current hours"
+                    Clicked="OnAddUpdateHoursClicked"
+                    HorizontalOptions="Fill" />
+                <!-- Add a diesel Refill -->
+                <Button
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="4"
                     x:Name="DieselRefillBtn"
                     Text="Add a Diesel Refill" 
                     SemanticProperties.Hint="Add diesel refill by litres and date"
@@ -101,7 +111,7 @@
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="4"
+                    Grid.Row="5"
                     x:Name="ViewHistoryBtn"
                     Text="View All Entries" 
                     SemanticProperties.Hint="View History for the last year"

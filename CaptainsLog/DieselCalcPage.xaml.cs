@@ -33,6 +33,16 @@ public partial class DieselCalcPage : ContentPage
         }
     }
 
+    
+    async void OnAddUpdateHoursClicked(object? sender, EventArgs e)
+    {
+        var nav = this.Window?.Page?.Navigation;
+        if (nav != null)
+        {
+            await nav.PushAsync(new AddHoursPage());
+        }
+    }
+
     async void OnLastRefillClicked(object? sender, EventArgs e)
     {
         try
