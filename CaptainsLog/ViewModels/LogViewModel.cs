@@ -16,7 +16,29 @@ namespace CaptainsLog.ViewModels
             // initialize the explicit command so XAML compile-time/type-checking sees it
             DeleteEntryAsyncCommand = new AsyncRelayCommand<int>(async id =>
             {
+                // Get the current page safely
+                var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+                // If no page is available, cancel the delete to avoid throwing
+                if (page == null)
+                    return;
+
+                // Ask the user to confirm deletion
+                var confirmed = await page.DisplayAlert(
+                    "Confirm delete",
+                    "Are you sure you want to delete this entry?",
+                    "Yes",
+                    "No");
+
+                // If the user cancels, do nothing
+                if (!confirmed)
+                    return;
+
+                // Proceed with deletion
                 var itemToDelete = await _databaseClient.GetItemAsync(id);
+                if (itemToDelete == null)
+                    return;
+
                 await _databaseClient.DeleteItemAsync(itemToDelete);
                 await LoadDatabaseItemsAsync();
             });

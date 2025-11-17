@@ -12,7 +12,75 @@ public partial class AddHoursPage : ContentPage
 	{
 		InitializeComponent();
         database = new DieselDatabaseMethods();
+        LoadDateHours();
     }
+
+    async void LoadDateHours()
+    {
+        try
+        {
+            //Get users date from the form
+            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            //Check and get any entries from the database for this date
+            databaseItems =
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
+            switch (databaseItems.Count)
+            {
+                // If database has no records for that date, clear the entries
+                case 0:
+                    DiesEntry.Text = "";
+                    PropEntry.Text = "";
+                    break;
+                //Populate the entries with the hours from the database
+                case 1:
+                    DiesEntry.Text = databaseItems[0].LeisureHours.ToString();
+                    PropEntry.Text = databaseItems[0].PropHours.ToString();
+                    break;
+                //Should never see this, it is an error
+                default:
+                    Debug.WriteLine("More than 1 item found for this date");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+
+    async void OnDateSelected(object sender, DateChangedEventArgs e)
+    {
+        try
+        {
+            //Get users date from the form
+            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            //Check and get any entries from the database for this date
+            databaseItems =
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
+            switch (databaseItems.Count)
+            {
+                // If database has no records for that date, clear the entries
+                case 0:
+                    DiesEntry.Text = "";
+                    PropEntry.Text = "";
+                    break;
+                //Populate the entries with the hours from the database
+                case 1:
+                    DiesEntry.Text = databaseItems[0].LeisureHours.ToString();
+                    PropEntry.Text = databaseItems[0].PropHours.ToString();
+                    break;
+                //Should never see this, it is an error
+                default:
+                    Debug.WriteLine("More than 1 item found for this date");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+
     async void OnAddHoursClicked(object? sender, EventArgs e)
     {
         try
@@ -73,8 +141,7 @@ public partial class AddHoursPage : ContentPage
                 case 1:
                     //Check hours for this date are not above 24 hours 
                     if (
-                        databaseItems[0].LeisureHours + Convert.ToInt32(DiesEntry.Text) +
-                        databaseItems[0].PropHours + Convert.ToInt32(PropEntry.Text) > 24
+                        Convert.ToInt32(DiesEntry.Text) + Convert.ToInt32(PropEntry.Text) > 24
                     )
                     {
                         await DisplayAlert("Alert", "Total amount of hours is above 24 for this date", "OK");
@@ -83,8 +150,8 @@ public partial class AddHoursPage : ContentPage
                     }
                     else
                     {
-                        databaseItems[0].LeisureHours += Convert.ToInt32(DiesEntry.Text);
-                        databaseItems[0].PropHours += Convert.ToInt32(PropEntry.Text);
+                        databaseItems[0].LeisureHours = Convert.ToInt32(DiesEntry.Text);
+                        databaseItems[0].PropHours = Convert.ToInt32(PropEntry.Text);
                         continueWrite = true;
                     }
                     break;
@@ -100,7 +167,7 @@ public partial class AddHoursPage : ContentPage
             {
                 //Write the changes and leave the view
                 await database.SaveItemAsync(databaseItems[0]);
-                await Navigation.PopAsync();
+                await DisplayAlert("Alert", "This date has now been updated", "Ok");
             }
 
         }

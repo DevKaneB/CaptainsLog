@@ -28,6 +28,18 @@ public partial class DieselCalcPage : ContentPage
     {
         try
         {
+            //Are there any diesel Refill entries in the database?
+            var RefillItems =
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where DieselRefill != '0'");
+
+            if (RefillItems.Count == 0)
+            {
+                await DisplayAlert("Alert", "No diesel refill entries found in database", "OK");
+                return;
+
+            }
+
+
             //Load all database entries
             databaseItems = await database.GetItemsViaQueryAsync($"Select * from DieselDatabase");
 
