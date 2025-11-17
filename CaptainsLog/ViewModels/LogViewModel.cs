@@ -20,6 +20,7 @@ namespace CaptainsLog.ViewModels
                 await _databaseClient.DeleteItemAsync(itemToDelete);
                 await LoadDatabaseItemsAsync();
             });
+
         }
 
         [ObservableProperty]
@@ -32,6 +33,7 @@ namespace CaptainsLog.ViewModels
             var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase Order By EntryDate DESC");
             DatabaseItems = new ObservableCollection<DieselDatabase>(items);
         }
+
 
         // Provide an explicit command property that XAML can see at compile-time.
         // We create and wire it in the constructor above.
