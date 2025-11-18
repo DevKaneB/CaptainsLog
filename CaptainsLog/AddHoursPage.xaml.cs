@@ -85,6 +85,32 @@ public partial class AddHoursPage : ContentPage
     {
         try
         {
+            //Check field inputs are different from what is already in the database for this date
+            //Get users date from the form
+            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            //Check and get any entries from the database for this date
+            databaseItems =
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
+            switch (databaseItems.Count)
+            {
+                // If database has no records for that date, do nothing
+                case 0:
+                    break;
+                //Populate the entries with the hours from the database
+                case 1:
+                    if (DiesEntry.Text == databaseItems[0].LeisureHours.ToString() &&
+                        PropEntry.Text == databaseItems[0].PropHours.ToString())
+                    {
+                        await DisplayAlert("Alert", "No changes detected to the hours for this date", "OK");
+                        return;
+                    }
+                    break;
+                //Should never see this, it is an error
+                default:
+                    Debug.WriteLine($"More than 1 item found for this date: {dateSelected}");
+                    break;
+            }
+
             //check user has entered at least one value
             if (String.IsNullOrEmpty(DiesEntry.Text) && String.IsNullOrEmpty(PropEntry.Text))
             {
@@ -105,7 +131,6 @@ public partial class AddHoursPage : ContentPage
                 return;
 
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
             var continueWrite = true;
 
             //Check and get any entries from the database for this date, there should always be 1. 
