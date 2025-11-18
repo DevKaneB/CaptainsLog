@@ -61,6 +61,12 @@ public partial class DieselCalcPage : ContentPage
                 {
                     //Calculate and display percentages
                     case 1:
+
+                        if (databaseItems[0].LeisureHours == 0 && databaseItems[0].PropHours == 0)
+                        {
+                            await DisplayAlert("Alert", "No hours recorded since last diesel refill", "OK");
+                            return;
+                        }
                         var item = databaseItems[0];
                         float DHours = item.LeisureHours;
                         float PHours = item.PropHours;

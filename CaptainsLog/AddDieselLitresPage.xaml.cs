@@ -13,6 +13,69 @@ public partial class AddDieselLitresPage : ContentPage
 	{
 		InitializeComponent();
         database = new DieselDatabaseMethods();
+        LoadDateLitres();
+    }
+
+    async void LoadDateLitres()
+    {
+        try
+        {
+            //Get users date from the form
+            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            //Check and get any entries from the database for this date
+            databaseItems =
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
+            switch (databaseItems.Count)
+            {
+                // If database has no records for that date, clear the entries
+                case 0:
+                    DiesLitreEntry.Text = "";
+                    break;
+                //Populate the entries with the hours from the database
+                case 1:
+                    DiesLitreEntry.Text = databaseItems[0].DieselRefill.ToString();
+                    break;
+                //Should never see this, it is an error
+                default:
+                    Debug.WriteLine("More than 1 item found for this date");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+
+    async void OnDateSelected(object sender, DateChangedEventArgs e)
+    {
+        try
+        {
+            //Get users date from the form
+            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            //Check and get any entries from the database for this date
+            databaseItems =
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
+            switch (databaseItems.Count)
+            {
+                // If database has no records for that date, clear the entries
+                case 0:
+                    DiesLitreEntry.Text = "";
+                    break;
+                //Populate the entries with the hours from the database
+                case 1:
+                    DiesLitreEntry.Text = databaseItems[0].DieselRefill.ToString();
+                    break;
+                //Should never see this, it is an error
+                default:
+                    Debug.WriteLine("More than 1 item found for this date");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
     }
 
     async void OnAddLitresClicked(object? sender, EventArgs e)
@@ -54,8 +117,15 @@ public partial class AddDieselLitresPage : ContentPage
 
                 //Otherwise add the inputted hours onto the database entry
                 case 1:
-                    
-                    databaseItems[0].DieselRefill += Convert.ToInt32(DiesLitreEntry.Text);
+
+                    //check if database matches the current entry text
+                    if( databaseItems[0].DieselRefill == Convert.ToInt32(DiesLitreEntry.Text))
+                    {
+                        await DisplayAlert("Alert", "The diesel litres you are trying to add are the same as the existing entry for this date. No changes made.", "OK");
+                        return;
+                    }
+
+                    databaseItems[0].DieselRefill = Convert.ToInt32(DiesLitreEntry.Text);
                     break;
 
                 //Should never see this, it is an error

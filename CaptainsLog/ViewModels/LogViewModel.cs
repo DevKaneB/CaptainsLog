@@ -52,7 +52,25 @@ namespace CaptainsLog.ViewModels
         [RelayCommand]
         public async Task LoadDatabaseItemsAsync()
         {
-            var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase Order By EntryDate DESC");
+            var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase where LeisureHours > 0 and PropHours > 0 and DieselRefill > 0 Order By EntryDate DESC");
+
+            if (items.Count == 0)
+            {
+                // Get the current page safely
+                var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+                // If no page is available, cancel the delete to avoid throwing
+                if (page == null)
+                    return;
+
+                // Ask the user to confirm deletion
+                await page.DisplayAlert(
+                    "Alert",
+                    "There are no entries to show!",
+                    "Ok");
+
+                
+            }
             DatabaseItems = new ObservableCollection<DieselDatabase>(items);
         }
 
