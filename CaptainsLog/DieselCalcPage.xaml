@@ -9,10 +9,13 @@
                   ColumnSpacing="6">
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
@@ -70,11 +73,47 @@
                     HorizontalOptions="Fill"
                     HorizontalTextAlignment="Center"
                     FontSize="Large"/>
+
+                <!-- Litres Per Hour Label -->
+                <Label
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="2"
+                    x:Name="LitrePHourLbl"
+                    Text="0 Litres/Hour"                     
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"/>     
+
+                <!-- Litres per Hour Description -->
+                <Label
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="3"
+                    Text="used since last refill"                     
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"/>      
+
+                
+
+                <!-- Refresh Buttons Description -->
+                <Label
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="4"
+                    Text="Press to refresh the display"                     
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"
+                    BackgroundColor="LightGrey"/>
+
+
                 <!-- View Percentages since last refill -->
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Grid.Row="2"
+                    Grid.Row="5"
                     x:Name="LastRefillBtn"
                     Text="Last Refuel"
                     FontAutoScalingEnabled="True"
@@ -85,7 +124,7 @@
                 <Button
                     Grid.Column="2"
                     Grid.ColumnSpan="2"
-                    Grid.Row="2"
+                    Grid.Row="5"
                     x:Name="LastThirtyDaysBtn"
                     Text="Last 30 Days" 
                     SemanticProperties.Hint="View Percentages over the last 30 days"
@@ -95,17 +134,27 @@
                 <Button
                     Grid.Column="4"
                     Grid.ColumnSpan="2"
-                    Grid.Row="2"
+                    Grid.Row="5"
                     x:Name="AllTimeBtn"
                     Text="All Time" 
                     SemanticProperties.Hint="View Percentages of All Time"
                     Clicked="OnAllTimeClicked"
                     HorizontalOptions="Fill" />
+                <!-- Refresh Buttons Description -->
+                <Label
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="6"
+                    Text="Update the Database"                     
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"
+                    BackgroundColor="LightGrey"/>
                 <!-- Add or Update Hours -->
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="3"
+                    Grid.Row="7"
                     x:Name="AddUpdateHoursBtn"
                     Text="Add/Update Hours" 
                     SemanticProperties.Hint="Add Hours or update current hours"
@@ -115,7 +164,7 @@
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="4"
+                    Grid.Row="8"
                     x:Name="DieselRefillBtn"
                     Text="Add a Diesel Refill" 
                     SemanticProperties.Hint="Add diesel refill by litres and date"
@@ -125,7 +174,7 @@
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="5"
+                    Grid.Row="9"
                     x:Name="ViewHistoryBtn"
                     Text="View All Entries" 
                     SemanticProperties.Hint="View History for the last year"

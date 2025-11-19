@@ -52,7 +52,7 @@ namespace CaptainsLog.ViewModels
         [RelayCommand]
         public async Task LoadDatabaseItemsAsync()
         {
-            var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase where LeisureHours > 0 and PropHours > 0 and DieselRefill > 0 Order By EntryDate DESC");
+            var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase where LeisureHours > 0 or PropHours > 0 or DieselRefill > 0 Order By EntryDate DESC");
 
             if (items.Count == 0)
             {
