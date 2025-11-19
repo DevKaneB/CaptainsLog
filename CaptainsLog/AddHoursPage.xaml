@@ -35,13 +35,16 @@
                        FontSize="Medium"
                        BackgroundColor="LightGrey"/>
                 <!-- Select the date you wish to edt -->
-                <DatePicker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" 
+                <Border Padding="1" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                    <DatePicker 
                     x:Name="DateEntry"
                     DateSelected="OnDateSelected"
                     MinimumDate="01/01/2025"
                     MaximumDate="12/31/2100"
                     Format="dd-MMM-yyyy"
                     />
+                </Border>
+                
                 <!-- Add Dates total Hours -->
                 <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2"
                    Text="Add this dates total hours"
@@ -54,23 +57,25 @@
                        Text="Leisure"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
-                <Entry Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                <Border Padding="1" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
+                    <Entry 
                     x:Name="DiesEntry"
                     Placeholder="Enter Hours"
                     Keyboard="Numeric"
-                    HorizontalTextAlignment="Center"
-                />
+                    HorizontalTextAlignment="Center"/>
+                </Border>
                 <!-- Add Propulsion Hours -->
                 <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3"
                        Text="Propulsion"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
-                <Entry Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2"
+                <Border Padding="1" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
+                    <Entry
                        x:Name="PropEntry"
                        Placeholder="Enter Hours"
                        Keyboard="Numeric"
-                       HorizontalTextAlignment="Center"
-                />
+                       HorizontalTextAlignment="Center"/>
+                </Border>
                 <!-- Buttons Title -->
                 <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="5"
                     Text="Update or Delete these hours"
