@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              x:Class="CaptainsLog.AddHoursPage"
              Title="Add Engine Hours">
     <ContentPage.Content>
@@ -10,9 +11,9 @@
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="160"/>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
@@ -35,16 +36,15 @@
                        FontSize="Medium"
                        BackgroundColor="LightGrey"/>
                 <!-- Select the date you wish to edt -->
-                <Border Padding="1" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-                    <DatePicker 
-                    x:Name="DateEntry"
-                    DateSelected="OnDateSelected"
-                    MinimumDate="01/01/2025"
-                    MaximumDate="12/31/2100"
-                    Format="dd-MMM-yyyy"
-                    />
-                </Border>
-                
+                <picker:SfDatePicker
+                    x:Name="HoursDatePicker"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="1"
+                    HorizontalOptions="Fill" 
+                    SelectionChanged="OnDateChangedEvent">
+                </picker:SfDatePicker>
+
                 <!-- Add Dates total Hours -->
                 <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2"
                    Text="Add this dates total hours"
@@ -104,6 +104,8 @@
                     SemanticProperties.Hint="Clear hours for this date"
                     Clicked="OnDeleteDateClicked"
                     HorizontalOptions="Fill" />
+                
+
 
             </Grid>
         </Border>

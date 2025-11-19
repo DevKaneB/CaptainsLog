@@ -1,4 +1,5 @@
 using CaptainsLog.DatabaseClasses;
+using Syncfusion.Maui.Picker;
 using System.Diagnostics;
 
 namespace CaptainsLog;
@@ -19,8 +20,9 @@ public partial class AddHoursPage : ContentPage
     {
         try
         {
-            //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime date = HoursDatePicker.SelectedDate.Value;
+            var dateSelected = date.ToString("yyyy-MM-dd");
+
             //Check and get any entries from the database for this date
             databaseItems =
                 await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
@@ -48,12 +50,48 @@ public partial class AddHoursPage : ContentPage
         }
     }
 
+    async void OnDateChangedEvent(object sender, DatePickerSelectionChangedEventArgs e)
+    {
+        try
+        {
+            DateTime selectedDate = (DateTime)e.NewValue;
+            var dateSelected = selectedDate.ToString("yyyy-MM-dd");
+
+            //Check and get any entries from the database for this date
+            databaseItems =
+                await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
+            switch (databaseItems.Count)
+            {
+                // If database has no records for that date, clear the entries
+                case 0:
+                    DiesEntry.Text = "";
+                    PropEntry.Text = "";
+                    break;
+                //Populate the entries with the hours from the database
+                case 1:
+                    DiesEntry.Text = databaseItems[0].LeisureHours.ToString();
+                    PropEntry.Text = databaseItems[0].PropHours.ToString();
+                    break;
+                //Should never see this, it is an error
+                default:
+                    Debug.WriteLine("More than 1 item found for this date");
+                    break;
+            }
+
+        } catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+
+    }
+
     async void OnDateSelected(object sender, DateChangedEventArgs e)
     {
         try
         {
-            //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime date = HoursDatePicker.SelectedDate.Value;
+            var dateSelected = date.ToString("yyyy-MM-dd");
+
             //Check and get any entries from the database for this date
             databaseItems =
                 await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
@@ -87,7 +125,8 @@ public partial class AddHoursPage : ContentPage
         {
             //Check field inputs are different from what is already in the database for this date
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime date = HoursDatePicker.SelectedDate.Value;
+            var dateSelected = date.ToString("yyyy-MM-dd");
             //Check and get any entries from the database for this date
             databaseItems =
                 await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
@@ -213,7 +252,9 @@ public partial class AddHoursPage : ContentPage
                 return;
 
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime selectedDate = (DateTime)HoursDatePicker.SelectedDate;
+            DateTime date = selectedDate;
+            var dateSelected = date.ToString("yyyy-MM-dd");
 
             //Check and get any entries from the database for this date
             databaseItems =
