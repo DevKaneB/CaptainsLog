@@ -5,7 +5,7 @@
              xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses"
              xmlns:converters="clr-namespace:CaptainsLog.Converters"
              x:Class="CaptainsLog.DieselLogPage"
-             Title="Diesel Useage Log"
+             Title="Diesel Usage Log"
              x:DataType="vm:LogViewModel"
              x:Name="ThisPage">
     <ContentPage.Resources>
@@ -13,45 +13,53 @@
             <converters:DateStringToFormattedDateConverter x:Key="DateStringConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <CollectionView ItemsSource="{Binding DatabaseItems}" Background="Transparent">
+    
+    <CollectionView ItemsSource="{Binding DatabaseItems}" Background="Transparent" >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:DieselDatabase">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                <SwipeView >
+                    <Border Padding="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" Text="Date" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="0" Text="Date" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
 
-                    <Label Grid.Column="1" Grid.Row="0" Text="Leisure Hours" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding LeisureHours}" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="Leisure Hours" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding LeisureHours}" HorizontalTextAlignment="Center"/>
 
-                    <Label Grid.Column="2" Grid.Row="0" Text="Prop Hours" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding PropHours}" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="2" Grid.Row="0" Text="Prop Hours" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="2" Grid.Row="1" Text="{Binding PropHours}" HorizontalTextAlignment="Center"/>
 
-                    <Label Grid.Column="3" Grid.Row="0" Text="Diesel Litres" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                    <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="3" Grid.Row="0" Text="Diesel Litres" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center"/>
 
-                    <Button
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Grid.Row="2"
-                        Text="Delete Entry" 
-                        SemanticProperties.Hint="Delete Entry from Database"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteEntryAsyncCommand}"
-                        CommandParameter="{Binding ID}"
-                        HorizontalOptions="Fill" />
+                            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Text="Swipe Left to Delete" FontAttributes="Italic" HorizontalTextAlignment="Center" FontSize="Micro" BackgroundColor="LightGray"/>
 
-                </Grid>
+                        </Grid>
+                    </Border>
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Reveal">
+                            <SwipeItem BackgroundColor="Red"
+						           SemanticProperties.Hint="Delete Entry from Database"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteEntryAsyncCommand}"
+                                    CommandParameter="{Binding ID}"
+						           Text="Delete"
+						           />
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+
+                </SwipeView>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
