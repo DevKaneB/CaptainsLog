@@ -9,11 +9,11 @@
               ColumnSpacing="6">
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50"/>
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
@@ -25,17 +25,39 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <!-- Select Date to update -->
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0"
+                   Text="Select the date you wish to update"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   FontSize="Medium"
+                   BackgroundColor="LightGrey"/>
+                <!-- Date input -->
+                <DatePicker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" 
+                    DateSelected="OnDateSelected"
+                    x:Name="DateEntry"
+                    MinimumDate="01/01/2025"
+                    MaximumDate="12/31/2100"
+                    Format="dd-MMM-yyyy"/>
+                <!-- Input the total amount of litres -->
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2"
+                   Text="Enter the amount of litres"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   FontSize="Medium"
+                   BackgroundColor="LightGrey"/>
                 <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
                 x:Name="DiesLitreEntry"
                 Placeholder="Enter Litres"
                 Keyboard="Numeric"
                 HorizontalTextAlignment="Center"/>
-                <DatePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" 
-                DateSelected="OnDateSelected"
-                x:Name="DateEntry"
-                MinimumDate="01/01/2025"
-                MaximumDate="12/31/2100"
-                Format="dd-MMM-yyyy"/>
+                <!-- Select an update button -->
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="4"
+                   Text="Update Litres or Delete Litres from database"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   FontSize="Medium"
+                   BackgroundColor="LightGrey"/>    
                 <Button
                 Grid.Column="1"
                 Grid.ColumnSpan="4"

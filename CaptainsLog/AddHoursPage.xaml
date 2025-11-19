@@ -73,7 +73,7 @@
                 />
                 <!-- Buttons Title -->
                 <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="5"
-                    Text="Add/Update or Delete these hours"
+                    Text="Update or Delete these hours"
                     HorizontalOptions="Fill"
                     HorizontalTextAlignment="Center"
                         FontSize="Medium"
@@ -86,7 +86,7 @@
                     Grid.ColumnSpan="4"
                     Grid.Row="6"
                     x:Name="AddHoursBtn"
-                    Text="Add/Update Hours" 
+                    Text="Update Hours" 
                     SemanticProperties.Hint="Add Hours to database"
                     Clicked="OnAddHoursClicked"
                     HorizontalOptions="Fill" />
