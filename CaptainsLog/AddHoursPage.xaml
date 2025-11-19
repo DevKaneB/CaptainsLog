@@ -9,10 +9,12 @@
                   ColumnSpacing="6">
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50"/>
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
@@ -25,39 +27,64 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <!-- Add Select the date title -->
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0"
+                   Text="Select the date you wish to update"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                       FontSize="Medium"
+                       BackgroundColor="LightGrey"/>
+                <!-- Select the date you wish to edt -->
+                <DatePicker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" 
+                    x:Name="DateEntry"
+                    DateSelected="OnDateSelected"
+                    MinimumDate="01/01/2025"
+                    MaximumDate="12/31/2100"
+                    Format="dd-MMM-yyyy"
+                    />
+                <!-- Add Dates total Hours -->
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2"
+                   Text="Add this dates total hours"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   FontSize="Medium"
+                   BackgroundColor="LightGrey"/>
                 <!-- Add Diesel Hours -->
-                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"
+                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3"
                        Text="Leisure"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
-                <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                <Entry Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
                     x:Name="DiesEntry"
                     Placeholder="Enter Hours"
                     Keyboard="Numeric"
                     HorizontalTextAlignment="Center"
                 />
                 <!-- Add Propulsion Hours -->
-                <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1"
+                <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3"
                        Text="Propulsion"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
-                <Entry Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
+                <Entry Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2"
                        x:Name="PropEntry"
                        Placeholder="Enter Hours"
                        Keyboard="Numeric"
                        HorizontalTextAlignment="Center"
                 />
-                <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" 
-                            x:Name="DateEntry"
-                            DateSelected="OnDateSelected"
-                            MinimumDate="01/01/2025"
-                            MaximumDate="12/31/2100"
-                            Format="dd-MMM-yyyy"
-                            />
+                <!-- Buttons Title -->
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="5"
+                    Text="Add/Update or Delete these hours"
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Center"
+                        FontSize="Medium"
+                        BackgroundColor="LightGrey"/>   
+
+
+                <!-- Add, Update or delete buttons-->
                 <Button
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
-                    Grid.Row="4"
+                    Grid.Row="6"
                     x:Name="AddHoursBtn"
                     Text="Add/Update Hours" 
                     SemanticProperties.Hint="Add Hours to database"
@@ -66,9 +93,9 @@
                 <Button
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
-                    Grid.Row="5"
+                    Grid.Row="7"
                     x:Name="DeleteDateBtn"
-                    Text="Delete Date" 
+                    Text="Delete Hours" 
                     SemanticProperties.Hint="Clear hours for this date"
                     Clicked="OnDeleteDateClicked"
                     HorizontalOptions="Fill" />

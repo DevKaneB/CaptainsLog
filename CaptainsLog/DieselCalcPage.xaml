@@ -96,7 +96,6 @@
                     FontSize="Medium"/>      
 
                 
-
                 <!-- Refresh Buttons Description -->
                 <Label
                     Grid.Column="0"

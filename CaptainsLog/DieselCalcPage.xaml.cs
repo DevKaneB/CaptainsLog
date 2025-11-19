@@ -55,8 +55,8 @@ public partial class DieselCalcPage : ContentPage
                 databaseItems.Clear();
 
                 databaseItems =
-                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours FROM DieselDatabase WHERE EntryDate > (SELECT EntryDate FROM DieselDatabase WHERE DieselRefill != '0' ORDER BY EntryDate DESC LIMIT 1)");
-
+                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours, SUM(DieselRefill) AS DieselRefill FROM DieselDatabase WHERE EntryDate > (SELECT EntryDate FROM DieselDatabase WHERE DieselRefill != '0' ORDER BY EntryDate DESC LIMIT 1)");
+                
                 switch (databaseItems.Count)
                 {
                     //Calculate and display percentages
@@ -67,13 +67,23 @@ public partial class DieselCalcPage : ContentPage
                             await DisplayAlert("Alert", "No hours recorded since last diesel refill", "OK");
                             return;
                         }
+
+                        var dieselRefillItems =
+                        await database.GetItemsViaQueryAsync($"SELECT DieselRefill FROM DieselDatabase WHERE EntryDate = (SELECT EntryDate FROM DieselDatabase WHERE DieselRefill != '0' ORDER BY EntryDate DESC LIMIT 1)");
+
+
                         var item = databaseItems[0];
                         float DHours = item.LeisureHours;
                         float PHours = item.PropHours;
+                        float DieselRefill = dieselRefillItems[0].DieselRefill;
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
+                        var DieselPerLitre = Math.Round(DieselRefill / (PHours + DHours), 2);
                         PropHrsLbl.Text = $"{PropPercent}%";
                         DiesHrsLbl.Text = $"{DieselPercent}%";
+                        LitrePHourLbl.Text = $"{DieselPerLitre} Litres/Hour";
+
+                        dieselRefillItems.Clear();
                         break;
                     //error condition - multiple records found
                     default:
@@ -84,6 +94,7 @@ public partial class DieselCalcPage : ContentPage
             }
 
             databaseItems.Clear();
+            
         }
         catch (Exception ex)
         {
@@ -115,6 +126,12 @@ public partial class DieselCalcPage : ContentPage
                 {
                     //load and display percentages
                     case 1:
+                        //Check if any hours recorded
+                        if (databaseItems[0].LeisureHours == 0 && databaseItems[0].PropHours == 0)
+                        {
+                            await DisplayAlert("Alert", "No hours recorded in the last 30 days", "OK");
+                            return;
+                        }
                         var item = databaseItems[0];
                         float DHours = item.LeisureHours;
                         float PHours = item.PropHours;
@@ -164,8 +181,15 @@ public partial class DieselCalcPage : ContentPage
                 //Calculate and display percentages
                 switch (databaseItems.Count)
                 {
-                    //No records found
+                    //a record is found
                     case 1:
+                        //Check if any hours recorded
+                        if (databaseItems[0].LeisureHours == 0 && databaseItems[0].PropHours == 0)
+                        {
+                            await DisplayAlert("Alert", "No hours recorded in database", "OK");
+                            return;
+                        }
+
                         var item = databaseItems[0];
                         float DHours = item.LeisureHours;
                         float PHours = item.PropHours;
@@ -174,6 +198,7 @@ public partial class DieselCalcPage : ContentPage
                         PropHrsLbl.Text = $"{PropPercent}%";
                         DiesHrsLbl.Text = $"{DieselPercent}%";
                         break;
+
                     //error condition - multiple records found
                     default:
                         await DisplayAlert("Alert", "Unexpected number of entries found", "OK");
