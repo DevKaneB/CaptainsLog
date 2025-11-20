@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              x:Class="CaptainsLog.AddDieselLitresPage"
-             Title="AddDieselLitresPage">
+             Title="Add Diesel Litres">
     <ContentPage.Content>
         <Border Padding="10,10">
             <Grid RowSpacing="6"
@@ -10,10 +11,11 @@
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="160"/>
                     <RowDefinition Height="25" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="25" />
+                    <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
@@ -32,15 +34,23 @@
                    HorizontalTextAlignment="Center"
                    FontSize="Medium"
                    BackgroundColor="LightGrey"/>
-                <!-- Date input -->
-                <Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-                    <DatePicker 
-                    DateSelected="OnDateSelected"
-                    x:Name="DateEntry"
-                    MinimumDate="01/01/2025"
-                    MaximumDate="12/31/2100"
-                    Format="dd-MMM-yyyy"/>
-                </Border>
+                
+                <!-- Select the date you wish to edt -->
+                <picker:SfDatePicker
+                    x:Name="LitresDatePicker"
+                    Format="dd_MMM_yyyy"
+                    BackgroundColor="White"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="1"
+                    HorizontalOptions="Fill" 
+                    SelectionChanged="OnDateChangedEvent">
+
+                    <picker:SfDatePicker.ColumnHeaderView >
+                        <picker:DatePickerColumnHeaderView Background="White"/>
+                    </picker:SfDatePicker.ColumnHeaderView>
+
+                </picker:SfDatePicker>
                 <!-- Input the total amount of litres -->
                 <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2"
                    Text="Enter the amount of litres"
@@ -61,25 +71,25 @@
                    HorizontalOptions="Fill"
                    HorizontalTextAlignment="Center"
                    FontSize="Medium"
-                   BackgroundColor="LightGrey"/>    
+                   BackgroundColor="LightGrey"/>
                 <Button
-                Grid.Column="1"
-                Grid.ColumnSpan="4"
-                Grid.Row="5"
-                x:Name="AddLitresBtn"
-                Text="Add Litres" 
-                SemanticProperties.Hint="Add Litres to database"
-                Clicked="OnAddLitresClicked"
-                HorizontalOptions="Fill" />
-                        <Button
-                Grid.Column="1"
-                Grid.ColumnSpan="4"
-                Grid.Row="6"
-                x:Name="DeleteLitresBtn"
-                Text="Delete Litres" 
-                SemanticProperties.Hint="Clear litres for this date"
-                Clicked="OnDeleteLitresClicked"
-                HorizontalOptions="Fill" /> 
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="5"
+                    x:Name="AddLitresBtn"
+                    Text="Add Litres" 
+                    SemanticProperties.Hint="Add Litres to database"
+                    Clicked="OnAddLitresClicked"
+                    HorizontalOptions="Fill" />
+                <Button
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="6"
+                    x:Name="DeleteLitresBtn"
+                    Text="Delete Litres" 
+                    SemanticProperties.Hint="Clear litres for this date"
+                    Clicked="OnDeleteLitresClicked"
+                    HorizontalOptions="Fill" /> 
             </Grid>
         </Border>
     </ContentPage.Content>

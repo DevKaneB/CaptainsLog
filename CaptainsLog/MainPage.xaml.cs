@@ -1,9 +1,16 @@
-﻿namespace CaptainsLog
+﻿using CaptainsLog.APIKeys;
+
+namespace CaptainsLog
 {
     public partial class MainPage : ContentPage
     {
         public MainPage()
         {
+            var apiKey = APIKeys.APIKeys.syncfusionKey;
+
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(apiKey);
+
+
             InitializeComponent();
         }
 

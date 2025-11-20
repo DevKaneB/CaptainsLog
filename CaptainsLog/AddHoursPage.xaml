@@ -38,11 +38,18 @@
                 <!-- Select the date you wish to edt -->
                 <picker:SfDatePicker
                     x:Name="HoursDatePicker"
+                    Format="dd_MMM_yyyy"
+                    BackgroundColor="White"
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
                     Grid.Row="1"
                     HorizontalOptions="Fill" 
                     SelectionChanged="OnDateChangedEvent">
+
+                    <picker:SfDatePicker.ColumnHeaderView >
+                        <picker:DatePickerColumnHeaderView Background="White"/>
+                    </picker:SfDatePicker.ColumnHeaderView>
+
                 </picker:SfDatePicker>
 
                 <!-- Add Dates total Hours -->

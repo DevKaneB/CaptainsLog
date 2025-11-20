@@ -1,4 +1,5 @@
 using CaptainsLog.DatabaseClasses;
+using Syncfusion.Maui.Picker;
 using System.Diagnostics;
 
 namespace CaptainsLog;
@@ -21,7 +22,9 @@ public partial class AddDieselLitresPage : ContentPage
         try
         {
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime date = LitresDatePicker.SelectedDate.Value;
+            var dateSelected = date.ToString("yyyy-MM-dd");
+
             //Check and get any entries from the database for this date
             databaseItems =
                 await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
@@ -47,12 +50,13 @@ public partial class AddDieselLitresPage : ContentPage
         }
     }
 
-    async void OnDateSelected(object sender, DateChangedEventArgs e)
+    async void OnDateChangedEvent(object sender, DatePickerSelectionChangedEventArgs e)
     {
         try
         {
-            //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime selectedDate = (DateTime)e.NewValue;
+            var dateSelected = selectedDate.ToString("yyyy-MM-dd");
+
             //Check and get any entries from the database for this date
             databaseItems =
                 await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where EntryDate = '{dateSelected}'");
@@ -71,11 +75,13 @@ public partial class AddDieselLitresPage : ContentPage
                     Debug.WriteLine("More than 1 item found for this date");
                     break;
             }
+
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
         }
+
     }
 
     async void OnAddLitresClicked(object? sender, EventArgs e)
@@ -93,7 +99,8 @@ public partial class AddDieselLitresPage : ContentPage
                 return;
 
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime date = LitresDatePicker.SelectedDate.Value;
+            var dateSelected = date.ToString("yyyy-MM-dd");
 
             //Check and get any entries from the database for this date, there should always be 1. 
             databaseItems =
@@ -158,7 +165,8 @@ public partial class AddDieselLitresPage : ContentPage
                 return;
 
             //Get users date from the form
-            var dateSelected = DateEntry.Date.ToString("yyyy-MM-dd");
+            DateTime date = LitresDatePicker.SelectedDate.Value;
+            var dateSelected = date.ToString("yyyy-MM-dd");
 
             //Check and get any entries from the database for this date
             databaseItems =
