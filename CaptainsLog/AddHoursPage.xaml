@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
              x:Class="CaptainsLog.AddHoursPage"
              Title="Add Engine Hours">
     <ContentPage.Content>
@@ -91,7 +92,6 @@
                         FontSize="Medium"
                         BackgroundColor="LightGrey"/>   
 
-
                 <!-- Add, Update or delete buttons-->
                 <Button
                     Grid.Column="1"
@@ -111,7 +111,25 @@
                     SemanticProperties.Hint="Clear hours for this date"
                     Clicked="OnDeleteDateClicked"
                     HorizontalOptions="Fill" />
-                
+
+                <Border Padding="1" Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="2">
+                    <editors:SfNumericEntry 
+                        x:Name="sfPropEntry"
+                        Placeholder="Enter Hours"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="0"
+                        />
+                </Border>
+                <Border Padding="1" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2">
+                    <editors:SfNumericEntry 
+                        x:Name="sfDiesEntry"
+                        Placeholder="Enter Hours"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="0"
+                        />
+                </Border>
+
+
 
 
             </Grid>

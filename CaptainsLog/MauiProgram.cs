@@ -1,6 +1,7 @@
 ﻿using CaptainsLog.ViewModels;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
+using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace CaptainsLog
 {
@@ -9,8 +10,9 @@ namespace CaptainsLog
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder.ConfigureSyncfusionCore();
             builder
+                .ConfigureSyncfusionToolkit()
+                .ConfigureSyncfusionCore()
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
