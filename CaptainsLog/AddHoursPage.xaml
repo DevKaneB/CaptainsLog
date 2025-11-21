@@ -66,11 +66,13 @@
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
                 <Border Padding="1" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
-                    <Entry 
-                    x:Name="DiesEntry"
-                    Placeholder="Enter Hours"
-                    Keyboard="Numeric"
-                    HorizontalTextAlignment="Center"/>
+                    <editors:SfNumericEntry 
+                        x:Name="sfDiesEntry"
+                        Placeholder="Enter Hours"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="0"
+                        Minimum="0"
+                        />
                 </Border>
                 <!-- Add Propulsion Hours -->
                 <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3"
@@ -78,11 +80,13 @@
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
                 <Border Padding="1" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
-                    <Entry
-                       x:Name="PropEntry"
-                       Placeholder="Enter Hours"
-                       Keyboard="Numeric"
-                       HorizontalTextAlignment="Center"/>
+                    <editors:SfNumericEntry 
+                        x:Name="sfPropEntry"
+                        Placeholder="Enter Hours"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="0"
+                        Minimum="0"
+                        />  
                 </Border>
                 <!-- Buttons Title -->
                 <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="5"
@@ -112,22 +116,8 @@
                     Clicked="OnDeleteDateClicked"
                     HorizontalOptions="Fill" />
 
-                <Border Padding="1" Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="2">
-                    <editors:SfNumericEntry 
-                        x:Name="sfPropEntry"
-                        Placeholder="Enter Hours"
-                        HorizontalTextAlignment="Center"
-                        MaximumNumberDecimalDigits="0"
-                        />
-                </Border>
-                <Border Padding="1" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2">
-                    <editors:SfNumericEntry 
-                        x:Name="sfDiesEntry"
-                        Placeholder="Enter Hours"
-                        HorizontalTextAlignment="Center"
-                        MaximumNumberDecimalDigits="0"
-                        />
-                </Border>
+                
+                
 
 
 

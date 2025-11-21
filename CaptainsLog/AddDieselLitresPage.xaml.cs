@@ -32,11 +32,11 @@ public partial class AddDieselLitresPage : ContentPage
             {
                 // If database has no records for that date, clear the entries
                 case 0:
-                    DiesLitreEntry.Text = "";
+                    sfDiesLitreEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
-                    DiesLitreEntry.Text = databaseItems[0].DieselRefill.ToString();
+                    sfDiesLitreEntry.Value = databaseItems[0].DieselRefill;
                     break;
                 //Should never see this, it is an error
                 default:
@@ -64,11 +64,11 @@ public partial class AddDieselLitresPage : ContentPage
             {
                 // If database has no records for that date, clear the entries
                 case 0:
-                    DiesLitreEntry.Text = "";
+                    sfDiesLitreEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
-                    DiesLitreEntry.Text = databaseItems[0].DieselRefill.ToString();
+                    sfDiesLitreEntry.Value = databaseItems[0].DieselRefill;
                     break;
                 //Should never see this, it is an error
                 default:
@@ -88,7 +88,7 @@ public partial class AddDieselLitresPage : ContentPage
     {
         try
         {
-            if (String.IsNullOrEmpty(DiesLitreEntry.Text))
+            if (sfDiesLitreEntry.Value < 1)
             {
                 await DisplayAlert("Alert", "Please enter litres for Diesel", "OK");
                 return;
@@ -115,7 +115,7 @@ public partial class AddDieselLitresPage : ContentPage
                     {
                         EntryDate = dateSelected,
                         ID = 0,
-                        DieselRefill = Convert.ToInt32(DiesLitreEntry.Text),
+                        DieselRefill = Convert.ToInt32(sfDiesLitreEntry.Value),
                         PropHours = 0,
                         LeisureHours = 0
                     });
@@ -126,13 +126,13 @@ public partial class AddDieselLitresPage : ContentPage
                 case 1:
 
                     //check if database matches the current entry text
-                    if( databaseItems[0].DieselRefill == Convert.ToInt32(DiesLitreEntry.Text))
+                    if( databaseItems[0].DieselRefill == Convert.ToInt32(sfDiesLitreEntry.Value))
                     {
                         await DisplayAlert("Alert", "The diesel litres you are trying to add are the same as the existing entry for this date. No changes made.", "OK");
                         return;
                     }
 
-                    databaseItems[0].DieselRefill = Convert.ToInt32(DiesLitreEntry.Text);
+                    databaseItems[0].DieselRefill = Convert.ToInt32(sfDiesLitreEntry.Value);
                     break;
 
                 //Should never see this, it is an error
@@ -143,8 +143,8 @@ public partial class AddDieselLitresPage : ContentPage
 
             //Write the changes and leave the view
             await database.SaveItemAsync(databaseItems[0]);
-            await Navigation.PopAsync();
-            
+            await DisplayAlert("Alert", "This date has now been updated", "Ok");
+
 
         }
         catch (Exception ex)
@@ -182,7 +182,7 @@ public partial class AddDieselLitresPage : ContentPage
                 case 1:
                     databaseItems[0].DieselRefill = 0;
                     await database.SaveItemAsync(databaseItems[0]);
-                    DiesLitreEntry.Text = "";
+                    sfDiesLitreEntry.Value = null;
                     break;
                 //Should never see this, it is an error
                 default:

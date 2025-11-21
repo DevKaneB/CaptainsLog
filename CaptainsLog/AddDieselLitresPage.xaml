@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
              x:Class="CaptainsLog.AddDieselLitresPage"
              Title="Add Diesel Litres">
     <ContentPage.Content>
@@ -58,16 +59,18 @@
                    HorizontalTextAlignment="Center"
                    FontSize="Medium"
                    BackgroundColor="LightGrey"/>
-                <Border Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
-                    <Entry 
-                        x:Name="DiesLitreEntry"
-                        Placeholder="Enter Litres"
-                        Keyboard="Numeric"
-                        HorizontalTextAlignment="Center"/>
+                <Border Padding="1" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
+                    <editors:SfNumericEntry 
+                        x:Name="sfDiesLitreEntry"
+                        Placeholder="Enter Hours"
+                        HorizontalTextAlignment="Center"
+                        Minimum="0"
+                        MaximumNumberDecimalDigits="0"
+                        />  
                 </Border>
                 <!-- Select an update button -->
                 <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="4"
-                   Text="Update Litres or Delete Litres from database"
+                   Text="Update or Delete Litres from database"
                    HorizontalOptions="Fill"
                    HorizontalTextAlignment="Center"
                    FontSize="Medium"

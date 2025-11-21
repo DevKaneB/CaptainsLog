@@ -30,13 +30,13 @@ public partial class AddHoursPage : ContentPage
             {
                 // If database has no records for that date, clear the entries
                 case 0:
-                    DiesEntry.Text = "";
-                    PropEntry.Text = "";
+                    sfDiesEntry.Value = null;
+                    sfPropEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
-                    DiesEntry.Text = databaseItems[0].LeisureHours.ToString();
-                    PropEntry.Text = databaseItems[0].PropHours.ToString();
+                    sfDiesEntry.Value = databaseItems[0].LeisureHours;
+                    sfPropEntry.Value = databaseItems[0].PropHours;
                     break;
                 //Should never see this, it is an error
                 default:
@@ -64,13 +64,13 @@ public partial class AddHoursPage : ContentPage
             {
                 // If database has no records for that date, clear the entries
                 case 0:
-                    DiesEntry.Text = "";
-                    PropEntry.Text = "";
+                    sfDiesEntry.Value = null;
+                    sfPropEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
-                    DiesEntry.Text = databaseItems[0].LeisureHours.ToString();
-                    PropEntry.Text = databaseItems[0].PropHours.ToString();
+                    sfDiesEntry.Value = databaseItems[0].LeisureHours;
+                    sfPropEntry.Value = databaseItems[0].PropHours;
                     break;
                 //Should never see this, it is an error
                 default:
@@ -99,13 +99,13 @@ public partial class AddHoursPage : ContentPage
             {
                 // If database has no records for that date, clear the entries
                 case 0:
-                    DiesEntry.Text = "";
-                    PropEntry.Text = "";
+                    sfDiesEntry.Value = null;
+                    sfPropEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
-                    DiesEntry.Text = databaseItems[0].LeisureHours.ToString();
-                    PropEntry.Text = databaseItems[0].PropHours.ToString();
+                    sfDiesEntry.Value = databaseItems[0].LeisureHours;
+                    sfPropEntry.Value = databaseItems[0].PropHours;
                     break;
                 //Should never see this, it is an error
                 default:
@@ -137,8 +137,8 @@ public partial class AddHoursPage : ContentPage
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
-                    if (DiesEntry.Text == databaseItems[0].LeisureHours.ToString() &&
-                        PropEntry.Text == databaseItems[0].PropHours.ToString())
+                    if (sfDiesEntry.Value == databaseItems[0].LeisureHours &&
+                        sfPropEntry.Value == databaseItems[0].PropHours)
                     {
                         await DisplayAlert("Alert", "No changes detected to the hours for this date", "OK");
                         return;
@@ -151,18 +151,18 @@ public partial class AddHoursPage : ContentPage
             }
 
             //check user has entered at least one value
-            if (String.IsNullOrEmpty(DiesEntry.Text) && String.IsNullOrEmpty(PropEntry.Text))
+            if (sfDiesEntry.Value < 1 && sfPropEntry.Value < 1)
             {
                 await DisplayAlert("Alert", "Please enter hours for either Diesel or Leisure", "OK");
                 return;
             }
 
             //Set any empty entries to 0
-            if (String.IsNullOrEmpty(DiesEntry.Text))
-                DiesEntry.Text = "0";
+            if (sfDiesEntry.Value < 1)
+                sfDiesEntry.Value = 0;
             //set any empty entries to 0
-            if (String.IsNullOrEmpty(PropEntry.Text))
-                PropEntry.Text = "0";
+            if (sfPropEntry.Value < 1)
+                sfPropEntry.Value = 0;
 
             //Confirm user wants to add
             bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these hours?", "Yes", "No");
@@ -181,7 +181,7 @@ public partial class AddHoursPage : ContentPage
                 // If database has no records for that date, insert a new record
                 case 0:
                     //Check hours for this date are not above 24 hours
-                    if (Convert.ToInt32(DiesEntry.Text) + Convert.ToInt32(PropEntry.Text) > 24)
+                    if (sfDiesEntry.Value + sfPropEntry.Value > 24)
                     {
                         await DisplayAlert("Alert", "Total amount of hours is above 24 for this date", "OK");
                         continueWrite = false;
@@ -193,8 +193,8 @@ public partial class AddHoursPage : ContentPage
                         {
                             EntryDate = dateSelected,
                             ID = 0,
-                            LeisureHours = Convert.ToInt32(DiesEntry.Text),
-                            PropHours = Convert.ToInt32(PropEntry.Text),
+                            LeisureHours = Convert.ToInt32(sfDiesEntry.Value),
+                            PropHours = Convert.ToInt32(sfPropEntry.Value),
                             DieselRefill = 0
                         });
                         continueWrite = true;
@@ -205,7 +205,7 @@ public partial class AddHoursPage : ContentPage
                 case 1:
                     //Check hours for this date are not above 24 hours 
                     if (
-                        Convert.ToInt32(DiesEntry.Text) + Convert.ToInt32(PropEntry.Text) > 24
+                        sfDiesEntry.Value + sfPropEntry.Value > 24
                     )
                     {
                         await DisplayAlert("Alert", "Total amount of hours is above 24 for this date", "OK");
@@ -214,8 +214,8 @@ public partial class AddHoursPage : ContentPage
                     }
                     else
                     {
-                        databaseItems[0].LeisureHours = Convert.ToInt32(DiesEntry.Text);
-                        databaseItems[0].PropHours = Convert.ToInt32(PropEntry.Text);
+                        databaseItems[0].LeisureHours = Convert.ToInt32(sfDiesEntry.Value);
+                        databaseItems[0].PropHours = Convert.ToInt32(sfPropEntry.Value);
                         continueWrite = true;
                     }
                     break;
@@ -271,8 +271,8 @@ public partial class AddHoursPage : ContentPage
                     databaseItems[0].LeisureHours = 0;
                     databaseItems[0].PropHours = 0;
                     await database.SaveItemAsync(databaseItems[0]);
-                    DiesEntry.Text = "";
-                    PropEntry.Text = "";
+                    sfDiesEntry.Value = null;
+                    sfPropEntry.Value = null;
                     break;
                 //Should never see this, it is an error
                 default:
