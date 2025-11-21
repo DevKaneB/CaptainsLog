@@ -69,22 +69,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AddDieselLitresPage.xaml">
+	  <MauiXaml Update="DieselCalculatorPages\AddDieselLitresPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AddHoursPage.xaml">
+	  <MauiXaml Update="DieselCalculatorPages\AddHoursPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="DieselCalcPage.xaml">
+	  <MauiXaml Update="DieselCalculatorPages\DieselCalcPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="DieselLogPage.xaml">
+	  <MauiXaml Update="DieselCalculatorPages\DieselLogPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="DieselCalculatorPages\" />
 	</ItemGroup>
 
 </Project>
