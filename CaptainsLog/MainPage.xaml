@@ -19,10 +19,15 @@
                 SemanticProperties.HeadingLevel="Level1" />
 
             <Button
-                x:Name="CounterBtn"
+                Text="Boat Profile" 
+                SemanticProperties.Hint="Your boats profile"
+                Clicked="OnBoatProfileClicked"
+                HorizontalOptions="Fill" />
+
+            <Button
                 Text="Diesel Calculator" 
                 SemanticProperties.Hint="Log your leisure and propulsion hours to see the actual percentages"
-                Clicked="OnCounterClicked"
+                Clicked="DieselCalcClicked"
                 HorizontalOptions="Fill" />
 
         </VerticalStackLayout>

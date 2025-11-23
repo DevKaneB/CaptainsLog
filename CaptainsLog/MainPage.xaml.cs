@@ -1,4 +1,5 @@
 ﻿using CaptainsLog.APIKeys;
+using CaptainsLog.BoatProfilePages;
 
 namespace CaptainsLog
 {
@@ -14,7 +15,18 @@ namespace CaptainsLog
             InitializeComponent();
         }
 
-        async void OnCounterClicked(object? sender, EventArgs e)
+        async void OnBoatProfileClicked(object? sender, EventArgs e)
+        {
+            // Fixes CS0618 and CS8602 by using the current window's page and null-checking
+            var window = Application.Current?.Windows.FirstOrDefault();
+            var navigation = window?.Page?.Navigation;
+            if (navigation != null)
+            {
+                await navigation.PushAsync(new ProfileEditPage());
+            }
+        }
+
+        async void DieselCalcClicked(object? sender, EventArgs e)
         {
             // Fixes CS0618 and CS8602 by using the current window's page and null-checking
             var window = Application.Current?.Windows.FirstOrDefault();

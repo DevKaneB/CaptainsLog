@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CaptainsLog.BoatProfilePages.ProfileEditPage"
+             Title="ProfileEditPage">
+    <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="10">
+        
+        <!-- Boat Metric-->
+        <Label Text="Boat Metrics" FontSize="Header"  />
+        <!--Boat Name-->
+        <Label Text="Boat Name" />
+        <Entry Placeholder="Enter Name" />
+        <!--Build Year -->
+        <Label Text="Build Year" />
+        <Entry Placeholder="Enter Year" />
+        <!--Registration Number-->
+        <Label Text="Registration Number" />
+        <Entry Placeholder="Enter Number" />
+        <!--Boat Length -->
+        <Label Text="Boat Length (ft)" />
+        <Entry Placeholder="Enter Length" />
+        <!--Boat Beam -->
+        <Label Text="Boat Beam (ft)"/>
+        <Entry Placeholder="Enter Beam" />
+        <!--Boats Draught-->
+        <Label Text="Boats Draught (ft)"/>
+        <Entry Placeholder="Enter Draught" />
+        
+        
+        <!--Re-occuring bills and stuff-->
+        <Label Text="The Paperwork" FontSize="Header"  />
+        <!--Licence Expiry Date-->
+        <Label Text="Licence Expiry Date" />
+        <Entry Placeholder="Enter Date" />
+        <!--Insurance Expiry Date-->
+        <Label Text="Insurance Expiry Date" />
+        <Entry Placeholder="Enter Date" />
+        <!--BSS expiry Date-->
+        <Label Text="BSS Expiry Date" />
+        <Entry Placeholder="Enter Date" />
+        
+        <!--Service Intervals -->
+        <Label Text="Service Intervals" FontSize="Header"/>
+        <Label Text="Engine Service Interval (Hours)" />
+        <Entry Placeholder="Enter Hours" />
+        <Label Text="Enter Last Service Date" />
+        <Entry Placeholder="Enter Date" />
+        <Label Text="This number will directly correspond with the values in the diesel calculator" />
+        
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
