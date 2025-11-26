@@ -7,8 +7,19 @@
              Title="Change Boat Details">
     <ScrollView>
     <VerticalStackLayout Padding="20" Spacing="10">
-        
-        <!-- Boat Metric-->
+        <!-- Profile Image (tap to pick) -->
+            <Label Text="(Tap the image to change it)" HorizontalTextAlignment="Center"/>
+            <Image
+            x:Name="ProfileImage"
+            Source="dotnet_bot.png"
+            HeightRequest="185"
+            Aspect="AspectFit"
+            SemanticProperties.Description="dot net bot in a hovercraft number nine">
+        <Image.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnPickPhotoTapped" NumberOfTapsRequired="1" />
+        </Image.GestureRecognizers>
+        </Image>
+            <!-- Boat Metric-->
         <Label Text="Boat Metrics" FontSize="Header" HorizontalTextAlignment="Center"  />
         <!--Boat Name-->
         <Label Text="Boat Name" HorizontalTextAlignment="Center" />
@@ -100,7 +111,7 @@
         <!--Service Intervals -->
         <Label Text="Service Intervals" FontSize="Header" HorizontalTextAlignment="Center"/>
         <!--Enter Service Hours-->
-        <Label Text="Engine Service Interval (Hours)" />
+        <Label Text="Engine Service Interval (Hours)" HorizontalTextAlignment="Center"/>
         <Border Padding="1">
             <editors:SfNumericEntry 
                 Placeholder="Enter Hours"
@@ -109,7 +120,7 @@
                 Minimum="0"/>   
         </Border>
         <!--Enter last service Date-->
-        <Label Text="Enter Last Service Date" />
+        <Label Text="Enter Last Service Date" HorizontalTextAlignment="Center"/>
         <picker:SfDatePicker
             HeightRequest="150"
             Format="dd_MMM_yyyy"
@@ -119,7 +130,7 @@
                 <picker:DatePickerColumnHeaderView Background="White"/>
             </picker:SfDatePicker.ColumnHeaderView>
         </picker:SfDatePicker>
-        <Label Text="This number will directly correspond with the values in the diesel calculator" />
+        <Label Text="This number will directly correspond with the values in the diesel calculator" HorizontalTextAlignment="Center"/>
         
         </VerticalStackLayout>
     </ScrollView>
