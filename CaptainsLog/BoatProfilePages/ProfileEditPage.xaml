@@ -1,51 +1,124 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
              x:Class="CaptainsLog.BoatProfilePages.ProfileEditPage"
-             Title="ProfileEditPage">
+             Title="Change Boat Details">
     <ScrollView>
     <VerticalStackLayout Padding="20" Spacing="10">
         
         <!-- Boat Metric-->
-        <Label Text="Boat Metrics" FontSize="Header"  />
+        <Label Text="Boat Metrics" FontSize="Header" HorizontalTextAlignment="Center"  />
         <!--Boat Name-->
-        <Label Text="Boat Name" />
-        <Entry Placeholder="Enter Name" />
+        <Label Text="Boat Name" HorizontalTextAlignment="Center" />
+        <Entry Placeholder="Enter Name" HorizontalTextAlignment="Center"/>
         <!--Build Year -->
-        <Label Text="Build Year" />
-        <Entry Placeholder="Enter Year" />
+        <Label Text="Build Year" HorizontalTextAlignment="Center"/>
+        <picker:SfDatePicker
+            HeightRequest="150"
+            Format="dd_MMM_yyyy"
+            BackgroundColor="White"
+            HorizontalOptions="Fill">
+            <picker:SfDatePicker.ColumnHeaderView >
+                <picker:DatePickerColumnHeaderView Background="White"/>
+            </picker:SfDatePicker.ColumnHeaderView>
+        </picker:SfDatePicker>
         <!--Registration Number-->
-        <Label Text="Registration Number" />
-        <Entry Placeholder="Enter Number" />
+        <Label Text="Registration Number" HorizontalTextAlignment="Center" />
+        <Border Padding="1">
+            <editors:SfNumericEntry 
+                Placeholder="Enter Registration Number"
+                HorizontalTextAlignment="Center"
+                MaximumNumberDecimalDigits="0"
+                Minimum="0"/>
+        </Border>
         <!--Boat Length -->
-        <Label Text="Boat Length (ft)" />
-        <Entry Placeholder="Enter Length" />
+        <Label Text="Boat Length (ft)" HorizontalTextAlignment="Center"/>
+        <Border Padding="1">
+            <editors:SfNumericEntry 
+                Placeholder="Enter Boat Length"
+                HorizontalTextAlignment="Center"
+                MaximumNumberDecimalDigits="2"
+                Minimum="0"/>
+        </Border>
         <!--Boat Beam -->
-        <Label Text="Boat Beam (ft)"/>
-        <Entry Placeholder="Enter Beam" />
+        <Label Text="Boat Beam (ft)" HorizontalTextAlignment="Center"/>
+        <Border Padding="1">
+            <editors:SfNumericEntry 
+                Placeholder="Enter Boat Beam"
+                HorizontalTextAlignment="Center"
+                MaximumNumberDecimalDigits="2"
+                Minimum="0"/>
+        </Border>
         <!--Boats Draught-->
-        <Label Text="Boats Draught (ft)"/>
-        <Entry Placeholder="Enter Draught" />
-        
-        
+        <Label Text="Boats Draught (ft)" HorizontalTextAlignment="Center"/>
+        <Border Padding="1">
+            <editors:SfNumericEntry 
+                Placeholder="Enter Boat Draught"
+                HorizontalTextAlignment="Center"
+                MaximumNumberDecimalDigits="2"
+                Minimum="0"/>
+        </Border>
+
         <!--Re-occuring bills and stuff-->
-        <Label Text="The Paperwork" FontSize="Header"  />
+        <Label Text="The Paperwork" FontSize="Header" HorizontalTextAlignment="Center"/>
         <!--Licence Expiry Date-->
-        <Label Text="Licence Expiry Date" />
-        <Entry Placeholder="Enter Date" />
+        <Label Text="Licence Expiry Date" HorizontalTextAlignment="Center"/>
+        <picker:SfDatePicker
+            HeightRequest="150"
+            Format="dd_MMM_yyyy"
+            BackgroundColor="White"
+            HorizontalOptions="Fill">
+            <picker:SfDatePicker.ColumnHeaderView >
+                <picker:DatePickerColumnHeaderView Background="White"/>
+            </picker:SfDatePicker.ColumnHeaderView>
+        </picker:SfDatePicker>
         <!--Insurance Expiry Date-->
-        <Label Text="Insurance Expiry Date" />
-        <Entry Placeholder="Enter Date" />
+        <Label Text="Insurance Expiry Date" HorizontalTextAlignment="Center"/>
+        <picker:SfDatePicker
+            HeightRequest="150"
+            Format="dd_MMM_yyyy"
+            BackgroundColor="White"
+            HorizontalOptions="Fill">
+            <picker:SfDatePicker.ColumnHeaderView >
+                <picker:DatePickerColumnHeaderView Background="White"/>
+            </picker:SfDatePicker.ColumnHeaderView>
+        </picker:SfDatePicker>
         <!--BSS expiry Date-->
-        <Label Text="BSS Expiry Date" />
-        <Entry Placeholder="Enter Date" />
-        
+        <Label Text="BSS Expiry Date" HorizontalTextAlignment="Center"/>
+        <picker:SfDatePicker
+            HeightRequest="150"
+            Format="dd_MMM_yyyy"
+            BackgroundColor="White"
+            HorizontalOptions="Fill">
+            <picker:SfDatePicker.ColumnHeaderView >
+                <picker:DatePickerColumnHeaderView Background="White"/>
+            </picker:SfDatePicker.ColumnHeaderView>
+        </picker:SfDatePicker>
+
         <!--Service Intervals -->
-        <Label Text="Service Intervals" FontSize="Header"/>
+        <Label Text="Service Intervals" FontSize="Header" HorizontalTextAlignment="Center"/>
+        <!--Enter Service Hours-->
         <Label Text="Engine Service Interval (Hours)" />
-        <Entry Placeholder="Enter Hours" />
+        <Border Padding="1">
+            <editors:SfNumericEntry 
+                Placeholder="Enter Hours"
+                HorizontalTextAlignment="Center"
+                MaximumNumberDecimalDigits="2"
+                Minimum="0"/>   
+        </Border>
+        <!--Enter last service Date-->
         <Label Text="Enter Last Service Date" />
-        <Entry Placeholder="Enter Date" />
+        <picker:SfDatePicker
+            HeightRequest="150"
+            Format="dd_MMM_yyyy"
+            BackgroundColor="White"
+            HorizontalOptions="Fill">
+            <picker:SfDatePicker.ColumnHeaderView >
+                <picker:DatePickerColumnHeaderView Background="White"/>
+            </picker:SfDatePicker.ColumnHeaderView>
+        </picker:SfDatePicker>
         <Label Text="This number will directly correspond with the values in the diesel calculator" />
         
         </VerticalStackLayout>
