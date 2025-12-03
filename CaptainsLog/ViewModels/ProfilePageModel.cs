@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
+using System.Diagnostics;
 
 namespace CaptainsLog.ViewModels
 {
@@ -195,5 +196,34 @@ namespace CaptainsLog.ViewModels
 
             ProfileItems = new ObservableCollection<ProfileItem> { profileItem };
         }
+
+        [RelayCommand]
+        public async Task SaveData()
+        {
+            if (ProfileItems != null && ProfileItems.Count > 0)
+            {
+                try
+                {
+                    await _profileJSONTools.SaveProfileAsync(ProfileItems[0]);
+
+                    // Optional: refresh the view model so the UI reflects persisted state
+                    await LoadProfileItemsAsync();
+
+                    // Show confirmation to the user
+                    await ShowAlertAsync("Saved", "Profile saved successfully.", "OK");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"SaveData error: {ex}");
+                    await ShowAlertAsync("Error", $"Failed to save profile: {ex.Message}", "OK");
+                }
+            }
+            else
+            {
+                // Nothing to save: inform the user via the shared alert helper.
+                await ShowAlertAsync("Save", "Nothing to save.", "OK");
+            }
+        }
+
     }
 }

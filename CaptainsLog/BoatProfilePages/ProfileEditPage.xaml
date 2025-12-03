@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+Plan (pseudocode):
+- Add an XML namespace alias for System types so x:Static can reference DateTime.
+- Update the InsuranceExpiryDate SfDatePicker to set MinimumDate to today's date.
+- Use DateTime.Today via x:Static to avoid time component.
+- Keep all other XAML unchanged.
+-->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
              xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses"
              xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              x:Class="CaptainsLog.BoatProfilePages.ProfileEditPage"
              Title="Change Boat Details"
              x:DataType="vm:ProfilePageModel"
              x:Name="ProfilePage">
 
-    <CollectionView ItemsSource="{Binding ProfileItems}" Background="Transparent" >
+    <Grid RowDefinitions="*,Auto">
+
+
+        <CollectionView ItemsSource="{Binding ProfileItems}" Background="Transparent" >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:ProfileItem">
                 <ScrollView>
@@ -31,20 +42,24 @@
                         <Label Text="Boat Metrics" FontSize="Header" HorizontalTextAlignment="Center"  />
                         <!--Boat Name-->
                         <Label Text="Boat Name" HorizontalTextAlignment="Center" />
-                        <Entry
-                            Text="{Binding BoatName, Mode=TwoWay}"
-                            Placeholder="Enter Name"
-                            HorizontalTextAlignment="Center"/>
+                            <Border Padding="1">
+                                <Entry
+                                Text="{Binding BoatName, Mode=TwoWay}"
+                                Placeholder="Enter Name"
+                                HorizontalTextAlignment="Center"/>
+                            </Border>
 
-                        <!--Build Year -->
-                        <Label Text="Registration Number" HorizontalTextAlignment="Center" />
+                            <!--Build Year -->
+                        <Label Text="Build Year" HorizontalTextAlignment="Center" />
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding BuildYear, Mode=TwoWay}"
+                                CustomFormat="0000"
+                                Minimum="1940"
+                                Maximum="9999"
                                 Placeholder="Enter Year"
                                 HorizontalTextAlignment="Center"
-                                MaximumNumberDecimalDigits="0"
-                                Minimum="0"/>
+                                MaximumNumberDecimalDigits="0"/>
                         </Border>
 
                         <!--Registration Number-->
@@ -52,6 +67,7 @@
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding RegNumber, Mode=TwoWay}"
+                                CustomFormat="0000000000"
                                 Placeholder="Enter Registration Number"
                                 HorizontalTextAlignment="Center"
                                 MaximumNumberDecimalDigits="0"
@@ -97,6 +113,7 @@
                         <Label Text="Licence Expiry Date" HorizontalTextAlignment="Center"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding LicenseExpiryDate, Mode=TwoWay}"
+                            MinimumDate="{x:Static system:DateTime.Today}"
                             HeightRequest="150"
                             Format="dd_MMM_yyyy"
                             BackgroundColor="White"
@@ -110,6 +127,7 @@
                         <Label Text="Insurance Expiry Date" HorizontalTextAlignment="Center"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding InsuranceExpiryDate, Mode=TwoWay}"
+                            MinimumDate="{x:Static system:DateTime.Today}"
                             HeightRequest="150"
                             Format="dd_MMM_yyyy"
                             BackgroundColor="White"
@@ -123,6 +141,7 @@
                         <Label Text="BSS Expiry Date" HorizontalTextAlignment="Center"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding BSSExpiryDate, Mode=TwoWay}"
+                            MinimumDate="{x:Static system:DateTime.Today}"
                             HeightRequest="150"
                             Format="dd_MMM_yyyy"
                             BackgroundColor="White"
@@ -141,14 +160,15 @@
                                 Value="{Binding EngineServiceIntervalHours, Mode=TwoWay}"
                                 Placeholder="Enter Hours"
                                 HorizontalTextAlignment="Center"
-                                MaximumNumberDecimalDigits="2"
-                                Minimum="0"/>   
+                                MaximumNumberDecimalDigits="0"
+                                Minimum="0"/>
                         </Border>
 
                         <!--Enter last service Date-->
                         <Label Text="Enter Last Service Date" HorizontalTextAlignment="Center"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding LastServiceDate, Mode=TwoWay}"
+                            MinimumDate="{x:Static system:DateTime.Today}"
                             HeightRequest="150"
                             Format="dd_MMM_yyyy"
                             BackgroundColor="White"
@@ -158,14 +178,22 @@
                             </picker:SfDatePicker.ColumnHeaderView>
                         </picker:SfDatePicker>
 
-                        <Label Text="This number will directly correspond with the values in the diesel calculator" HorizontalTextAlignment="Center"/>
-                        
-                        
+                        <Label Text="Last Service Date and Service Hours will update on your profile view, with the values added to the diesel calculator" HorizontalTextAlignment="Center"/>
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
                 </ScrollView>
+                
             </DataTemplate>
         </CollectionView.ItemTemplate>
-    </CollectionView>
+         </CollectionView>
+        <!-- Fixed button at bottom -->
+        <Button Grid.Row="1"
+        Text="SAVE"
+        Command="{Binding SaveDataCommand}"
+        HorizontalOptions="Fill"
+        VerticalOptions="End" />
+
+    </Grid>
+
 
 </ContentPage>
