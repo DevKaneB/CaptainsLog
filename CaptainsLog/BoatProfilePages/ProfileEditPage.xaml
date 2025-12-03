@@ -21,10 +21,9 @@
                             x:Name="BoatImage"
                             Source="{Binding ImageSource}"
                             HeightRequest="185"
-                            Aspect="AspectFit"
-                            SemanticProperties.Description="dot net bot in a hovercraft number nine">
+                            Aspect="AspectFit">
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.PickPhotoAsyncCommand}" NumberOfTapsRequired="1" />
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.PickPhotoCommand}" NumberOfTapsRequired="1" />
                             </Image.GestureRecognizers>
                         </Image>
 
@@ -38,17 +37,15 @@
                             HorizontalTextAlignment="Center"/>
 
                         <!--Build Year -->
-                        <Label Text="Build Year" HorizontalTextAlignment="Center"/>
-                        <picker:SfDatePicker
-                            SelectedDate="{Binding BuildYear, Mode=TwoWay}"
-                            HeightRequest="150"
-                            Format="dd_MMM_yyyy"
-                            BackgroundColor="White"
-                            HorizontalOptions="Fill">
-                            <picker:SfDatePicker.ColumnHeaderView >
-                                <picker:DatePickerColumnHeaderView Background="White"/>
-                            </picker:SfDatePicker.ColumnHeaderView>
-                        </picker:SfDatePicker>
+                        <Label Text="Registration Number" HorizontalTextAlignment="Center" />
+                        <Border Padding="1">
+                            <editors:SfNumericEntry
+                                Value="{Binding BuildYear, Mode=TwoWay}"
+                                Placeholder="Enter Year"
+                                HorizontalTextAlignment="Center"
+                                MaximumNumberDecimalDigits="0"
+                                Minimum="0"/>
+                        </Border>
 
                         <!--Registration Number-->
                         <Label Text="Registration Number" HorizontalTextAlignment="Center" />

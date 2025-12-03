@@ -1,14 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CaptainsLog.DatabaseClasses
 {
-    public class ProfileItem
+    public class ProfileItem : INotifyPropertyChanged
     {
-        public string ImageSource = Constants.ProfileImageFilename;
+        private string imageSource;
+
+        public string ImageSource
+        {
+            get => imageSource;
+            set
+            {
+                if (imageSource == value) return;
+                imageSource = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageSource)));
+            }
+        }
+
         public string? BoatName { get; set; }
         public int BuildYear { get; set; }
         public int RegNumber { get; set; }
@@ -23,5 +36,7 @@ namespace CaptainsLog.DatabaseClasses
 
         public int EngineServiceIntervalHours { get; set; }
         public DateTime LastServiceDate { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

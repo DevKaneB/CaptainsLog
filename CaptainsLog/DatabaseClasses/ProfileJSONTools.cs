@@ -9,8 +9,6 @@ namespace CaptainsLog.DatabaseClasses
     {
         ProfileItem profileItem;
 
-
-
         async Task init()
         {
             if (!File.Exists(Constants.JSONDatabasePath))

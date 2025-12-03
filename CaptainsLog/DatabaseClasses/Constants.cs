@@ -29,6 +29,6 @@ namespace CaptainsLog.DatabaseClasses
             Path.Combine(FileSystem.AppDataDirectory, JSONDatabaseFilename);
 
         public static string ProfileImageFilename =>
-            Path.Combine(FileSystem.AppDataDirectory, "BoatPicture");
+            Path.Combine(FileSystem.AppDataDirectory, "BoatPicture.png");
     }
 }
