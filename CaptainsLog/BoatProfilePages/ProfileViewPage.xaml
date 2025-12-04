@@ -1,12 +1,94 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
+             xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses"
              x:Class="CaptainsLog.BoatProfilePages.ProfileViewPage"
-             Title="ProfileViewPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Boat Profile"
+             x:Name="ProfileViewContentPage"
+             x:DataType="vm:ProfilePageModel">
+
+    <CollectionView ItemsSource="{Binding ProfileItems}" Background="Transparent" >
+    <CollectionView.ItemTemplate>
+        <DataTemplate x:DataType="models:ProfileItem">
+            <ScrollView>
+                <VerticalStackLayout Padding="20" Spacing="10" >
+                    <!-- Profile Image (tap to pick) -->
+                    <Label Text="(Tap the image to change it)" HorizontalTextAlignment="Center"/>
+                    <Image
+                        x:Name="BoatImage"
+                        Source="{Binding ImageSource}"
+                        HeightRequest="185"
+                        Aspect="AspectFit">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.PickPhotoCommand}" NumberOfTapsRequired="1" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <!-- Boat Metric-->
+                    <Label Text="Boat Metrics" FontSize="Header" HorizontalTextAlignment="Center"  />
+                    <!--Boat Name-->
+                    <Label Text="Boat Name" HorizontalTextAlignment="Center" />
+                    <Border Padding="1">
+                        <Entry
+                            Text="{Binding BoatName, Mode=TwoWay}"
+                            Placeholder="Enter Name"
+                            HorizontalTextAlignment="Center"/>
+                    </Border>
+
+                    <!--Build Year -->
+                    <Label Text="Build Year" HorizontalTextAlignment="Center" />
+
+
+                    <!--Registration Number-->
+                    <Label Text="Registration Number" HorizontalTextAlignment="Center" />
+
+
+                    <!--Boat Length -->
+                    <Label Text="Boat Length (ft)" HorizontalTextAlignment="Center"/>
+
+
+                    <!--Boat Beam -->
+                    <Label Text="Boat Beam (ft)" HorizontalTextAlignment="Center"/>
+
+
+                    <!--Boats Draught-->
+                    <Label Text="Boats Draught (ft)" HorizontalTextAlignment="Center"/>
+
+
+                    <!--Re-occuring bills and stuff-->
+                    <Label Text="The Paperwork" FontSize="Header" HorizontalTextAlignment="Center"/>
+                    <!--Licence Expiry Date-->
+                    <Label Text="Licence Expiry Date" HorizontalTextAlignment="Center"/>
+
+
+                    <!--Insurance Expiry Date-->
+                    <Label Text="Insurance Expiry Date" HorizontalTextAlignment="Center"/>
+
+
+                    <!--BSS expiry Date-->
+                    <Label Text="BSS Expiry Date" HorizontalTextAlignment="Center"/>
+
+
+                    <!--Service Intervals -->
+                    <Label Text="Service Intervals" FontSize="Header" HorizontalTextAlignment="Center"/>
+                    <!--Enter Service Hours-->
+                    <Label Text="Engine Service Interval (Hours)" HorizontalTextAlignment="Center"/>
+
+
+                    <!--Enter last service Date-->
+                    <Label Text="Enter Last Service Date" HorizontalTextAlignment="Center"/>
+
+
+                    <Label Text="Last Service Date and Service Hours will update on your profile view, with the values added to the diesel calculator" HorizontalTextAlignment="Center"/>
+
+                    <Button Text="Edit Profile" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenEditPageCommand}"/>
+
+                    </VerticalStackLayout>
+            </ScrollView>
+
+        </DataTemplate>
+    </CollectionView.ItemTemplate>
+    </CollectionView>
+
 </ContentPage>

@@ -22,7 +22,7 @@ namespace CaptainsLog
             var navigation = window?.Page?.Navigation;
             if (navigation != null)
             {
-                await navigation.PushAsync(new ProfileEditPage());
+                await navigation.PushAsync(new ProfileViewPage());
             }
         }
 

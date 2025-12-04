@@ -2,8 +2,16 @@ namespace CaptainsLog.BoatProfilePages;
 
 public partial class ProfileViewPage : ContentPage
 {
-	public ProfileViewPage()
-	{
-		InitializeComponent();
-	}
+
+    private readonly ViewModels.ProfilePageModel _profileViewModel;
+    public ProfileViewPage()
+    {
+        InitializeComponent();
+        BindingContext = _profileViewModel = new ViewModels.ProfilePageModel(new DatabaseClasses.ProfileJSONTools());
+    }
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        await _profileViewModel.LoadProfileItemsAsync();
+    }
 }

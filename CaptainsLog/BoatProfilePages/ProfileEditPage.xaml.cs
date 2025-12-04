@@ -4,17 +4,17 @@ namespace CaptainsLog.BoatProfilePages;
 
 public partial class ProfileEditPage : ContentPage
 {
-    private readonly ViewModels.ProfilePageModel _profileViewModel;
+    private readonly ViewModels.ProfilePageModel _profileEditViewModel;
     public ProfileEditPage()
 	{
 		InitializeComponent();
-        BindingContext = _profileViewModel = new ViewModels.ProfilePageModel(new DatabaseClasses.ProfileJSONTools());
+        BindingContext = _profileEditViewModel = new ViewModels.ProfilePageModel(new DatabaseClasses.ProfileJSONTools());
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        await _profileViewModel.LoadProfileItemsAsync();
+        await _profileEditViewModel.LoadProfileItemsAsync();
     }
 
 

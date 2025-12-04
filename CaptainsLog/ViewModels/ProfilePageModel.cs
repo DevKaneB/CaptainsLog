@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using System.Diagnostics;
+using CaptainsLog.BoatProfilePages;
 
 namespace CaptainsLog.ViewModels
 {
@@ -225,5 +226,15 @@ namespace CaptainsLog.ViewModels
             }
         }
 
+        [RelayCommand]
+        public async Task OpenEditPage()
+        {
+            var window = Application.Current?.Windows.FirstOrDefault();
+            var navigation = window?.Page?.Navigation;
+            if (navigation != null)
+            {
+                await navigation.PushAsync(new ProfileEditPage());
+            }
+        }
     }
 }

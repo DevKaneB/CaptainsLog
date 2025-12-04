@@ -16,7 +16,7 @@ Plan (pseudocode):
              x:Class="CaptainsLog.BoatProfilePages.ProfileEditPage"
              Title="Change Boat Details"
              x:DataType="vm:ProfilePageModel"
-             x:Name="ProfilePage">
+             x:Name="ProfileEditContentPage">
 
     <Grid RowDefinitions="*,Auto">
 
