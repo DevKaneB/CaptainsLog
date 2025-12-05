@@ -12,79 +12,191 @@
     <CollectionView.ItemTemplate>
         <DataTemplate x:DataType="models:ProfileItem">
             <ScrollView>
-                <VerticalStackLayout Padding="20" Spacing="10" >
-                    <!-- Profile Image (tap to pick) -->
-                    <Label Text="(Tap the image to change it)" HorizontalTextAlignment="Center"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <!--Boat Name-->
+                    <Label
+                        Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                        Text="{Binding BoatName}" 
+                        HorizontalTextAlignment="Center"
+                        FontSize="36"/>
+                    
+                    <!-- Profile Image -->
                     <Image
+                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
                         x:Name="BoatImage"
                         Source="{Binding ImageSource}"
                         HeightRequest="185"
                         Aspect="AspectFit">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.PickPhotoCommand}" NumberOfTapsRequired="1" />
-                        </Image.GestureRecognizers>
                     </Image>
 
                     <!-- Boat Metric-->
-                    <Label Text="Boat Metrics" FontSize="Header" HorizontalTextAlignment="Center"  />
-                    <!--Boat Name-->
-                    <Label Text="Boat Name" HorizontalTextAlignment="Center" />
-                    <Border Padding="1">
-                        <Entry
-                            Text="{Binding BoatName, Mode=TwoWay}"
-                            Placeholder="Enter Name"
-                            HorizontalTextAlignment="Center"/>
-                    </Border>
-
-                    <!--Build Year -->
-                    <Label Text="Build Year" HorizontalTextAlignment="Center" />
-
+                    <Label 
+                        Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+                        Text="Boat Metrics" 
+                        FontSize="Header" 
+                        HorizontalTextAlignment="Center"/>
 
                     <!--Registration Number-->
-                    <Label Text="Registration Number" HorizontalTextAlignment="Center" />
+                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                        Text="Registration Number" 
+                        HorizontalTextAlignment="Center"/>
+                    
+                    <Label 
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
+                        Text="{Binding RegNumber}" 
+                        HorizontalTextAlignment="Center" />
 
+                    <!--Build Year -->
+                    <Label 
+                        Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                        Text="Build Year" 
+                        HorizontalTextAlignment="Center" />
 
+                    <Label 
+                        Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                        Text="{Binding BuildYear}" 
+                        HorizontalTextAlignment="Center" /> 
+                    
                     <!--Boat Length -->
-                    <Label Text="Boat Length (ft)" HorizontalTextAlignment="Center"/>
+                    <Label 
+                        Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"
+                        Text="Length(ft)" 
+                        HorizontalTextAlignment="Center"/>
+
+                    <Label 
+                        Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2"
+                        Text="{Binding Length}" 
+                        HorizontalTextAlignment="Center"/>
 
 
                     <!--Boat Beam -->
-                    <Label Text="Boat Beam (ft)" HorizontalTextAlignment="Center"/>
+                    <Label 
+                        Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                        Text="Beam(ft)" HorizontalTextAlignment="Center"/>
+
+                    <Label 
+                        Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                        Text="{Binding Beam}" HorizontalTextAlignment="Center"/>
 
 
                     <!--Boats Draught-->
-                    <Label Text="Boats Draught (ft)" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2"
+                        Text="Draught(ft)" HorizontalTextAlignment="Center"/>
+
+                    <Label Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2"
+                        Text="{Binding Draft}" HorizontalTextAlignment="Center"/>
+
 
 
                     <!--Re-occuring bills and stuff-->
-                    <Label Text="The Paperwork" FontSize="Header" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4"
+                           Text="Expiry Dates" 
+                           FontSize="Header" 
+                           HorizontalTextAlignment="Center"/>
+                    
                     <!--Licence Expiry Date-->
-                    <Label Text="Licence Expiry Date" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                           Text="Licence" 
+                           HorizontalTextAlignment="Center"/>
 
+                    <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
+                           Text="{Binding LicenseExpiryDate}" 
+                           HorizontalTextAlignment="Center"/>
 
                     <!--Insurance Expiry Date-->
-                    <Label Text="Insurance Expiry Date" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2"
+                           Text="Insurance" 
+                           HorizontalTextAlignment="Center"/>
 
+                    <Label Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="2"
+                           Text="{Binding InsuranceExpiryDate}" 
+                           HorizontalTextAlignment="Center"/>
 
                     <!--BSS expiry Date-->
-                    <Label Text="BSS Expiry Date" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4"
+                           Text="BSS" 
+                           HorizontalTextAlignment="Center"/>
+
+                   
+                    <Label Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="4"
+                           Text="{Binding BSSExpiryDate}" 
+                           HorizontalTextAlignment="Center"/>
 
 
                     <!--Service Intervals -->
-                    <Label Text="Service Intervals" FontSize="Header" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4"
+                           Text="Service Intervals" 
+                           FontSize="Header" 
+                           HorizontalTextAlignment="Center"/>
+                    
                     <!--Enter Service Hours-->
-                    <Label Text="Engine Service Interval (Hours)" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2"
+                           Text="Engine Interval Hours" 
+                           HorizontalTextAlignment="Center"/>
 
+                    <Label Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2"
+                           Text="{Binding EngineServiceIntervalHours}" 
+                           HorizontalTextAlignment="Center"/>
+
+                    <!--Enter Service Hours-->
+                    <Label Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="2"
+                           Text="Hours Remaining" 
+                           HorizontalTextAlignment="Center"/>
+
+                    <Label Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="2"
+                           Text="Fix" 
+                           HorizontalTextAlignment="Center"/>
 
                     <!--Enter last service Date-->
-                    <Label Text="Enter Last Service Date" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="4"
+                           Text="Last Service Date" 
+                           HorizontalTextAlignment="Center"/>
+
+                    <Label Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="4"
+                          Text="{Binding LastServiceDate}" 
+                          HorizontalTextAlignment="Center"/>
 
 
-                    <Label Text="Last Service Date and Service Hours will update on your profile view, with the values added to the diesel calculator" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="4"
+                           Text="The Last Service Date will be used to calculate how many hours have been used via the Diesel Calculator" 
+                           HorizontalTextAlignment="Center"/>
 
-                    <Button Text="Edit Profile" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenEditPageCommand}"/>
+                    <Button Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="4"
+                            Text="Edit Profile" 
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenEditPageCommand}"/>
 
-                    </VerticalStackLayout>
+                </Grid>
             </ScrollView>
 
         </DataTemplate>
