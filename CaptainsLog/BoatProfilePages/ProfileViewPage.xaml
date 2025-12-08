@@ -49,7 +49,8 @@
                         Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
                         Text="{Binding BoatName}" 
                         HorizontalTextAlignment="Center"
-                        FontSize="36"/>
+                        FontSize="36"
+                        Margin="10"/>
                     
                     <!-- Profile Image -->
                     <Image
@@ -59,29 +60,32 @@
                         HeightRequest="185"
                         Aspect="AspectFit">
                     </Image>
-
-                    <!-- Boat Metric-->
-                    <Label 
-                        Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
-                        Text="Boat Metrics" 
-                        FontSize="Header" 
-                        HorizontalTextAlignment="Center"/>
-
                     <!--Registration Number-->
+                        
                     <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
                         Text="Registration Number" 
-                        HorizontalTextAlignment="Center"/>
-                    
-                    <Label 
+                        HorizontalTextAlignment="Center"
+                        Margin="5"/>
+
+                     <Label 
                         Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
                         Text="{Binding RegNumber}" 
-                        HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center"/>
+                        
+                    <!-- Boat Metric-->
+                    <Label 
+                         Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+                         Text="Boat Metrics" 
+                         FontSize="Header" 
+                         HorizontalTextAlignment="Center"
+                        Margin="10"/>
 
-                    <!--Build Year -->
+                     <!--Build Year -->
                     <Label 
                         Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                         Text="Build Year" 
-                        HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center" 
+                        Margin="5"/>
 
                     <Label 
                         Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
@@ -92,7 +96,8 @@
                     <Label 
                         Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"
                         Text="Length(ft)" 
-                        HorizontalTextAlignment="Center"/>
+                        HorizontalTextAlignment="Center"
+                        Margin="5"/>
 
                     <Label 
                         Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2"
@@ -103,7 +108,8 @@
                     <!--Boat Beam -->
                     <Label 
                         Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                        Text="Beam(ft)" HorizontalTextAlignment="Center"/>
+                        Text="Beam(ft)" HorizontalTextAlignment="Center"
+                        Margin="5"/>
 
                     <Label 
                         Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
@@ -112,7 +118,8 @@
 
                     <!--Boats Draught-->
                     <Label Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2"
-                        Text="Draught(ft)" HorizontalTextAlignment="Center"/>
+                        Text="Draught(ft)" HorizontalTextAlignment="Center"
+                           Margin="5"/>
 
                     <Label Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2"
                         Text="{Binding Draft}" HorizontalTextAlignment="Center"/>
@@ -123,34 +130,38 @@
                     <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="Expiry Dates" 
                            FontSize="Header" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="10"/>
                     
                     <!--Licence Expiry Date-->
                     <Label Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="Licence" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="5"/>
 
                     <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
-                           Text="{Binding LicenseExpiryDate}" 
+                           Text="{Binding LicenseExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                            HorizontalTextAlignment="Center"/>
 
                     <!--Insurance Expiry Date-->
                     <Label Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2"
                            Text="Insurance" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="5"/>
 
                     <Label Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="2"
-                           Text="{Binding InsuranceExpiryDate}" 
+                           Text="{Binding InsuranceExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                            HorizontalTextAlignment="Center"/>
 
                     <!--BSS expiry Date-->
                     <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="BSS" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="5"/>
 
                    
                     <Label Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="4"
-                           Text="{Binding BSSExpiryDate}" 
+                           Text="{Binding BSSExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                            HorizontalTextAlignment="Center"/>
 
 
@@ -158,39 +169,44 @@
                     <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="Service Intervals" 
                            FontSize="Header" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="10"/>
                     
-                    <!--Enter Service Hours-->
+                    <!--Service Hours-->
                     <Label Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="Engine Interval Hours" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="5"/>
 
                     <Label Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="{Binding EngineServiceIntervalHours}" 
                            HorizontalTextAlignment="Center"/>
 
-                    <!--Enter Service Hours-->
-                    <Label Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="2"
+                    <!--Service Hours Remaining-->
+                        <Label Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="2"
                            Text="Hours Remaining" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                               Margin="5"/>
 
-                    <Label Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="2"
+                        <Label Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="2"
                            Text="Fix" 
                            HorizontalTextAlignment="Center"/>
 
-                    <!--Enter last service Date-->
+                    <!--Last service Date-->
                     <Label Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="Last Service Date" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="5"/>
 
                     <Label Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="4"
-                          Text="{Binding LastServiceDate}" 
+                          Text="{Binding LastServiceDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                           HorizontalTextAlignment="Center"/>
 
 
                     <Label Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="The Last Service Date will be used to calculate how many hours have been used via the Diesel Calculator" 
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           Margin="20"/>
 
                     <Button Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="4"
                             Text="Edit Profile" 

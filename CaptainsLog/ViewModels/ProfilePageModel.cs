@@ -74,8 +74,7 @@ namespace CaptainsLog.ViewModels
                     // set to the local file path (MAUI Image accepts local file path strings)
                     ProfileItems[0].ImageSource = filePath;
 
-                    // persist the change (optional but recommended)
-                    
+                    //Save the changed picture to the profile JSON                    
                     await _profileJSONTools.SaveProfileAsync(ProfileItems[0]);
                     await LoadProfileItemsAsync();
                 }
