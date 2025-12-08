@@ -33,8 +33,10 @@ namespace CaptainsLog.DatabaseClasses
         public DateTime LicenseExpiryDate { get; set; }
         public DateTime InsuranceExpiryDate { get; set; }
         public DateTime BSSExpiryDate { get; set; }
+        public DateTime LastHullServiceDate { get; set; }
 
         public int EngineServiceIntervalHours { get; set; }
+        public int NextEngineServiceAtHours { get; set; }
         public DateTime LastServiceDate { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
