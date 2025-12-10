@@ -151,7 +151,21 @@ Plan (pseudocode):
                             </picker:SfDatePicker.ColumnHeaderView>
                         </picker:SfDatePicker>
 
-                        <!--Service Intervals -->
+                        <!--Last Hull Service Date-->
+                        <Label Text="Last Hull Service" HorizontalTextAlignment="Center"/>
+                        <picker:SfDatePicker
+                            SelectedDate="{Binding LastHullServiceDate, Mode=TwoWay}"
+                            MaximumDate="{x:Static system:DateTime.Today}"
+                            HeightRequest="150"
+                            Format="dd_MMM_yyyy"
+                            BackgroundColor="White"
+                            HorizontalOptions="Fill">
+                            <picker:SfDatePicker.ColumnHeaderView >
+                                <picker:DatePickerColumnHeaderView Background="White"/>
+                            </picker:SfDatePicker.ColumnHeaderView>
+                        </picker:SfDatePicker>
+
+                            <!--Service Intervals -->
                         <Label Text="Service Intervals" FontSize="Header" HorizontalTextAlignment="Center"/>
                         <!--Enter Service Hours-->
                         <Label Text="Engine Service Interval (Hours)" HorizontalTextAlignment="Center"/>
@@ -168,7 +182,7 @@ Plan (pseudocode):
                         <Label Text="Enter Last Service Date" HorizontalTextAlignment="Center"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding LastServiceDate, Mode=TwoWay}"
-                            MinimumDate="{x:Static system:DateTime.Today}"
+                            MaximumDate="{x:Static system:DateTime.Today}"
                             HeightRequest="150"
                             Format="dd_MMM_yyyy"
                             BackgroundColor="White"

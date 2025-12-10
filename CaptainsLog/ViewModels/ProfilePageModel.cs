@@ -15,11 +15,14 @@ namespace CaptainsLog.ViewModels
     public partial class ProfilePageModel : BaseViewModel
     {
         private readonly ProfileJSONTools _profileJSONTools;
+        private DieselDatabaseMethods database;
+        private List<DieselDatabase>? databaseItems;
 
 
         public ProfilePageModel(ProfileJSONTools profileJSONTools)
         {
             _profileJSONTools = profileJSONTools;
+            database = new DieselDatabaseMethods();
         }
 
         [ObservableProperty]
@@ -233,6 +236,104 @@ namespace CaptainsLog.ViewModels
             if (navigation != null)
             {
                 await navigation.PushAsync(new ProfileEditPage());
+            }
+        }
+
+        [RelayCommand]
+        public async Task CalulcateServiceHoursRemaining()
+        {
+            try
+            {
+                //Are there any diesel Refill entries in the database?
+                databaseItems =
+                    await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where LeisureHours != '0' or PropHours != '0' ");
+
+                if (databaseItems.Count == 0)
+                {
+                    //No entries found - Dont do anything as this is expected when no hours have been logged yet
+                    Debug.WriteLine("No diesel hours entries found in database");
+                    return;
+                }
+                else
+                {
+                    databaseItems.Clear();
+
+                    // Fix: Check for null and count before dereferencing ProfileItems[0]
+                    if (ProfileItems == null || ProfileItems.Count == 0)
+                    {
+                        //Dont do anything as the user may need to create a profile via the Profile Edit Page which can be accesed from the Profile View Page
+                        Debug.WriteLine("ProfileItems is null or empty");
+                        return;
+                    }
+
+                    // Safely convert LastServiceDate to a string formatted "yyyy-MM-dd"
+                    string ServiceDate;
+                    var lastServiceDate = ProfileItems[0].LastServiceDate;
+                    if (lastServiceDate == default(DateTime))
+                    {
+                        ServiceDate = string.Empty;
+                    }
+                    else
+                    {
+                        ServiceDate = lastServiceDate.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                    }
+
+                    databaseItems =
+                           await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours FROM DieselDatabase WHERE EntryDate > '{ServiceDate}'");
+
+                    switch (databaseItems.Count)
+                    {
+                        //Calculate and display percentages
+                        case 1:
+
+                            if (databaseItems[0].LeisureHours == 0 && databaseItems[0].PropHours == 0)
+                            {
+                                //No Records since last service date - Dont do anything
+                                Debug.WriteLine("No Records since last service date");
+                                return;
+                            }
+
+                            var EngineHoursUsed = databaseItems[0].PropHours + databaseItems[0].LeisureHours;
+                            var ServiceIntervalHours = ProfileItems[0].EngineServiceIntervalHours - EngineHoursUsed;
+
+                            if (ServiceIntervalHours < 0)
+                            {
+                                await ShowAlertAsync("Alert", "Engine service is overdue based on logged hours, edit profile to change last service date!", "OK");
+                                return;
+                            }
+
+                            if (ProfileItems[0].NextEngineServiceAtHours == ServiceIntervalHours)
+                            {
+                                //No change in service hours remaining - Dont do anything
+                                Debug.WriteLine("No change in service hours remaining");
+                                return;
+
+                            }
+
+                            ProfileItems[0].NextEngineServiceAtHours = ServiceIntervalHours;
+
+                           
+                            await _profileJSONTools.SaveProfileAsync(ProfileItems[0]);
+
+                            // Optional: refresh the view model so the UI reflects persisted state
+                            await LoadProfileItemsAsync();
+                
+
+                            break;
+                        //error condition - multiple records found
+                        default:
+                            Debug.WriteLine("Error: Multiple records found when calculating service hours remaining");
+                            break;
+                    }
+
+                }
+
+                databaseItems.Clear();
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
     }

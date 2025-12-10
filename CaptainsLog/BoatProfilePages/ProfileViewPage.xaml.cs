@@ -13,5 +13,6 @@ public partial class ProfileViewPage : ContentPage
     {
         base.OnNavigatedTo(args);
         await _profileViewModel.LoadProfileItemsAsync();
+        await _profileViewModel.CalulcateServiceHoursRemaining();
     }
 }
