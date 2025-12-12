@@ -30,6 +30,12 @@
                 Clicked="DieselCalcClicked"
                 HorizontalOptions="Fill" />
 
+            <Button
+                Text="Boat Expenses" 
+                SemanticProperties.Hint="Log your expenses to see how much it costs to run the boat"
+                Clicked="BoatExpClicked"
+                HorizontalOptions="Fill" />
+
         </VerticalStackLayout>
 
 

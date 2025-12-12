@@ -286,13 +286,6 @@ namespace CaptainsLog.ViewModels
                         //Calculate and display percentages
                         case 1:
 
-                            if (databaseItems[0].LeisureHours == 0 && databaseItems[0].PropHours == 0)
-                            {
-                                //No Records since last service date - Dont do anything
-                                Debug.WriteLine("No Records since last service date");
-                                return;
-                            }
-
                             var EngineHoursUsed = databaseItems[0].PropHours + databaseItems[0].LeisureHours;
                             var ServiceIntervalHours = ProfileItems[0].EngineServiceIntervalHours - EngineHoursUsed;
 
