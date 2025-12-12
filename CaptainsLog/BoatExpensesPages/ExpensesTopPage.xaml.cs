@@ -1,0 +1,32 @@
+namespace CaptainsLog.BoatExpensesPages;
+
+public partial class ExpensesTopPage : ContentPage
+{
+	public ExpensesTopPage()
+	{
+		InitializeComponent();
+	}
+
+    async void OnWeeklyExpensesClicked(object? sender, EventArgs e)
+    {
+        
+    }
+
+    async void OnMonthlyExpensesClicked(object? sender, EventArgs e)
+    {
+
+    }
+
+    async void OnYearlyExpensesClicked(object? sender, EventArgs e)
+    {
+
+    }
+
+    async void OnAddExpenseClicked(object? sender, EventArgs e)
+    {
+    }
+
+    async void OnViewExpensesClicked(object? sender, EventArgs e)
+    {
+    }
+}

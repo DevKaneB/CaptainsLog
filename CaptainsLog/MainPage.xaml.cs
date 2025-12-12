@@ -46,7 +46,7 @@ namespace CaptainsLog
             var navigation = window?.Page?.Navigation;
             if (navigation != null)
             {
-                await navigation.PushAsync(new ExpensesTitlePage());
+                await navigation.PushAsync(new ExpensesTopPage());
             }
             // Optionally, handle the case where navigation is null (e.g., show an error or do nothing)
         }
