@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
+             x:Class="CaptainsLog.BoatExpensesPages.AddExpenseItemPage"
+             Title="Add an Expense">
+    
+    <ContentPage.Content>
+        <Border Padding="10,10">
+            <Grid RowSpacing="6"
+                  ColumnSpacing="6">
+                <!-- Define number of rows and columns -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="170"/>
+                    <RowDefinition Height="50"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Expense Reason-->
+                <Label Grid.Column="0"
+                       Grid.ColumnSpan="6"
+                       Grid.Row="0"
+                       Text="Expense Reason"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
+                <Border Grid.Column="0"
+                        Grid.ColumnSpan="6"
+                        Grid.Row="1"
+                        Padding="1">
+                    <Entry 
+                        x:Name="ExpenseReasonEntry"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="6"
+                        Grid.Row="1"
+                        Placeholder="Enter reason for expense"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
+                </Border>
+
+                <!-- Expense Amount-->
+                <Label Grid.Column="0"
+                       Grid.ColumnSpan="6"
+                       Grid.Row="2"
+                       Text="Expense Amount"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
+                <Border
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="3"
+                    Padding="1">
+                    <editors:SfNumericEntry
+                        x:Name="ExpenseAmountEntry"
+                        Value="0.00"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="6"
+                        Grid.Row="3"
+                        Padding="1"
+                        Placeholder="Enter Amount"
+                        HorizontalTextAlignment="Start"
+                        MaximumNumberDecimalDigits="2"
+                        Minimum="0"/>
+                </Border>
+                
+                <!-- Select Type -->
+                <Label Grid.Column="0"
+                       Grid.ColumnSpan="6"
+                       Grid.Row="4"
+                       Text="Select Expense Type"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
+                <Border Grid.Column="0"
+                        Grid.ColumnSpan="6"
+                        Grid.Row="5"
+                        Padding="1">
+                    <Picker Grid.Column="0"
+                            Grid.ColumnSpan="6"
+                            Grid.Row="5"
+                            x:Name="TypePicker"
+                            Title="Select a Type">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Fuel (Petrol/Diesel)</x:String>
+                                <x:String>Coal/Logs</x:String>
+                                <x:String>Gas</x:String>
+                                <x:String>Engine Repair</x:String>
+                                <x:String>Hull Maintenance</x:String>
+                                <x:String>Other</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                </Border>
+
+
+
+                <!--Expense Date-->
+                <Label Grid.Column="0"
+                       Grid.ColumnSpan="6"
+                       Grid.Row="6"
+                       Text="Expense Date"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
+                <Border
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="7"
+                    Padding="1">
+                    <picker:SfDatePicker
+                        x:Name="ExpenseDateEntry"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="6"
+                        Grid.Row="5"
+                        HeightRequest="150"
+                        Format="dd_MMM_yyyy"
+                        BackgroundColor="White"
+                        HorizontalOptions="Fill">
+                        <picker:SfDatePicker.ColumnHeaderView >
+                            <picker:DatePickerColumnHeaderView Background="White"/>
+                        </picker:SfDatePicker.ColumnHeaderView>
+                    </picker:SfDatePicker>
+                </Border>
+
+                <!-- Save Expense -->
+                <Button Grid.Column="0"
+                        Grid.ColumnSpan="6"
+                        Grid.Row="8"
+                        Text="Save Expense"
+                        Clicked="OnSaveExpenseClicked"
+                        HorizontalOptions="Fill"/>
+
+            </Grid>
+        </Border>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,3 +1,5 @@
+using CaptainsLog.BoatProfilePages;
+
 namespace CaptainsLog.BoatExpensesPages;
 
 public partial class ExpensesTopPage : ContentPage
@@ -24,6 +26,12 @@ public partial class ExpensesTopPage : ContentPage
 
     async void OnAddExpenseClicked(object? sender, EventArgs e)
     {
+        var window = Application.Current?.Windows.FirstOrDefault();
+        var navigation = window?.Page?.Navigation;
+        if (navigation != null)
+        {
+            await navigation.PushAsync(new AddExpenseItemPage());
+        }
     }
 
     async void OnViewExpensesClicked(object? sender, EventArgs e)

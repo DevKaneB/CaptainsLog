@@ -31,7 +31,7 @@
                 HorizontalOptions="Fill" />
 
             <Button
-                Text="Boat Expenses" 
+                Text="Expenses" 
                 SemanticProperties.Hint="Log your expenses to see how much it costs to run the boat"
                 Clicked="BoatExpClicked"
                 HorizontalOptions="Fill" />
