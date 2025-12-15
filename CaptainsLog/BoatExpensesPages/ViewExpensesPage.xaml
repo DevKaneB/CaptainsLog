@@ -3,10 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
              xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses"
+             xmlns:converters="clr-namespace:CaptainsLog.Converters"
              x:Class="CaptainsLog.BoatExpensesPages.ViewExpensesPage"
              Title="View Expenses"
              x:DataType="vm:ExpensesViewModel"
              x:Name="ViewExpPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:DateStringToFormattedDateConverter x:Key="DateStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -39,29 +45,11 @@
         <Picker Grid.Row="0"
                 Grid.Column="1"
                 x:Name="MonthPicker"
-                Title="Month Filter">    
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>All</x:String>
-                    <x:String>January</x:String>
-                    <x:String>February</x:String>
-                    <x:String>March</x:String>
-                    <x:String>April</x:String>
-                    <x:String>May</x:String>
-                    <x:String>June</x:String>
-                    <x:String>July</x:String>
-                    <x:String>August</x:String>
-                    <x:String>September</x:String>
-                    <x:String>October</x:String>
-                    <x:String>November</x:String>
-                    <x:String>December</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
+                Title="Month Filter"
+                ItemsSource="{Binding DateDropDownData}" />
 
         <Button Grid.Row="0"
                 Grid.Column="2"
-                x:Name="ApplyFilters"
                 Text="Show" />
 
         <CollectionView Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding ExpensesItems}" Background="Transparent" >
@@ -84,7 +72,7 @@
                                     </Grid.ColumnDefinitions>
                                     <!--Date-->
                                     <Label Grid.Column="0" Grid.Row="0" Text="Date" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding ExpenseDate}" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding ExpenseDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
                                     <!--Type-->
                                     <Label Grid.Column="1" Grid.Row="0" Text="Type" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                                     <Label Grid.Column="1" Grid.Row="1" Text="{Binding ExpenseType}" HorizontalTextAlignment="Center"/>

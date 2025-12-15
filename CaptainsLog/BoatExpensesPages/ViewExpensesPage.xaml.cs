@@ -17,6 +17,7 @@ public partial class ViewExpensesPage : ContentPage
 	{
 		base.OnNavigatedTo(args);
 		await _ExpensesViewModel.LoadExpensesItems();
+		await _ExpensesViewModel.LoadDateDropDown();
     }
 
 }

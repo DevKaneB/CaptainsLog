@@ -28,13 +28,6 @@ public partial class AddExpenseItemPage : ContentPage
             return;
         }
 
-        //Make sure there is a reason for the expense
-        if (string.IsNullOrWhiteSpace(ExpenseReasonEntry.Text))
-        {
-            await DisplayAlert("Alert", "Please enter a reason for the expense.", "OK");
-            return;
-        }
-
         // Make sure a type is selected
         if (TypePicker == null || TypePicker.SelectedIndex == -1)
         {
