@@ -75,6 +75,9 @@
 	  <MauiXaml Update="BoatExpensesPages\ExpensesTopPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="BoatExpensesPages\ViewExpensesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="BoatProfilePages\ProfileEditPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

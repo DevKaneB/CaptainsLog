@@ -36,5 +36,11 @@ public partial class ExpensesTopPage : ContentPage
 
     async void OnViewExpensesClicked(object? sender, EventArgs e)
     {
+        var window = Application.Current?.Windows.FirstOrDefault();
+        var navigation = window?.Page?.Navigation;
+        if (navigation != null)
+        {
+            await navigation.PushAsync(new ViewExpensesPage());
+        }
     }
 }

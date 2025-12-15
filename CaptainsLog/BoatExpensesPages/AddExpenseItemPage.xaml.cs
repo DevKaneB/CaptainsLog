@@ -65,5 +65,6 @@ public partial class AddExpenseItemPage : ContentPage
 
         //Save to database
         await database.SaveItemAsync(ExpenseItems[0]);
+        ExpenseItems.Clear();
     }
 }

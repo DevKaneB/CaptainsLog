@@ -17,7 +17,8 @@
     <CollectionView ItemsSource="{Binding DatabaseItems}" Background="Transparent" >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:DieselDatabase">
-                <SwipeView >
+                <ScrollView>
+                    <SwipeView >
                     <Border Padding="5">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -59,7 +60,8 @@
                         </SwipeItems>
                     </SwipeView.RightItems>
 
-                </SwipeView>
+                    </SwipeView>
+                </ScrollView>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

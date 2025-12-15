@@ -32,11 +32,11 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 
-                <!-- Expense Reason-->
+                <!-- Expense Other / Note-->
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="6"
                        Grid.Row="0"
-                       Text="Expense Reason"
+                       Text="Note"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"/>
                 <Border Grid.Column="0"
@@ -48,7 +48,7 @@
                         Grid.Column="0"
                         Grid.ColumnSpan="6"
                         Grid.Row="1"
-                        Placeholder="Enter reason for expense"
+                        Placeholder="Optional or Other Reason"
                         HorizontalOptions="Start"
                         VerticalOptions="Center"/>
                 </Border>
@@ -98,6 +98,7 @@
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Fuel (Petrol/Diesel)</x:String>
                                 <x:String>Coal/Logs</x:String>
+                                <x:String>Pumpout/Elsan</x:String>
                                 <x:String>Gas</x:String>
                                 <x:String>Engine Repair</x:String>
                                 <x:String>Hull Maintenance</x:String>

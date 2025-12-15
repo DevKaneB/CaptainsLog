@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
+             xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses"
+             x:Class="CaptainsLog.BoatExpensesPages.ViewExpensesPage"
+             Title="View Expenses"
+             x:DataType="vm:ExpensesViewModel"
+             x:Name="ViewExpPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1.0*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
+        <Picker Grid.Row="0"
+                Grid.Column="0"
+                x:Name="TypePicker"
+                Title="Type Filter">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>All</x:String>
+                    <x:String>Fuel (Petrol/Diesel)</x:String>
+                    <x:String>Coal/Logs</x:String>
+                    <x:String>Pumpout/Elsan</x:String>
+                    <x:String>Gas</x:String>
+                    <x:String>Engine Repair</x:String>
+                    <x:String>Hull Maintenance</x:String>
+                    <x:String>Other</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Picker Grid.Row="0"
+                Grid.Column="1"
+                x:Name="MonthPicker"
+                Title="Month Filter">    
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>All</x:String>
+                    <x:String>January</x:String>
+                    <x:String>February</x:String>
+                    <x:String>March</x:String>
+                    <x:String>April</x:String>
+                    <x:String>May</x:String>
+                    <x:String>June</x:String>
+                    <x:String>July</x:String>
+                    <x:String>August</x:String>
+                    <x:String>September</x:String>
+                    <x:String>October</x:String>
+                    <x:String>November</x:String>
+                    <x:String>December</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <Button Grid.Row="0"
+                Grid.Column="2"
+                x:Name="ApplyFilters"
+                Text="Show" />
+
+        <CollectionView Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding ExpensesItems}" Background="Transparent" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ExpensesItem">
+                    <ScrollView>
+                        <SwipeView >
+                            <Border Padding="5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <!--Date-->
+                                    <Label Grid.Column="0" Grid.Row="0" Text="Date" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding ExpenseDate}" HorizontalTextAlignment="Center"/>
+                                    <!--Type-->
+                                    <Label Grid.Column="1" Grid.Row="0" Text="Type" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding ExpenseType}" HorizontalTextAlignment="Center"/>
+                                    <!--Amount-->
+                                    <Label Grid.Column="2" Grid.Row="0" Text="Amount" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding Amount}" HorizontalTextAlignment="Center"/>
+                                    <!--Note-->
+                                    <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Text="Note" BackgroundColor="AliceBlue" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding ExpenseDesc}" HorizontalTextAlignment="Start"/>
+                                </Grid>
+                            </Border>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem BackgroundColor="PowderBlue"
+                                               SemanticProperties.Hint="Delete Expense from Database"
+                                               Text="Edit" />
+                                    <SwipeItem BackgroundColor="Red"
+                                               SemanticProperties.Hint="Delete Expense from Database"
+                                               Text="Delete" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                        </SwipeView>
+                    </ScrollView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                x:Name="ApplyFilters"
+                Text="Export" />
+    </Grid>
+
+</ContentPage>
