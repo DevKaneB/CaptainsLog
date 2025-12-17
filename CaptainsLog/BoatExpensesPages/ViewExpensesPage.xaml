@@ -28,7 +28,8 @@
         <Picker Grid.Row="0"
                 Grid.Column="0"
                 x:Name="TypePicker"
-                Title="Type Filter">
+                Title="Type Filter"
+                SelectedItem="{Binding SelectedType}">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>All</x:String>
@@ -46,11 +47,17 @@
                 Grid.Column="1"
                 x:Name="MonthPicker"
                 Title="Month Filter"
-                ItemsSource="{Binding DateDropDownData}" />
+                ItemsSource="{Binding DateDropDownData}"
+                SelectedItem="{Binding SelectedMonth}"/>
 
         <Button Grid.Row="0"
                 Grid.Column="2"
-                Text="Show" />
+                Text="Show"
+                Command="{Binding ApplyFiltersCommand}">
+        </Button>
+
+
+
 
         <CollectionView Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding ExpensesItems}" Background="Transparent" >
             <CollectionView.ItemTemplate>

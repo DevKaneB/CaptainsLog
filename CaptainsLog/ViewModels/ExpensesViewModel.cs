@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,10 +16,20 @@ namespace CaptainsLog.ViewModels
     {
         private readonly ExpensesSQLTools expensesSQLTools;
 
+        public IRelayCommand ApplyFiltersCommand => new RelayCommand(async () => await ApplyFilters());
+
         public ExpensesViewModel(ExpensesSQLTools expensesSQLTools)
         {
             this.expensesSQLTools = expensesSQLTools;
+
         }
+
+        [ObservableProperty]
+        public string selectedType;
+
+        [ObservableProperty]
+        public string selectedMonth;
+
 
         [ObservableProperty]
         public ObservableCollection<ExpensesItem>? expensesItems = new();
@@ -62,6 +73,34 @@ namespace CaptainsLog.ViewModels
                 DateDropDownData = new ObservableCollection<string>(items);
 
             }
+
+            expenseSQLList = null;
+
+        }
+
+        private async Task ApplyFilters()
+        {
+            if (expenseSQLList == null)
+            {
+                expenseSQLList = await expensesSQLTools.GetItemsViaQueryAsync("Select * FROM ExpensesItem ORDER BY Expensedate DESC");
+            }
+            var filteredList = expenseSQLList.AsEnumerable();
+            if (selectedMonth != "All")
+            {
+                DateTime selectedDateTime = DateTime.ParseExact(selectedMonth, "MMMM yyyy", CultureInfo.InvariantCulture);
+                filteredList = filteredList.Where(item =>
+                {
+                    DateTime itemDate = DateTime.ParseExact(item.ExpenseDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    return itemDate.Year == selectedDateTime.Year && itemDate.Month == selectedDateTime.Month;
+                });
+            }
+            if (selectedType != "All")
+            {
+                filteredList = filteredList.Where(item => item.ExpenseType == selectedType);
+            }
+            ExpensesItems = new ObservableCollection<ExpensesItem>(filteredList);
+
+            expenseSQLList = null;
         }
 
         private int GetMonthDifference(string dateString)
@@ -94,7 +133,6 @@ namespace CaptainsLog.ViewModels
 
             return months;
         }
-
 
 
     }
