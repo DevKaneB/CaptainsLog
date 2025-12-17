@@ -4,6 +4,7 @@ using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Grid;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,22 @@ namespace CaptainsLog.Services
             PdfGrid pdfGrid = new PdfGrid();
 
             // Assign the data source
-            pdfGrid.DataSource = items;
+            pdfGrid.DataSource = items.Select(x => new
+            {
+                ExpenseDate = DateTime.TryParse(x.ExpenseDate, out var dt)
+                              ? dt.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)
+                              : x.ExpenseDate,
+                ExpenseType = x.ExpenseType,
+                ExpenseDesc = x.ExpenseDesc,
+                Amount = x.Amount
+            }).ToList();
+
+            // Create the header row
+            PdfGridRow header = pdfGrid.Headers[0];
+            header.Cells[0].Value = "Date";
+            header.Cells[1].Value = "Type";
+            header.Cells[2].Value = "Description";
+            header.Cells[3].Value = "Amount";
 
             // Customize the grid style
             pdfGrid.Style.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 12);

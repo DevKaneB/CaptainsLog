@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -85,6 +86,24 @@ namespace CaptainsLog.ViewModels
 
         private async Task ExportAsPDF()
         {
+            // Get the current page safely
+            var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+            // If no page is available, cancel the delete to avoid throwing
+            if (page == null)
+                return;
+
+            // Ask the user to confirm deletion
+            var confirmed = await page.DisplayAlert(
+                "Confirm Export",
+                "Do you confirm you wish to Export as PDF?",
+                "Yes",
+                "No");
+
+            // If the user cancels, do nothing
+            if (!confirmed)
+                return;
+
             List<ExpensesItem> items = ExpensesItems.ToList();
 
             var pdfService = new PdfService();
