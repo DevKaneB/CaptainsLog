@@ -111,7 +111,8 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 x:Name="ApplyFilters"
-                Text="Export" />
+                Text="Export" 
+                Command="{Binding ExportAsPDFCommand}"/>
     </Grid>
 
 </ContentPage>

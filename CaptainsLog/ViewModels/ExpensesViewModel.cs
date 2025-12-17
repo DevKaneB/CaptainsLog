@@ -1,4 +1,5 @@
 ﻿using CaptainsLog.DatabaseClasses;
+using CaptainsLog.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -15,8 +16,10 @@ namespace CaptainsLog.ViewModels
     public partial class ExpensesViewModel : BaseViewModel
     {
         private readonly ExpensesSQLTools expensesSQLTools;
+        private readonly PdfService _pdfService = new PdfService();
 
         public IRelayCommand ApplyFiltersCommand => new RelayCommand(async () => await ApplyFilters());
+        public IRelayCommand ExportAsPDFCommand => new RelayCommand(async () => await ExportAsPDF());
 
         public ExpensesViewModel(ExpensesSQLTools expensesSQLTools)
         {
@@ -40,6 +43,7 @@ namespace CaptainsLog.ViewModels
         //This is for caching purposes
         private List<ExpensesItem>? expenseSQLList;
 
+        //Load all expense items from the database
         public async Task LoadExpensesItems()
         {
             var items = await expensesSQLTools.GetItemsViaQueryAsync("Select * FROM ExpensesItem ORDER BY Expensedate DESC");
@@ -62,6 +66,7 @@ namespace CaptainsLog.ViewModels
             ExpensesItems = new ObservableCollection<ExpensesItem>(items);
         }
 
+        //Load the date dropdown with months from the earliest expense date to now
         public async Task LoadDateDropDown()
         {
             expenseSQLList = await expensesSQLTools.GetItemsViaQueryAsync("Select ExpenseDate FROM ExpensesItem ORDER BY Expensedate ASC LIMIT 1");
@@ -78,6 +83,25 @@ namespace CaptainsLog.ViewModels
 
         }
 
+        private async Task ExportAsPDF()
+        {
+            List<ExpensesItem> items = ExpensesItems.ToList();
+
+            var pdfService = new PdfService();
+            string filePath = await pdfService.ExportListToPdfAsync(items);
+
+            // Share the PDF
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                Title = "Exported Products",
+                File = new ShareFile(filePath)
+            });
+
+
+
+        }
+
+        //Apply filters to the expenses list show on screen
         private async Task ApplyFilters()
         {
             if (expenseSQLList == null)
@@ -103,6 +127,7 @@ namespace CaptainsLog.ViewModels
             expenseSQLList = null;
         }
 
+        //Calculate the number of months between now and the given date string
         private int GetMonthDifference(string dateString)
         {
             // Parse the input string into a DateTime
@@ -119,6 +144,7 @@ namespace CaptainsLog.ViewModels
             return totalMonths + 1;
         }
 
+        //Generate a list of month names for the last X months
         public static List<string> GetLastMonths(int AmountOfMonths)
         {
             var months = new List<string>();
