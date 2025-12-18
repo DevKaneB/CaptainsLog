@@ -1,4 +1,5 @@
-﻿using CaptainsLog.DatabaseClasses;
+﻿using CaptainsLog.BoatExpensesPages;
+using CaptainsLog.DatabaseClasses;
 using CaptainsLog.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,6 +12,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Extensions;
+
+
+
 
 namespace CaptainsLog.ViewModels
 {
@@ -21,6 +27,7 @@ namespace CaptainsLog.ViewModels
 
         public IRelayCommand ApplyFiltersCommand => new RelayCommand(async () => await ApplyFilters());
         public IRelayCommand ExportAsPDFCommand => new RelayCommand(async () => await ExportAsPDF());
+
 
         public ExpensesViewModel(ExpensesSQLTools expensesSQLTools)
         {
@@ -35,6 +42,7 @@ namespace CaptainsLog.ViewModels
         public string selectedMonth;
 
 
+
         [ObservableProperty]
         public ObservableCollection<ExpensesItem>? expensesItems = new();
 
@@ -43,6 +51,8 @@ namespace CaptainsLog.ViewModels
 
         //This is for caching purposes
         private List<ExpensesItem>? expenseSQLList;
+
+        public ExpenseResult expenseResult;
 
         //Load all expense items from the database
         public async Task LoadExpensesItems()
@@ -84,6 +94,8 @@ namespace CaptainsLog.ViewModels
 
         }
 
+
+        //Export the current expenses list as a PDF
         private async Task ExportAsPDF()
         {
             // Get the current page safely

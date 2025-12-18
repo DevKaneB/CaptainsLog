@@ -1,5 +1,6 @@
 using CaptainsLog.DatabaseClasses;
 using CaptainsLog.ViewModels;
+using CommunityToolkit.Maui.Extensions;
 
 
 namespace CaptainsLog.BoatExpensesPages;
@@ -7,6 +8,7 @@ namespace CaptainsLog.BoatExpensesPages;
 public partial class ViewExpensesPage : ContentPage
 {
 	private readonly ExpensesViewModel _ExpensesViewModel;
+
     public ViewExpensesPage()
 	{
 		InitializeComponent();
@@ -18,6 +20,21 @@ public partial class ViewExpensesPage : ContentPage
 		base.OnNavigatedTo(args);
 		await _ExpensesViewModel.LoadExpensesItems();
 		await _ExpensesViewModel.LoadDateDropDown();
+    }
+
+    private async void OnEditExpenseClicked(object sender, EventArgs e)
+    {
+        var popup = new EditExpensePopup();
+
+        // result is IPopupResult<ExpenseResult>
+        var result = await this.ShowPopupAsync<ExpenseResult>(popup);
+
+        if (result is not null && result.Result is not null)
+        {
+            // Optionally update individual properties if you prefer
+            _ExpensesViewModel.expenseResult.ExpenseDesc = result.Result.ExpenseDesc;
+            _ExpensesViewModel.expenseResult.Amount = result.Result.Amount;
+        }
     }
 
 }

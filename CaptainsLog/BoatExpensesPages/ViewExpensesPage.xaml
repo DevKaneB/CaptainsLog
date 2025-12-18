@@ -95,7 +95,9 @@
                                 <SwipeItems Mode="Reveal">
                                     <SwipeItem BackgroundColor="PowderBlue"
                                                SemanticProperties.Hint="Delete Expense from Database"
-                                               Text="Edit" />
+                                               Text="Edit" 
+                                               Clicked="OnEditExpenseClicked"
+                                               />
                                     <SwipeItem BackgroundColor="Red"
                                                SemanticProperties.Hint="Delete Expense from Database"
                                                Text="Delete" />

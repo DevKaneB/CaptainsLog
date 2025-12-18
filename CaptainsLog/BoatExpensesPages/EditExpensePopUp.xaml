@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:local="clr-namespace:CaptainsLog.BoatExpensesPages"
+    x:TypeArguments="local:ExpenseResult"
+    x:Class="CaptainsLog.BoatExpensesPages.EditExpensePopup">
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label Text="Enter Expense Details" FontAttributes="Bold" />
+        <Entry x:Name="ExpenseDescEntry" Placeholder="Description" />
+        <Entry x:Name="AmountEntry" Placeholder="Amount" Keyboard="Numeric" />
+        <Button Text="Save" Clicked="OnSaveClicked" />
+    </VerticalStackLayout>
+</toolkit:Popup>
+

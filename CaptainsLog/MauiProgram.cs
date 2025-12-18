@@ -1,4 +1,5 @@
 ﻿using CaptainsLog.ViewModels;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
@@ -14,6 +15,7 @@ namespace CaptainsLog
                 .ConfigureSyncfusionToolkit()
                 .ConfigureSyncfusionCore()
                 .UseMauiApp<App>()
+                .UseMauiApp<App>().UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
