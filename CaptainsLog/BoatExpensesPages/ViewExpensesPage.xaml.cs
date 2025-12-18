@@ -31,9 +31,7 @@ public partial class ViewExpensesPage : ContentPage
 
         if (result is not null && result.Result is not null)
         {
-            // Optionally update individual properties if you prefer
-            _ExpensesViewModel.expenseResult.ExpenseDesc = result.Result.ExpenseDesc;
-            _ExpensesViewModel.expenseResult.Amount = result.Result.Amount;
+            //save values to the database
         }
     }
 
