@@ -3,19 +3,10 @@ using CaptainsLog.DatabaseClasses;
 using CaptainsLog.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Maui.Extensions;
-
-
+using CommunityToolkit.Maui.Core;
 
 
 namespace CaptainsLog.ViewModels
@@ -24,15 +15,18 @@ namespace CaptainsLog.ViewModels
     {
         private readonly ExpensesSQLTools expensesSQLTools;
         private readonly PdfService _pdfService = new PdfService();
+        public bool FilterApplied;    
 
         public IRelayCommand ApplyFiltersCommand => new RelayCommand(async () => await ApplyFilters());
         public IRelayCommand ExportAsPDFCommand => new RelayCommand(async () => await ExportAsPDF());
+        public IRelayCommand EditExpenseCommand => new RelayCommand<int>(async (id) => await EditExpense(id));
 
 
         public ExpensesViewModel(ExpensesSQLTools expensesSQLTools)
         {
             this.expensesSQLTools = expensesSQLTools;
-
+            expenseResult = new ExpenseResult();
+            FilterApplied = false;
         }
 
         [ObservableProperty]
@@ -40,8 +34,6 @@ namespace CaptainsLog.ViewModels
 
         [ObservableProperty]
         public string selectedMonth;
-
-
 
         [ObservableProperty]
         public ObservableCollection<ExpensesItem>? expensesItems = new();
@@ -52,7 +44,7 @@ namespace CaptainsLog.ViewModels
         //This is for caching purposes
         private List<ExpensesItem>? expenseSQLList;
 
-        public ExpenseResult expenseResult;
+        public ExpenseResult? expenseResult;
 
         //Load all expense items from the database
         public async Task LoadExpensesItems()
@@ -73,7 +65,7 @@ namespace CaptainsLog.ViewModels
                     "OK");
             }
 
-            
+
             ExpensesItems = new ObservableCollection<ExpensesItem>(items);
         }
 
@@ -83,8 +75,8 @@ namespace CaptainsLog.ViewModels
             expenseSQLList = await expensesSQLTools.GetItemsViaQueryAsync("Select ExpenseDate FROM ExpensesItem ORDER BY Expensedate ASC LIMIT 1");
 
             int monthDifference = GetMonthDifference(expenseSQLList[0].ExpenseDate);
-            if (monthDifference > 0) { 
-            
+            if (monthDifference > 0) {
+
                 var items = GetLastMonths(monthDifference);
                 DateDropDownData = new ObservableCollection<string>(items);
 
@@ -92,6 +84,75 @@ namespace CaptainsLog.ViewModels
 
             expenseSQLList = null;
 
+        }
+
+        //Open the edit expense popup and handle the result
+        public async Task EditExpense(int ID)
+        {
+            var popup = new EditExpensePopup();
+
+            // Safely get the current Page (ShowPopupAsync is an extension for Page)
+            var page = Application.Current?.MainPage as Page;
+            if (page == null)
+                return;
+
+            // Call the extension method on the Page explicitly via the static helper to avoid CS1929
+            var result = await PopupExtensions.ShowPopupAsync<ExpenseResult>(page, popup);
+
+            if (result is not null)
+            {
+                // Store the popup's result in the view model field for later use
+                if (result is IPopupResult<ExpenseResult> popupResult && popupResult.Result is not null)
+                {
+                    
+                    expenseResult = popupResult.Result;
+                    expenseResult.ExpenseID = ID;
+
+                    await WriteEditToDatabase();
+
+                    expenseResult = null;
+                }
+            }
+        }
+
+        //Write the edited expense data back to the database
+        public async Task WriteEditToDatabase()
+        {
+            if (expenseResult != null)
+            {
+                var itemToUpdate = await expensesSQLTools.GetItemAsync(expenseResult.ExpenseID);
+                if (itemToUpdate != null)
+                {
+                    itemToUpdate.ExpenseDesc = expenseResult.ExpenseDesc;
+                    // Fix: Convert string to decimal before assignment
+                    if (decimal.TryParse(expenseResult.Amount, out var amount))
+                    {
+                        itemToUpdate.Amount = amount;
+                    }
+                    else
+                    {
+                        // Handle invalid input (e.g., set to 0 or show an error)
+                        itemToUpdate.Amount = 0;
+                    }
+
+                    //Update database
+                    await expensesSQLTools.SaveItemAsync(itemToUpdate);
+
+
+                    if (FilterApplied)
+                    {
+                        //Re-apply filters to show updated data
+                        await ApplyFilters();
+                    } else
+                    {
+                        //Refresh to show everything
+                        await LoadExpensesItems();
+                    }
+
+                        
+                    
+                }
+            }
         }
 
 
@@ -128,32 +189,45 @@ namespace CaptainsLog.ViewModels
                 File = new ShareFile(filePath)
             });
 
-
-
         }
 
         //Apply filters to the expenses list show on screen
         private async Task ApplyFilters()
         {
+
+            if (string.IsNullOrEmpty(SelectedMonth))
+            {
+                SelectedMonth = "All";
+            }
+
+            if (string.IsNullOrEmpty(SelectedType))
+            {
+                SelectedType = "All";
+            }
+
             if (expenseSQLList == null)
             {
                 expenseSQLList = await expensesSQLTools.GetItemsViaQueryAsync("Select * FROM ExpensesItem ORDER BY Expensedate DESC");
             }
             var filteredList = expenseSQLList.AsEnumerable();
-            if (selectedMonth != "All")
+            if (SelectedMonth != "All")
             {
-                DateTime selectedDateTime = DateTime.ParseExact(selectedMonth, "MMMM yyyy", CultureInfo.InvariantCulture);
+                DateTime selectedDateTime = DateTime.ParseExact(SelectedMonth, "MMMM yyyy", CultureInfo.InvariantCulture);
                 filteredList = filteredList.Where(item =>
                 {
+                    if (string.IsNullOrEmpty(item.ExpenseDate))
+                        return false;
                     DateTime itemDate = DateTime.ParseExact(item.ExpenseDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                     return itemDate.Year == selectedDateTime.Year && itemDate.Month == selectedDateTime.Month;
                 });
             }
-            if (selectedType != "All")
+            if (SelectedType != "All")
             {
                 filteredList = filteredList.Where(item => item.ExpenseType == selectedType);
             }
             ExpensesItems = new ObservableCollection<ExpensesItem>(filteredList);
+
+            FilterApplied = true;
 
             expenseSQLList = null;
         }

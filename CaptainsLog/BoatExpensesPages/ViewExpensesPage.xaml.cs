@@ -18,21 +18,13 @@ public partial class ViewExpensesPage : ContentPage
 	protected override async void OnNavigatedTo(NavigatedToEventArgs args)
 	{
 		base.OnNavigatedTo(args);
-		await _ExpensesViewModel.LoadExpensesItems();
+		if (_ExpensesViewModel.FilterApplied == false)
+		{
+			await _ExpensesViewModel.LoadExpensesItems();
+		}
 		await _ExpensesViewModel.LoadDateDropDown();
     }
 
-    private async void OnEditExpenseClicked(object sender, EventArgs e)
-    {
-        var popup = new EditExpensePopup();
-
-        // result is IPopupResult<ExpenseResult>
-        var result = await this.ShowPopupAsync<ExpenseResult>(popup);
-
-        if (result is not null && result.Result is not null)
-        {
-            //save values to the database
-        }
-    }
+    
 
 }
