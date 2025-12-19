@@ -7,11 +7,64 @@
     x:TypeArguments="local:ExpenseResult"
     x:Class="CaptainsLog.BoatExpensesPages.EditExpensePopup">
 
-    <VerticalStackLayout Padding="20" Spacing="10">
-        <Label Text="Enter Expense Details" FontAttributes="Bold" />
-        <Entry x:Name="ExpenseDescEntry" Placeholder="Description" />
-        <Entry x:Name="AmountEntry" Placeholder="Amount" Keyboard="Numeric" />
-        <Button Text="Save" Clicked="OnSaveClicked" />
-    </VerticalStackLayout>
+    <ScrollView>
+            <VerticalStackLayout Padding="4" Spacing="10">
+
+                <Label
+                    Text="Update Expense"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    Margin="0,4"/>
+
+                <Picker
+                    x:Name="TypePicker"
+                    Title="Type"
+                    HeightRequest="56"
+                    FontSize="16"
+                    Margin="0,2"
+                    IsEnabled="True">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>All</x:String>
+                            <x:String>Fuel (Petrol/Diesel)</x:String>
+                            <x:String>Coal/Logs</x:String>
+                            <x:String>Pumpout/Elsan</x:String>
+                            <x:String>Gas</x:String>
+                            <x:String>Engine Repair</x:String>
+                            <x:String>Hull Maintenance</x:String>
+                            <x:String>Other</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Entry
+                    x:Name="ExpenseDescEntry"
+                    Placeholder="Note"
+                    HeightRequest="56"
+                    FontSize="16"
+                    Margin="0,2"
+                    IsEnabled="True"/>
+
+                <Entry
+                    x:Name="AmountEntry"
+                    Placeholder="Amount"
+                    Keyboard="Numeric"
+                    HeightRequest="56"
+                    FontSize="16"
+                    Margin="0,2"
+                    IsEnabled="True"/>
+
+                <HorizontalStackLayout HorizontalOptions="End" Spacing="8" Margin="0,6,0,0">
+                    <Button
+                        Text="Save"
+                        Clicked="OnSaveClicked"
+                        FontSize="16"
+                        IsEnabled="True"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
 </toolkit:Popup>
 

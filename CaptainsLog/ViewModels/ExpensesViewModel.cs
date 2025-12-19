@@ -123,16 +123,31 @@ namespace CaptainsLog.ViewModels
                 var itemToUpdate = await expensesSQLTools.GetItemAsync(expenseResult.ExpenseID);
                 if (itemToUpdate != null)
                 {
-                    itemToUpdate.ExpenseDesc = expenseResult.ExpenseDesc;
-                    // Fix: Convert string to decimal before assignment
-                    if (decimal.TryParse(expenseResult.Amount, out var amount))
+
+                    // Set all the values that were changed in the popup
+                    // Only update if the value is not null or empty
+                    if (!string.IsNullOrEmpty(expenseResult.ExpenseType))
                     {
-                        itemToUpdate.Amount = amount;
+                        itemToUpdate.ExpenseType = expenseResult.ExpenseType;
                     }
-                    else
+
+                    if (!string.IsNullOrEmpty(expenseResult.ExpenseDesc))
                     {
-                        // Handle invalid input (e.g., set to 0 or show an error)
-                        itemToUpdate.Amount = 0;
+                        itemToUpdate.ExpenseDesc = expenseResult.ExpenseDesc;
+                    }
+
+                    if (!string.IsNullOrEmpty(expenseResult.Amount))
+                    {
+                        // Fix: Convert string to decimal before assignment
+                        if (decimal.TryParse(expenseResult.Amount, out var amount))
+                        {
+                            itemToUpdate.Amount = amount;
+                        }
+                        else
+                        {
+                            // Handle invalid input (e.g., set to 0 or show an error)
+                            itemToUpdate.Amount = 0;
+                        }
                     }
 
                     //Update database
@@ -147,10 +162,7 @@ namespace CaptainsLog.ViewModels
                     {
                         //Refresh to show everything
                         await LoadExpensesItems();
-                    }
-
-                        
-                    
+                    }  
                 }
             }
         }

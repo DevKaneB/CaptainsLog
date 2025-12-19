@@ -10,6 +10,7 @@ namespace CaptainsLog.BoatExpensesPages
     {
 
         public int ExpenseID { get; set; }
+        public string ExpenseType { get; set; } = string.Empty;
         public string ExpenseDesc { get; set; } = string.Empty;
         public string Amount { get; set; } = string.Empty;
 

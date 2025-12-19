@@ -56,9 +56,6 @@
                 Command="{Binding ApplyFiltersCommand}">
         </Button>
 
-
-
-
         <CollectionView Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding ExpensesItems}" Background="Transparent" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ExpensesItem">
