@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using CaptainsLog.BoatProfilePages;
 using CaptainsLog.DatabaseClasses;
@@ -41,20 +42,42 @@ public partial class AddExpenseItemPage : ContentPage
             ExpenseItems = new List<ExpensesItem>();
         }
 
-        // Confirm user wants to add
-        bool answer = await DisplayAlert("Confirm Save", "Are you sure you want to add this expense?", "Yes", "No");
-        if (!answer)
-            return;
+        //Check Expense Item doesnt match existing entry
+        ExpenseItems = await database.GetItemsViaQueryAsync($"SELECT * " +
+                                                            $"FROM ExpensesItem " +
+                                                            $"WHERE ExpenseType = '{TypePicker.Items[TypePicker.SelectedIndex]}' " +
+                                                            $"AND (ExpenseDesc = '{ExpenseReasonEntry.Text}' OR ExpenseDesc IS NULL) " +
+                                                            $"AND ExpenseDate = '{dateSelected}' " +
+                                                            $"AND Amount = {(decimal)(ExpenseAmountEntry.Value ?? 0.0)}");
 
-        // Add the new expense item
-        ExpenseItems.Add(new ExpensesItem
+        if (ExpenseItems.Count > 0)
         {
-            ExpenseType = TypePicker.Items[TypePicker.SelectedIndex],
-            ExpenseDesc = ExpenseReasonEntry.Text,
-            ExpenseDate = dateSelected,
-            ID = 0,
-            Amount = (decimal)(ExpenseAmountEntry.Value ?? 0.0)
-        });
+            bool answer = await DisplayAlert("Confirm Save", "An identical expense item already exists. Do you wish to save anyway", "Yes", "No");
+            if (!answer)
+            {
+                ExpenseItems.Clear();
+                return;
+            }
+        } else
+        {
+            // Confirm user wants to add
+            bool answer = await DisplayAlert("Confirm Save", "Are you sure you want to add this expense?", "Yes", "No");
+            if (!answer)
+            {
+                ExpenseItems.Clear();
+                return;
+            }
+        }
+
+            // Add the new expense item
+            ExpenseItems.Add(new ExpensesItem
+            {
+                ExpenseType = TypePicker.Items[TypePicker.SelectedIndex],
+                ExpenseDesc = ExpenseReasonEntry.Text,
+                ExpenseDate = dateSelected,
+                ID = 0,
+                Amount = (decimal)(ExpenseAmountEntry.Value ?? 0.0)
+            });
 
         //Save to database
         await database.SaveItemAsync(ExpenseItems[0]);

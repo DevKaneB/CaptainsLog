@@ -98,6 +98,8 @@
                                                />
                                     <SwipeItem BackgroundColor="Red"
                                                SemanticProperties.Hint="Delete Expense from Database"
+                                               Command="{Binding Source={x:Reference ViewExpPage}, Path=BindingContext.DeleteExpenseCommand}"
+                                               CommandParameter="{Binding ID}"
                                                Text="Delete" />
                                 </SwipeItems>
                             </SwipeView.RightItems>

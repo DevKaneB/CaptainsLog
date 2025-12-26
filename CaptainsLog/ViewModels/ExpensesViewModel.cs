@@ -20,6 +20,7 @@ namespace CaptainsLog.ViewModels
         public IRelayCommand ApplyFiltersCommand => new RelayCommand(async () => await ApplyFilters());
         public IRelayCommand ExportAsPDFCommand => new RelayCommand(async () => await ExportAsPDF());
         public IRelayCommand EditExpenseCommand => new RelayCommand<int>(async (id) => await EditExpense(id));
+        public IRelayCommand DeleteExpenseCommand => new RelayCommand<int>(async (id) => await DeleteExpense(id));
 
 
         public ExpensesViewModel(ExpensesSQLTools expensesSQLTools)
@@ -111,6 +112,38 @@ namespace CaptainsLog.ViewModels
                     await WriteEditToDatabase();
 
                     expenseResult = null;
+                }
+            }
+        }
+        
+        //Delete Expense Item
+        public async Task DeleteExpense(int ID)
+        {
+            //Confirm deletion with the user
+            var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+            if (page == null)
+                return;
+            var confirmed = await page.DisplayAlert(
+                "Confirm Deletion",
+                "Do you confirm you wish to delete this expense item?",
+                "Yes",
+                "No");
+            if (!confirmed)
+                return;
+
+            var itemToDelete = await expensesSQLTools.GetItemAsync(ID);
+            if (itemToDelete != null)
+            {
+                await expensesSQLTools.DeleteItemAsync(itemToDelete);
+                if (FilterApplied)
+                {
+                    //Re-apply filters to show updated data
+                    await ApplyFilters();
+                }
+                else
+                {
+                    //Refresh to show everything
+                    await LoadExpensesItems();
                 }
             }
         }
