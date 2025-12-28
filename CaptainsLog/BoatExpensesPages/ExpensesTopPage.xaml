@@ -32,10 +32,11 @@
                        Text="Average Expenses"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"/>
-                <Label Grid.Column="0"
+                <Label x:Name="AvgExpensesLbl"
+                       Grid.Column="0"
                        Grid.ColumnSpan="6"
                        Grid.Row="1"
-                       Text="0.00 per week"
+                       Text="0.00"
                        FontSize="40"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"/>
