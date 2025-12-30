@@ -1,4 +1,4 @@
-using CaptainsLog.DatabaseClasses;
+using CaptainsLog.DatabaseClasses.Services;
 using CaptainsLog.ViewModels;
 using System.Threading.Tasks;
 

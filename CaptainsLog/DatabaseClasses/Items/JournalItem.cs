@@ -10,7 +10,7 @@ namespace CaptainsLog.DatabaseClasses.Items
 {
     public class JournalItem : INotifyPropertyChanged
     {
-        private string imageSource;
+        private string imageSource = string.Empty;
         public string ImageSource
         {
             get => imageSource;
@@ -24,7 +24,7 @@ namespace CaptainsLog.DatabaseClasses.Items
 
         public DateTime EntryDate { get; set; }
         public string Title { get; set; }
-        public string Weather { get; set; }
+        public string Location { get; set; }   
         public string Content { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

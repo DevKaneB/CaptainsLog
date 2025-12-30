@@ -269,7 +269,7 @@ namespace CaptainsLog.ViewModels
             }
             if (SelectedType != "All")
             {
-                filteredList = filteredList.Where(item => item.ExpenseType == selectedType);
+                filteredList = filteredList.Where(item => item.ExpenseType == SelectedType);
             }
             ExpensesItems = new ObservableCollection<ExpensesItem>(filteredList);
 

@@ -8,7 +8,7 @@ public partial class ProfileEditPage : ContentPage
     public ProfileEditPage()
 	{
 		InitializeComponent();
-        BindingContext = _profileEditViewModel = new ViewModels.ProfilePageModel(new DatabaseClasses.ProfileJSONTools());
+        BindingContext = _profileEditViewModel = new ViewModels.ProfilePageModel(new DatabaseClasses.Services.ProfileJSONTools());
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
