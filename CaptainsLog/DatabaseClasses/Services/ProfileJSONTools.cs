@@ -1,17 +1,18 @@
-﻿using System;
+﻿using CaptainsLog.DatabaseClasses.Items;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 
-namespace CaptainsLog.DatabaseClasses
+namespace CaptainsLog.DatabaseClasses.Services
 {
     public class ProfileJSONTools
     {
-        ProfileItem profileItem;
+        private ProfileItem? profileItem;
 
         async Task init()
         {
-            if (!File.Exists(Constants.JSONDatabasePath))
+            if (!File.Exists(Constants.ProfileJSONDatabasePath))
             {
                 profileItem = new ProfileItem();
                 return;
@@ -19,7 +20,7 @@ namespace CaptainsLog.DatabaseClasses
 
             try
             {
-                string json = await File.ReadAllTextAsync(Constants.JSONDatabasePath);
+                string json = await File.ReadAllTextAsync(Constants.ProfileJSONDatabasePath);
                 if (string.IsNullOrWhiteSpace(json))
                 {
                     return;
@@ -55,7 +56,7 @@ namespace CaptainsLog.DatabaseClasses
                     WriteIndented = true
                 };
                 string json = JsonSerializer.Serialize(item, options);
-                await File.WriteAllTextAsync(Constants.JSONDatabasePath, json);
+                await File.WriteAllTextAsync(Constants.ProfileJSONDatabasePath, json);
             }
             catch (Exception ex)
             {

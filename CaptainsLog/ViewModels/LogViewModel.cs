@@ -1,4 +1,5 @@
-﻿using CaptainsLog.DatabaseClasses;
+﻿using CaptainsLog.DatabaseClasses.Items;
+using CaptainsLog.DatabaseClasses.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;

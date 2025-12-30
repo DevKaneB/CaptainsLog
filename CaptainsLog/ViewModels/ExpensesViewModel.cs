@@ -1,5 +1,4 @@
 ﻿using CaptainsLog.BoatExpensesPages;
-using CaptainsLog.DatabaseClasses;
 using CaptainsLog.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -7,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Core;
+using CaptainsLog.DatabaseClasses.Items;
+using CaptainsLog.DatabaseClasses.Services;
 
 
 namespace CaptainsLog.ViewModels

@@ -1,4 +1,5 @@
-using CaptainsLog.DatabaseClasses;
+using CaptainsLog.DatabaseClasses.Items;
+using CaptainsLog.DatabaseClasses.Services;
 using Syncfusion.Maui.Picker;
 using System.Diagnostics;
 

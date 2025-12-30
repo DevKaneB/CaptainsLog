@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 
-namespace CaptainsLog.DatabaseClasses
+namespace CaptainsLog.DatabaseClasses.Items
 {
     public class ExpensesItem
     {

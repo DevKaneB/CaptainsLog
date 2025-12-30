@@ -1,4 +1,4 @@
-﻿using CaptainsLog.DatabaseClasses;
+﻿using CaptainsLog.DatabaseClasses.Items;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Grid;

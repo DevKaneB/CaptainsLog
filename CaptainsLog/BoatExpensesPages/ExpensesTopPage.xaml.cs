@@ -1,5 +1,5 @@
 using CaptainsLog.BoatProfilePages;
-using CaptainsLog.DatabaseClasses;
+using CaptainsLog.DatabaseClasses.Services;
 using System.Diagnostics;
 
 namespace CaptainsLog.BoatExpensesPages;

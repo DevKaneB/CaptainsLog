@@ -1,5 +1,4 @@
-﻿using CaptainsLog.DatabaseClasses;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -9,6 +8,8 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using System.Diagnostics;
 using CaptainsLog.BoatProfilePages;
+using CaptainsLog.DatabaseClasses.Items;
+using CaptainsLog.DatabaseClasses.Services;
 
 namespace CaptainsLog.ViewModels
 {

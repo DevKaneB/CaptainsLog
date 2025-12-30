@@ -2,7 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using CaptainsLog.BoatProfilePages;
-using CaptainsLog.DatabaseClasses;
+using CaptainsLog.DatabaseClasses.Items;
+using CaptainsLog.DatabaseClasses.Services;
 
 namespace CaptainsLog.BoatExpensesPages;
 

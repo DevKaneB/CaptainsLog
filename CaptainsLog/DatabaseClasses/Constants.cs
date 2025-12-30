@@ -22,13 +22,19 @@ namespace CaptainsLog.DatabaseClasses
         public static string SQLDatabasePath =>
             Path.Combine(FileSystem.AppDataDirectory, SQLDatabaseFilename);
 
-        //JSON Database Variables
-        public static string JSONDatabaseFilename = "ProfilePageDataJSON.json";
+        //Profile JSON Database Variables
+        public static string ProfileJSONDatabaseFilename = "ProfileData.json";
 
-        public static string JSONDatabasePath =>
-            Path.Combine(FileSystem.AppDataDirectory, JSONDatabaseFilename);
+        public static string ProfileJSONDatabasePath =>
+            Path.Combine(FileSystem.AppDataDirectory, ProfileJSONDatabaseFilename);
 
         public static string ProfileImageFilename =>
             Path.Combine(FileSystem.AppDataDirectory, "BoatPicture.png");
+
+        //Journal JSON Database Variables
+        public static string JournalJSONDatabaseFilename = "JournalData.json";
+
+        public static string JournalJSONDatabasePath =>
+            Path.Combine(FileSystem.AppDataDirectory, JournalJSONDatabaseFilename);
     }
 }
