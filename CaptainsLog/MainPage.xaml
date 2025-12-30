@@ -36,6 +36,12 @@
                 Clicked="BoatExpClicked"
                 HorizontalOptions="Fill" />
 
+            <Button
+                Text="Journal" 
+                SemanticProperties.Hint="Log your life!"
+                Clicked="JournalClicked"
+                HorizontalOptions="Fill" />
+
         </VerticalStackLayout>
 
 
