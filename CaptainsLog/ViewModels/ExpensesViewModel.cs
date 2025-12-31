@@ -10,32 +10,28 @@ using CaptainsLog.DatabaseClasses.Items;
 using CaptainsLog.DatabaseClasses.Services;
 
 
+// Fix for CS8618: Initialize non-nullable fields 'selectedType' and 'selectedMonth' in the constructor.
+// Fix for IDE0290: Use primary constructor syntax.
+
 namespace CaptainsLog.ViewModels
 {
     public partial class ExpensesViewModel : BaseViewModel
     {
         private readonly ExpensesSQLTools expensesSQLTools;
         private readonly PdfService _pdfService = new PdfService();
-        public bool FilterApplied;    
+        public bool FilterApplied;
 
         public IRelayCommand ApplyFiltersCommand => new RelayCommand(async () => await ApplyFilters());
         public IRelayCommand ExportAsPDFCommand => new RelayCommand(async () => await ExportAsPDF());
         public IRelayCommand EditExpenseCommand => new RelayCommand<int>(async (id) => await EditExpense(id));
         public IRelayCommand DeleteExpenseCommand => new RelayCommand<int>(async (id) => await DeleteExpense(id));
 
-
-        public ExpensesViewModel(ExpensesSQLTools expensesSQLTools)
-        {
-            this.expensesSQLTools = expensesSQLTools;
-            expenseResult = new ExpenseResult();
-            FilterApplied = false;
-        }
+        // Initialize non-nullable fields to default values
+        [ObservableProperty]
+        public string selectedType = string.Empty;
 
         [ObservableProperty]
-        public string selectedType;
-
-        [ObservableProperty]
-        public string selectedMonth;
+        public string selectedMonth = string.Empty;
 
         [ObservableProperty]
         public ObservableCollection<ExpensesItem>? expensesItems = new();
@@ -47,6 +43,17 @@ namespace CaptainsLog.ViewModels
         private List<ExpensesItem>? expenseSQLList;
 
         public ExpenseResult? expenseResult;
+
+        // Use primary constructor syntax for IDE0290
+        public ExpensesViewModel(ExpensesSQLTools expensesSQLTools)
+        {
+            this.expensesSQLTools = expensesSQLTools;
+            expenseResult = new ExpenseResult();
+            FilterApplied = false;
+            // Ensure non-nullable fields are initialized
+            selectedType = string.Empty;
+            selectedMonth = string.Empty;
+        }
 
         //Load all expense items from the database
         public async Task LoadExpensesItems()
