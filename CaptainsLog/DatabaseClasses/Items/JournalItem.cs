@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,25 +9,15 @@ using System.Threading.Tasks;
 
 namespace CaptainsLog.DatabaseClasses.Items
 {
-    public class JournalItem : INotifyPropertyChanged
+    public class JournalItem
     {
-        private string imageSource = string.Empty;
-        public string ImageSource
-        {
-            get => imageSource;
-            set
-            {
-                if (imageSource == value) return;
-                imageSource = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageSource)));
-            }
-        }
-
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
         public DateTime EntryDate { get; set; }
+        public string PicturePath { get; set; }
         public string Title { get; set; }
         public string Location { get; set; }   
         public string Content { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

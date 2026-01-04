@@ -12,7 +12,7 @@ namespace CaptainsLog.ViewModels
 {
     public partial class JournalViewModel : BaseViewModel
     {
-        private readonly JournalJSONTools _journalJSONTools;
+        private readonly JournalSQLTools _journalSQLTools;
 
         [ObservableProperty]
         public ObservableCollection<JournalItem>? journalItems = new();
@@ -27,9 +27,9 @@ namespace CaptainsLog.ViewModels
         [ObservableProperty]
         public string journalContent = string.Empty;
 
-        public JournalViewModel(JournalJSONTools journalJSONTools)
+        public JournalViewModel(JournalSQLTools journalJSONTools)
         {
-            _journalJSONTools = journalJSONTools;
+            _journalSQLTools = journalJSONTools;
         }
     }
 }

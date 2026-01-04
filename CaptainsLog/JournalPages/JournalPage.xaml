@@ -7,7 +7,7 @@
 
     <Grid RowDefinitions="*,Auto">
 
-        <ScrollView>
+        <ScrollView Grid.Row="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -74,7 +74,7 @@
                 HorizontalOptions="Fill"
                 VerticalOptions="End" />
         <Button Grid.Row="2"
-                Text="SAVE"
+                Text="Next Page"
                 HorizontalOptions="Fill"
                 VerticalOptions="End" />
 

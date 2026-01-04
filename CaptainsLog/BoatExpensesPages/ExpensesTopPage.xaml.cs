@@ -1,5 +1,6 @@
 using CaptainsLog.BoatProfilePages;
 using CaptainsLog.DatabaseClasses.Services;
+using CaptainsLog.DatabaseClasses.Items;
 using System.Diagnostics;
 
 namespace CaptainsLog.BoatExpensesPages;
@@ -7,8 +8,9 @@ namespace CaptainsLog.BoatExpensesPages;
 public partial class ExpensesTopPage : ContentPage
 {
     ExpensesSQLTools SQLTools;
+    List<ExpensesItem> ExpenseItems = new List<ExpensesItem>();
 
-	public ExpensesTopPage()
+    public ExpensesTopPage()
 	{
 		InitializeComponent();
         SQLTools = new ExpensesSQLTools();
@@ -73,6 +75,24 @@ public partial class ExpensesTopPage : ContentPage
 
     async void OnViewExpensesClicked(object? sender, EventArgs e)
     {
+        ExpenseItems = await SQLTools.GetItemsViaQueryAsync("Select * FROM ExpensesItem ORDER BY Expensedate DESC");
+
+        if (ExpenseItems.Count == 0)
+        {
+            // Get the current page safely
+            var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+            // If no page is available, cancel the alert to avoid throwing
+            if (page == null)
+                return;
+            // Inform the user that there are no expense items
+            await page.DisplayAlert(
+                "Alert",
+                "There is currently nothing added to show!",
+                "OK");
+
+            return;
+        }
+
         var window = Application.Current?.Windows.FirstOrDefault();
         var navigation = window?.Page?.Navigation;
         if (navigation != null)

@@ -60,21 +60,6 @@ namespace CaptainsLog.ViewModels
         {
             var items = await expensesSQLTools.GetItemsViaQueryAsync("Select * FROM ExpensesItem ORDER BY Expensedate DESC");
 
-            if (items.Count == 0)
-            {
-                // Get the current page safely
-                var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
-                // If no page is available, cancel the alert to avoid throwing
-                if (page == null)
-                    return;
-                // Inform the user that there are no expense items
-                await page.DisplayAlert(
-                    "Alert",
-                    "There are currently nothing added to show!",
-                    "OK");
-            }
-
-
             ExpensesItems = new ObservableCollection<ExpensesItem>(items);
         }
 
