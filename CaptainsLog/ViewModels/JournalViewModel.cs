@@ -21,11 +21,13 @@ namespace CaptainsLog.ViewModels
         [ObservableProperty]
         public string journalPicturePath = string.Empty;
         [ObservableProperty]
-        public string journalDate = string.Empty;
+        public DateTime journalEntryDate = DateTime.Now;
         [ObservableProperty]
         public string journalTitle = string.Empty;
         [ObservableProperty]
         public string journalContent = string.Empty;
+        [ObservableProperty]
+        public string journalLocation = string.Empty;
 
         public JournalViewModel(JournalSQLTools journalJSONTools)
         {
