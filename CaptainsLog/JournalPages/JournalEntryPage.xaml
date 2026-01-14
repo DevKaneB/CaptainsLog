@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
+             x:Class="CaptainsLog.JournalPages.JournalEntryPage"
+             Title="JournalEntryPage"
+             x:DataType="vm:JournalViewModel"
+             x:Name="JournalEntryPge">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView>
+            <VerticalStackLayout>
+                <Label 
+            Text="{Binding JournalEntryDate}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Label 
+            Text="{Binding JournalTitle}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Image
+            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+            x:Name="BoatImage"
+            HeightRequest="185"
+            Aspect="AspectFit"
+            Source="{Binding JournalPicturePath}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PickPhotoCommand}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Label 
+            Text="{Binding JournalLocation}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Label 
+            Text="{Binding JournalContent}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Fixed button area at bottom -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,*">
+            <Button Grid.Column="0"
+                  Text="Previous Page"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="End"/>
+            <Button Grid.Column="1"
+                  Text="Next Page"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="End" />
+        </Grid>
+
+
+    </Grid>
+</ContentPage>

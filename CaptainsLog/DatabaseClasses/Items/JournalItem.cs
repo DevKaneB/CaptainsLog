@@ -13,7 +13,7 @@ namespace CaptainsLog.DatabaseClasses.Items
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public DateTime EntryDate { get; set; }
+        public string EntryDate { get; set; }
         public string PicturePath { get; set; }
         public string Title { get; set; }
         public string Location { get; set; }   

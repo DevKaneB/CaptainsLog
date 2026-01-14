@@ -36,7 +36,11 @@
                 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
                 x:Name="BoatImage"
                 HeightRequest="185"
-                Aspect="AspectFit">
+                Aspect="AspectFit"
+                    Source="{Binding JournalPicturePath}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PickPhotoCommand}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
                 </Image>
 
                 <picker:SfDatePicker
@@ -81,7 +85,8 @@
             <Button Grid.Column="0"
                     Text="SAVE"
                     HorizontalOptions="Fill"
-                    VerticalOptions="End" />
+                    VerticalOptions="End" 
+                    Command="{Binding SaveJournalEntryCommand}"/>
             <Button Grid.Column="1"
                     Text="Next Page"
                     HorizontalOptions="Fill"
