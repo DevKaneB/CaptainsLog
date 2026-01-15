@@ -90,7 +90,8 @@
             <Button Grid.Column="1"
                     Text="Next Page"
                     HorizontalOptions="Fill"
-                    VerticalOptions="End" />
+                    VerticalOptions="End" 
+                    Command="{Binding OpenJournalEntryPageCommand}"/>
         </Grid>
 
     </Grid>

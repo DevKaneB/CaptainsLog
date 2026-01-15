@@ -1,19 +1,10 @@
 ﻿using CaptainsLog.DatabaseClasses.Items;
 using CaptainsLog.DatabaseClasses.Services;
+using CaptainsLog.JournalPages; // For DisplayAlert
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui; // For Application reference if needed
-using Microsoft.Maui.Storage; // For MediaPicker
-using Microsoft.Maui.Controls;
-using CaptainsLog.JournalPages; // For DisplayAlert
 
 namespace CaptainsLog.ViewModels
 {
@@ -138,13 +129,6 @@ namespace CaptainsLog.ViewModels
             JournalLocation = string.Empty;
         }
 
-        // Add this method to JournalViewModel to resolve CS0103 for ShowAlertAsync
-        private async Task ShowAlertAsync(string title, string message, string cancel)
-        {
-            // If using MAUI, you can use Application.Current.MainPage.DisplayAlert
-            await Application.Current.MainPage.DisplayAlert(title, message, cancel);
-        }
-
         // PSEUDOCODE / PLAN:
         // 1. Create an async command method named `OpenJournalEntryPageAsync` with [RelayCommand].
         // 2. Instantiate a new `JournalEntryPage` page.
@@ -160,6 +144,16 @@ namespace CaptainsLog.ViewModels
         {
             try
             {
+                JournalItems = new ObservableCollection<JournalItem>(await _journalSQLTools.GetItemsAsync());
+
+                if (JournalItems == null || JournalItems.Count == 0)
+                {
+                    await ShowAlertAsync("No Entries", "There are no journal entries to display.", "OK");
+                    return;
+                }
+
+                await UpdateCurrentID();
+
                 // Create the page and supply this view model as its BindingContext
                 var page = new JournalEntryPage
                 {
@@ -189,6 +183,54 @@ namespace CaptainsLog.ViewModels
                 await ShowAlertAsync("Navigation Error", $"Failed to open JournalEntryPage: {ex.Message}", "OK");
             }
         }
+
+        // Add this method to JournalViewModel to resolve CS0103 for ShowAlertAsync
+        private async Task ShowAlertAsync(string title, string message, string cancel)
+        {
+            // If using MAUI, you can use Application.Current.MainPage.DisplayAlert
+            await Application.Current.MainPage.DisplayAlert(title, message, cancel);
+        }
+
+        // Method to update CurrentID based on JournalEntryDate
+        private async Task UpdateCurrentID()
+        {
+            if (CurrentID == 0)
+            {
+                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync("SELECT ID FROM JournalItem WHERE EntryDate  >= DATE('now') ORDER BY EntryDate ASC LIMIT 1");
+                CurrentID = ReadEntry[0].ID;
+            }
+            else
+            {
+
+                // Convert JournalEntryDate to a date-only value formatted as "yyyy-MM-dd",
+                // then parse back to DateTime to ensure the time component is 00:00:00.
+                var entryDateString = JournalEntryDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                var entryDate = DateTime.ParseExact(entryDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync($"SELECT ID FROM JournalItem WHERE EntryDate >= {entryDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)} ORDER BY EntryDate ASC LIMIT 1");
+                CurrentID = ReadEntry[0].ID;
+
+            }
+        }
+
+        [RelayCommand]
+        private async Task LoadEntryPageData()
+        {
+                       var entry = await _journalSQLTools.GetItemAsync(CurrentID);
+            if (entry != null)
+            {
+                JournalPicturePath = entry.PicturePath;
+                JournalEntryDate = DateTime.ParseExact(entry.EntryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                JournalTitle = entry.Title;
+                JournalContent = entry.Content;
+                JournalLocation = entry.Location;
+            }
+
+        }
+
+
+
+
 
     }
 }

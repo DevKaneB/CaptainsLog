@@ -12,5 +12,7 @@ public partial class JournalEntryPage : ContentPage
 		InitializeComponent();
 
         BindingContext = _journalViewModel = new JournalViewModel(new DatabaseClasses.Services.JournalSQLTools());
+
+        _journalViewModel.LoadEntryPageDataCommand.Execute(null);
     }
 }
