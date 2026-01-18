@@ -12,11 +12,11 @@
         <ScrollView>
             <VerticalStackLayout>
                 <Label 
-            Text="{Binding JournalEntryDate}"
+            Text="{Binding JournalVEntryDate}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
                 <Label 
-            Text="{Binding JournalTitle}"
+            Text="{Binding JournalVTitle}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
                 <Image
@@ -24,17 +24,17 @@
             x:Name="BoatImage"
             HeightRequest="185"
             Aspect="AspectFit"
-            Source="{Binding JournalPicturePath}">
+            Source="{Binding JournalVPicturePath}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding PickPhotoCommand}" NumberOfTapsRequired="1" />
                     </Image.GestureRecognizers>
                 </Image>
                 <Label 
-            Text="{Binding JournalLocation}"
+            Text="{Binding JournalVLocation}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
                 <Label 
-            Text="{Binding JournalContent}"
+            Text="{Binding JournalVContent}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
             </VerticalStackLayout>
@@ -45,11 +45,13 @@
             <Button Grid.Column="0"
                   Text="Previous Page"
                   HorizontalOptions="Fill"
-                  VerticalOptions="End"/>
+                  VerticalOptions="End"
+                    Command="{Binding NextPageCommand}"/>
             <Button Grid.Column="1"
                   Text="Next Page"
                   HorizontalOptions="Fill"
-                  VerticalOptions="End" />
+                  VerticalOptions="End"
+                    Command="{Binding PrevPageCommand}"/>
         </Grid>
 
 

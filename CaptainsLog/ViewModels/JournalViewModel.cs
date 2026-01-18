@@ -4,6 +4,7 @@ using CaptainsLog.JournalPages; // For DisplayAlert
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace CaptainsLog.ViewModels
@@ -12,14 +13,15 @@ namespace CaptainsLog.ViewModels
     {
         private readonly JournalSQLTools _journalSQLTools;
 
+        private int CurrentID = 0;
+
         [ObservableProperty]
         public ObservableCollection<JournalItem>? journalItems = new();
-
-        private static int CurrentID = 0;
 
         // Journal Entry Properties
         [ObservableProperty]
         public string journalPicturePath = "photodefault.jpg";
+        public string SavedJournalPicturePath { get; set; }
         [ObservableProperty]
         public DateTime journalEntryDate = DateTime.Now;
         [ObservableProperty]
@@ -28,6 +30,18 @@ namespace CaptainsLog.ViewModels
         public string journalContent = string.Empty;
         [ObservableProperty]
         public string journalLocation = string.Empty;
+
+        // Journal Entry Properties
+        [ObservableProperty]
+        public string journalVPicturePath = "photodefault.jpg";
+        [ObservableProperty]
+        public DateTime journalVEntryDate = DateTime.Now;
+        [ObservableProperty]
+        public string journalVTitle = string.Empty;
+        [ObservableProperty]
+        public string journalVContent = string.Empty;
+        [ObservableProperty]
+        public string journalVLocation = string.Empty;
 
         public JournalViewModel(JournalSQLTools journalJSONTools)
         {
@@ -74,6 +88,7 @@ namespace CaptainsLog.ViewModels
                 {
                     // set to the local file path (MAUI Image accepts local file path strings)
                     JournalPicturePath = filePath;
+                    SavedJournalPicturePath = Path.Combine(folderName, fileName);
                 }
             }
             catch (PermissionException)
@@ -112,33 +127,16 @@ namespace CaptainsLog.ViewModels
 
             var newEntry = new JournalItem
             {
-                ID = 0, // ID will be set by the database
-                PicturePath = JournalPicturePath,
+                ID = CurrentID, // ID will be set by the database
+                PicturePath = SavedJournalPicturePath,
                 EntryDate = entryDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), // Convert DateTime to string
                 Title = JournalTitle,
                 Content = JournalContent,
                 Location = JournalLocation
             };
             await _journalSQLTools.SaveItemAsync(newEntry);
-            JournalItems?.Add(newEntry);
-            // Clear input fields after saving
-            JournalPicturePath = "photodefault.jpg";
-            JournalEntryDate = DateTime.Now;
-            JournalTitle = string.Empty;
-            JournalContent = string.Empty;
-            JournalLocation = string.Empty;
         }
 
-        // PSEUDOCODE / PLAN:
-        // 1. Create an async command method named `OpenJournalEntryPageAsync` with [RelayCommand].
-        // 2. Instantiate a new `JournalEntryPage` page.
-        // 3. Optionally set the page's BindingContext (use `this` so the page can bind to this view model).
-        // 4. Attempt navigation:
-        //    - If Application.Current.MainPage has a Navigation stack, use PushAsync(page).
-        //    - Else if running with Shell, try Shell.Current.GoToAsync with the route name as a fallback.
-        //    - If no navigation available, show an alert explaining the error.
-        // 5. Wrap navigation in try/catch and report any exceptions via ShowAlertAsync.
-        // 6. Mark method with [RelayCommand] so the UI can bind to `OpenJournalEntryPageCommand`.
         [RelayCommand]
         private async Task OpenJournalEntryPageAsync()
         {
@@ -151,8 +149,6 @@ namespace CaptainsLog.ViewModels
                     await ShowAlertAsync("No Entries", "There are no journal entries to display.", "OK");
                     return;
                 }
-
-                await UpdateCurrentID();
 
                 // Create the page and supply this view model as its BindingContext
                 var page = new JournalEntryPage
@@ -191,46 +187,168 @@ namespace CaptainsLog.ViewModels
             await Application.Current.MainPage.DisplayAlert(title, message, cancel);
         }
 
-        // Method to update CurrentID based on JournalEntryDate
-        private async Task UpdateCurrentID()
+        //Load the diary View Pages
+        public async Task LoadEntryPageData()
         {
-            if (CurrentID == 0)
-            {
-                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync("SELECT ID FROM JournalItem WHERE EntryDate  >= DATE('now') ORDER BY EntryDate ASC LIMIT 1");
-                CurrentID = ReadEntry[0].ID;
+            try 
+            { 
+                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync("SELECT * FROM JournalItem WHERE EntryDate  <= DATE('now') ORDER BY EntryDate DESC LIMIT 1");
+                var photopath = "photodefault.jpg";
+                var LocationString = string.Empty;
+
+                if (ReadEntry != null && ReadEntry.Count != 0)
+                {
+                    if (ReadEntry[0].PicturePath != null)
+                    {
+                        photopath = Path.Combine(FileSystem.AppDataDirectory, ReadEntry[0].PicturePath);
+                    }
+                    if (ReadEntry[0].Location != null)
+                    {
+                        LocationString = ReadEntry[0].Location;
+                    }
+
+                    CurrentID = ReadEntry[0].ID;
+                    // Resolve and assign an image path usable by MAUI Image
+                    JournalVPicturePath = photopath;
+                    JournalVEntryDate = DateTime.ParseExact(ReadEntry[0].EntryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    JournalVTitle = ReadEntry[0].Title;
+                    JournalVContent = ReadEntry[0].Content;
+                    JournalVLocation = LocationString;
+                }        
             }
-            else
+            catch (Exception ex)
             {
+                CurrentID = 0;
+            }
+        }
+        // This method is automatically called whenever the date changes
+        async partial void OnJournalEntryDateChanged(DateTime value)
+        {
+            try
+            {
+                // Handle exceptions as needed
 
                 // Convert JournalEntryDate to a date-only value formatted as "yyyy-MM-dd",
                 // then parse back to DateTime to ensure the time component is 00:00:00.
                 var entryDateString = JournalEntryDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                 var entryDate = DateTime.ParseExact(entryDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                var SQLDate = entryDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync($"SELECT ID FROM JournalItem WHERE EntryDate >= {entryDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)} ORDER BY EntryDate ASC LIMIT 1");
-                CurrentID = ReadEntry[0].ID;
+                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync($"SELECT * FROM JournalItem WHERE EntryDate = '{SQLDate}' LIMIT 1");
 
+                var photopath = "photodefault.jpg";
+                var LocationString = string.Empty;
+
+                if (ReadEntry != null && ReadEntry.Count != 0)
+                {
+                    //Catch Null Value
+                    if (ReadEntry[0].PicturePath != null)
+                    {
+                        photopath = Path.Combine(FileSystem.AppDataDirectory, ReadEntry[0].PicturePath);
+                    }
+
+                    //Catch Null Value
+                    if (ReadEntry[0].Location != null)
+                    {
+                        LocationString = ReadEntry[0].Location;
+                    }
+
+                    CurrentID = ReadEntry[0].ID;
+                    // Resolve and assign an image path usable by MAUI Image
+                    JournalPicturePath = photopath;
+                    SavedJournalPicturePath = ReadEntry[0].PicturePath;
+                    JournalTitle = ReadEntry[0].Title;
+                    JournalContent = ReadEntry[0].Content;
+                    JournalLocation = LocationString;
+                }
+                else
+                {
+                    //Clear records if date changed 
+                    CurrentID = 0;
+                    JournalPicturePath = "photodefault.jpg";
+                    SavedJournalPicturePath = "photodefault.jpg";
+                    JournalTitle = string.Empty;
+                    JournalContent = string.Empty;
+                    JournalLocation = LocationString;
+
+                }
             }
-        }
-
-        [RelayCommand]
-        private async Task LoadEntryPageData()
-        {
-                       var entry = await _journalSQLTools.GetItemAsync(CurrentID);
-            if (entry != null)
+            catch (Exception ex)
             {
-                JournalPicturePath = entry.PicturePath;
-                JournalEntryDate = DateTime.ParseExact(entry.EntryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                JournalTitle = entry.Title;
-                JournalContent = entry.Content;
-                JournalLocation = entry.Location;
+                Debug.WriteLine($"Error loading journal entry for date {value}: {ex.Message}");
             }
-
         }
+        [RelayCommand]
+        private async Task NextPage()
+        {
+            try
+            {
+                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync($"SELECT * FROM JournalItem WHERE EntryDate  > " +
+                                                                             $"( " +
+                                                                             $"select EntryDate From JournalItem Where ID = {CurrentID}" +
+                                                                             $") " +
+                                                                             $"ORDER BY EntryDate ASC LIMIT 1");
 
+                var photopath = "photodefault.jpg";
+                var LocationString = string.Empty;
 
+                if (ReadEntry != null && ReadEntry.Count != 0)
+                {
+                    if (ReadEntry[0].PicturePath != null)
+                    {
+                        photopath = Path.Combine(FileSystem.AppDataDirectory, ReadEntry[0].PicturePath);
+                    }
+                    if (ReadEntry[0].Location != null)
+                    {
+                        LocationString = ReadEntry[0].Location;
+                    }
 
-
-
+                    CurrentID = ReadEntry[0].ID;
+                    // Resolve and assign an image path usable by MAUI Image
+                    JournalVPicturePath = Path.Combine(FileSystem.AppDataDirectory, ReadEntry[0].PicturePath);
+                    JournalVEntryDate = DateTime.ParseExact(ReadEntry[0].EntryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    JournalVTitle = ReadEntry[0].Title;
+                    JournalVContent = ReadEntry[0].Content;
+                    JournalVLocation = ReadEntry[0].Location;
+                } else
+                {
+                    await ShowAlertAsync("End of Entries", "There are no more journal entries to show.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                CurrentID = 0;
+            }
+        }
+        [RelayCommand]
+        private async Task PrevPage()
+        {
+            try
+            {
+                var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync($"SELECT * FROM JournalItem WHERE EntryDate <" +
+                                                                             $"( " +
+                                                                             $"select EntryDate From JournalItem Where ID = {CurrentID}" +
+                                                                             $") " +
+                                                                             $"ORDER BY EntryDate DESC LIMIT 1");
+                if (ReadEntry != null && ReadEntry.Count != 0)
+                {
+                    CurrentID = ReadEntry[0].ID;
+                    // Resolve and assign an image path usable by MAUI Image
+                    JournalVPicturePath = Path.Combine(FileSystem.AppDataDirectory, ReadEntry[0].PicturePath);
+                    JournalVEntryDate = DateTime.ParseExact(ReadEntry[0].EntryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    JournalVTitle = ReadEntry[0].Title;
+                    JournalVContent = ReadEntry[0].Content;
+                    JournalVLocation = ReadEntry[0].Location;
+                }
+                else
+                {
+                    await ShowAlertAsync("End of Entries", "There are no more journal entries to show.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                CurrentID = 0;
+            }
+        }
     }
 }

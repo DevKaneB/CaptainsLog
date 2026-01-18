@@ -4,15 +4,18 @@ namespace CaptainsLog.JournalPages;
 
 public partial class JournalEntryPage : ContentPage
 {
-
-    private readonly JournalViewModel _journalViewModel;
-
     public JournalEntryPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
+    }
 
-        BindingContext = _journalViewModel = new JournalViewModel(new DatabaseClasses.Services.JournalSQLTools());
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
 
-        _journalViewModel.LoadEntryPageDataCommand.Execute(null);
+        if (BindingContext is JournalViewModel vm)
+        {
+            await vm.LoadEntryPageData();
+        }
     }
 }
