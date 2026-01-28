@@ -1,50 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CaptainsLog.MainPage">
-
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
-
-            <Label
-                Text="Skippers Log"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
-
-            <Button
-                Text="Boat Profile" 
-                SemanticProperties.Hint="Your boats profile"
-                Clicked="OnBoatProfileClicked"
-                HorizontalOptions="Fill" />
-
-            <Button
-                Text="Diesel Calculator" 
-                SemanticProperties.Hint="Log your leisure and propulsion hours to see the actual percentages"
-                Clicked="DieselCalcClicked"
-                HorizontalOptions="Fill" />
-
-            <Button
-                Text="Expenses" 
-                SemanticProperties.Hint="Log your expenses to see how much it costs to run the boat"
-                Clicked="BoatExpClicked"
-                HorizontalOptions="Fill" />
-
-            <Button
-                Text="Journal" 
-                SemanticProperties.Hint="Log your life!"
-                Clicked="JournalClicked"
-                HorizontalOptions="Fill" />
-
-        </VerticalStackLayout>
+             x:Class="CaptainsLog.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#A7CFCF">
 
 
-    </ScrollView>
+    <Grid RowSpacing="0"
+      ColumnSpacing="20">
+        <!-- Define number of rows and columns -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="175"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6"
+                Source="narrownoteslogo.png"
+                Aspect="AspectFit"/>
+
+        <ImageButton Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+                     CornerRadius="40"
+                     Source="profilepic.png"
+                     Clicked="OnBoatProfileClicked"
+                     HorizontalOptions="Fill"/>
+
+        <ImageButton Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"
+                     CornerRadius="40"
+                     Source="dieselpic.png"
+                     Clicked="DieselCalcClicked"/>
+
+        <ImageButton Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                     CornerRadius="40"
+                     Source="expenses.png"
+                     Clicked="BoatExpClicked"/>
+
+        <ImageButton Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2"
+                     CornerRadius="40"
+                     Source="diarypic.png"
+                     Clicked="JournalClicked"/>
+    </Grid>
 
 </ContentPage>
