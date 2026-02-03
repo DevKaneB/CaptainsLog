@@ -38,6 +38,21 @@ namespace CaptainsLog.ViewModels
             }
         }
 
+        // Fix for CS0136 and CA1826:
+        // - CS0136: Avoid redeclaring 'window' in nested scopes by renaming local variables.
+        // - CA1826: Do not use LINQ's FirstOrDefault() on indexable collections; use direct indexing if possible.
+
+        [RelayCommand]
+        private async Task BackButtonClicked()
+        {
+            var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+            var navigation = mainWindow?.Page?.Navigation;
+            if (navigation != null)
+            {
+                await navigation.PopAsync();
+            }
+        }
+
         // This generates a PickPhotoCommand that the ProfileEditPage can bind to.
         [RelayCommand]
         private async Task PickPhotoAsync()
@@ -111,8 +126,11 @@ namespace CaptainsLog.ViewModels
             if (profileItem == null)
             {
                 ProfileItems = new ObservableCollection<ProfileItem>();
-                return;
+
+                
             }
+
+         
 
             try
             {
@@ -213,8 +231,6 @@ namespace CaptainsLog.ViewModels
                     // Optional: refresh the view model so the UI reflects persisted state
                     await LoadProfileItemsAsync();
 
-                    // Show confirmation to the user
-                    await ShowAlertAsync("Saved", "Profile saved successfully.", "OK");
                 }
                 catch (Exception ex)
                 {
@@ -227,13 +243,20 @@ namespace CaptainsLog.ViewModels
                 // Nothing to save: inform the user via the shared alert helper.
                 await ShowAlertAsync("Save", "Nothing to save.", "OK");
             }
+
+            var mainWindow2 = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+            var navigation2 = mainWindow2?.Page?.Navigation;
+            if (navigation2 != null)
+            {
+                await navigation2.PopAsync();
+            }
         }
 
         [RelayCommand]
         public async Task OpenEditPage()
         {
-            var window = Application.Current?.Windows.FirstOrDefault();
-            var navigation = window?.Page?.Navigation;
+            var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+            var navigation = mainWindow?.Page?.Navigation;
             if (navigation != null)
             {
                 await navigation.PushAsync(new ProfileEditPage());
@@ -328,6 +351,25 @@ namespace CaptainsLog.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task CheckForJsonFile(string jsonFileName)
+        {
+
+            var JSONPath = Path.Combine(FileSystem.AppDataDirectory, jsonFileName);
+
+            // Check whether the JSON file exists; log or handle as needed.
+            if (File.Exists(JSONPath))
+            {
+                Debug.WriteLine($"Profile JSON found at {JSONPath}");
+            }
+            else
+            {
+                //Show alert and navigate to edit page
+                await ShowAlertAsync("Alert", "No Boat details have been found, please save some data", "OK");
+                await OpenEditPage();
+                return;
             }
         }
     }

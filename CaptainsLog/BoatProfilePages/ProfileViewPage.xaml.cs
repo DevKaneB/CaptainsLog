@@ -12,6 +12,7 @@ public partial class ProfileViewPage : ContentPage
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
+        await _profileViewModel.CheckForJsonFile("ProfileData.json");
         await _profileViewModel.LoadProfileItemsAsync();
         await _profileViewModel.CalulcateServiceHoursRemaining();
     }

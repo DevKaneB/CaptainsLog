@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
              xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses.Items"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.BoatProfilePages.ProfileViewPage"
              Title="Boat Profile"
              x:Name="ProfileViewContentPage"
-             x:DataType="vm:ProfilePageModel">
+             x:DataType="vm:ProfilePageModel"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
 
     <CollectionView ItemsSource="{Binding ProfileItems}" Background="Transparent" >
     <CollectionView.ItemTemplate>
@@ -14,8 +18,10 @@
             <ScrollView>
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition />
+                            <RowDefinition Height="55"/>
+                            <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -36,6 +42,10 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -44,9 +54,20 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <!--Boat Name-->
+                    <ImageButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.BackButtonClickedCommand}"
+                   
+                            Source="backbutton.png"
+                            HorizontalOptions="Fill"/>
+
+                    <ImageButton Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenEditPageCommand}"
+                        Source="editbutton.png"
+                        HorizontalOptions="Fill"/>      
+
+                        <!--Boat Name-->
                     <Label
-                        Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                        Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
                         Text="{Binding BoatName}" 
                         HorizontalTextAlignment="Center"
                         FontSize="36"
@@ -54,7 +75,7 @@
                     
                     <!-- Profile Image -->
                     <Image
-                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
                         x:Name="BoatImage"
                         Source="{Binding ImageSource}"
                         HeightRequest="185"
@@ -62,19 +83,19 @@
                     </Image>
                     <!--Registration Number-->
                         
-                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
                         Text="Registration Number" 
                         HorizontalTextAlignment="Center"
                         Margin="5"/>
 
                      <Label 
-                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
+                        Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
                         Text="{Binding RegNumber}" 
                         HorizontalTextAlignment="Center"/>
                         
                     <!-- Boat Metric-->
                     <Label 
-                         Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+                         Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4"
                          Text="Boat Metrics" 
                          FontSize="Header" 
                          HorizontalTextAlignment="Center"
@@ -82,147 +103,144 @@
 
                      <!--Build Year -->
                     <Label 
-                        Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                        Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                         Text="Build Year" 
                         HorizontalTextAlignment="Center" 
                         Margin="5"/>
 
                     <Label 
-                        Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                        Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                         Text="{Binding BuildYear}" 
                         HorizontalTextAlignment="Center" /> 
                     
                     <!--Boat Length -->
                     <Label 
-                        Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"
+                        Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2"
                         Text="Length(ft)" 
                         HorizontalTextAlignment="Center"
                         Margin="5"/>
 
                     <Label 
-                        Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2"
+                        Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2"
                         Text="{Binding Length}" 
                         HorizontalTextAlignment="Center"/>
 
 
                     <!--Boat Beam -->
                     <Label 
-                        Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                        Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
                         Text="Beam(ft)" HorizontalTextAlignment="Center"
                         Margin="5"/>
 
                     <Label 
-                        Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                        Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
                         Text="{Binding Beam}" HorizontalTextAlignment="Center"/>
 
 
                     <!--Boats Draught-->
-                    <Label Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2"
+                    <Label Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2"
                         Text="Draught(ft)" HorizontalTextAlignment="Center"
                            Margin="5"/>
 
-                    <Label Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2"
+                    <Label Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2"
                         Text="{Binding Draft}" HorizontalTextAlignment="Center"/>
 
 
 
                     <!--Re-occuring bills and stuff-->
-                    <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4"
+                    <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="Expiry Dates" 
                            FontSize="Header" 
                            HorizontalTextAlignment="Center"
                            Margin="10"/>
                     
                     <!--Licence Expiry Date-->
-                    <Label Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="Licence" 
                            HorizontalTextAlignment="Center"
                            Margin="5"/>
 
-                    <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Label Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="{Binding LicenseExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                            HorizontalTextAlignment="Center"/>
 
                     <!--Insurance Expiry Date-->
-                    <Label Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2"
+                    <Label Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2"
                            Text="Insurance" 
                            HorizontalTextAlignment="Center"
                            Margin="5"/>
 
-                    <Label Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="2"
+                    <Label Grid.Row="13" Grid.Column="2" Grid.ColumnSpan="2"
                            Text="{Binding InsuranceExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                            HorizontalTextAlignment="Center"/>
 
                     <!--BSS expiry Date-->
-                    <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="BSS" 
                            HorizontalTextAlignment="Center"
                            Margin="5"/>
 
                    
-                    <Label Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Label Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="{Binding BSSExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                            HorizontalTextAlignment="Center"/>
 
                     <!--Last Hull Service Date-->
-                    <Label Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2"
+                    <Label Grid.Row="14" Grid.Column="2" Grid.ColumnSpan="2"
                             Text="Last Hull Service" 
                             HorizontalTextAlignment="Center"
                             Margin="5"/>
 
 
-                    <Label Grid.Row="13" Grid.Column="2" Grid.ColumnSpan="2"
+                    <Label Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="2"
                             Text="{Binding LastHullServiceDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                             HorizontalTextAlignment="Center"/>
 
 
                     <!--Service Intervals -->
-                    <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4"
+                    <Label Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="Service Intervals" 
                            FontSize="Header" 
                            HorizontalTextAlignment="Center"
                            Margin="10"/>
                     
                     <!--Service Hours-->
-                    <Label Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Label Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="Engine Interval Hours" 
                            HorizontalTextAlignment="Center"
                            Margin="5"/>
 
-                    <Label Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Label Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="{Binding EngineServiceIntervalHours}" 
                            HorizontalTextAlignment="Center"/>
 
                     <!--Service Hours Remaining-->
-                        <Label Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="2"
+                        <Label Grid.Row="17" Grid.Column="2" Grid.ColumnSpan="2"
                            Text="Hours Remaining" 
                            HorizontalTextAlignment="Center"
                                Margin="5"/>
 
-                        <Label Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="2"
+                        <Label Grid.Row="18" Grid.Column="2" Grid.ColumnSpan="2"
                            Text="{Binding NextEngineServiceAtHours}" 
                            HorizontalTextAlignment="Center"/>
 
                     <!--Last service Date-->
-                    <Label Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="4"
+                    <Label Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="Last Service Date" 
                            HorizontalTextAlignment="Center"
                            Margin="5"/>
 
-                    <Label Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="4"
+                    <Label Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="4"
                           Text="{Binding LastServiceDate, StringFormat='{}{0:dd-MMM-yyyy}'}" 
                           HorizontalTextAlignment="Center"/>
 
 
-                    <Label Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="4"
+                    <Label Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="4"
                            Text="The Last Service Date will be used to calculate how many hours have been used via the Diesel Calculator" 
                            HorizontalTextAlignment="Center"
                            Margin="20"/>
 
-                    <Button Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="4"
-                            Text="Edit Profile" 
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenEditPageCommand}"/>
-
+                   
                 </Grid>
             </ScrollView>
 

@@ -14,8 +14,4 @@ public partial class JournalPage : ContentPage
 		BindingContext = _journalViewModel = new JournalViewModel(new DatabaseClasses.Services.JournalSQLTools());
     }
 
-    private void SfDatePicker_SelectionChanged(object sender, Syncfusion.Maui.Picker.DatePickerSelectionChangedEventArgs e)
-    {
-
-    }
 }

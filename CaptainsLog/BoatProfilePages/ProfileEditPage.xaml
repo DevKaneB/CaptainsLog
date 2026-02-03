@@ -13,20 +13,30 @@ Plan (pseudocode):
              xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
              xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.BoatProfilePages.ProfileEditPage"
              Title="Change Boat Details"
              x:DataType="vm:ProfilePageModel"
-             x:Name="ProfileEditContentPage">
+             x:Name="ProfileEditContentPage"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
 
-    <Grid RowDefinitions="*,Auto">
 
-
-        <CollectionView ItemsSource="{Binding ProfileItems}" Background="Transparent" >
+<CollectionView ItemsSource="{Binding ProfileItems}" Background="Transparent" >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:ProfileItem">
                 <ScrollView>
-                    <VerticalStackLayout Padding="20" Spacing="10" >
-                        <!-- Profile Image (tap to pick) -->
+                    
+                    
+                    <VerticalStackLayout Padding="15" Spacing="10" >
+
+                        <ImageButton 
+                            HeightRequest="55"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SaveDataCommand}"
+                            Source="backbutton.png"
+                            HorizontalOptions="Start"/>
+                            <!-- Profile Image (tap to pick) -->
                         <Label Text="(Tap the image to change it)" HorizontalTextAlignment="Center"/>
                         <Image
                             x:Name="BoatImage"
@@ -45,7 +55,8 @@ Plan (pseudocode):
                             <Border Padding="1">
                                 <Entry
                                 Text="{Binding BoatName, Mode=TwoWay}"
-                                Placeholder="Enter Name"
+                                Placeholder="Enter Name"  
+                                BackgroundColor="White"
                                 HorizontalTextAlignment="Center"/>
                             </Border>
 
@@ -121,6 +132,9 @@ Plan (pseudocode):
                             <picker:SfDatePicker.ColumnHeaderView >
                                 <picker:DatePickerColumnHeaderView Background="White"/>
                             </picker:SfDatePicker.ColumnHeaderView>
+                            <picker:SfDatePicker.SelectionView >
+                                <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                            </picker:SfDatePicker.SelectionView>
                         </picker:SfDatePicker>
 
                         <!--Insurance Expiry Date-->
@@ -135,6 +149,9 @@ Plan (pseudocode):
                             <picker:SfDatePicker.ColumnHeaderView >
                                 <picker:DatePickerColumnHeaderView Background="White"/>
                             </picker:SfDatePicker.ColumnHeaderView>
+                            <picker:SfDatePicker.SelectionView >
+                                <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                            </picker:SfDatePicker.SelectionView>
                         </picker:SfDatePicker>
 
                         <!--BSS expiry Date-->
@@ -149,6 +166,9 @@ Plan (pseudocode):
                             <picker:SfDatePicker.ColumnHeaderView >
                                 <picker:DatePickerColumnHeaderView Background="White"/>
                             </picker:SfDatePicker.ColumnHeaderView>
+                            <picker:SfDatePicker.SelectionView >
+                                <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                            </picker:SfDatePicker.SelectionView>
                         </picker:SfDatePicker>
 
                         <!--Last Hull Service Date-->
@@ -163,6 +183,9 @@ Plan (pseudocode):
                             <picker:SfDatePicker.ColumnHeaderView >
                                 <picker:DatePickerColumnHeaderView Background="White"/>
                             </picker:SfDatePicker.ColumnHeaderView>
+                            <picker:SfDatePicker.SelectionView >
+                                <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                            </picker:SfDatePicker.SelectionView>
                         </picker:SfDatePicker>
 
                             <!--Service Intervals -->
@@ -190,6 +213,9 @@ Plan (pseudocode):
                             <picker:SfDatePicker.ColumnHeaderView >
                                 <picker:DatePickerColumnHeaderView Background="White"/>
                             </picker:SfDatePicker.ColumnHeaderView>
+                            <picker:SfDatePicker.SelectionView >
+                                <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                            </picker:SfDatePicker.SelectionView>
                         </picker:SfDatePicker>
 
                         <Label Text="Last Service Date and Service Hours will update on your profile view, with the values added to the diesel calculator" HorizontalTextAlignment="Center"/>
@@ -200,14 +226,5 @@ Plan (pseudocode):
             </DataTemplate>
         </CollectionView.ItemTemplate>
          </CollectionView>
-        <!-- Fixed button at bottom -->
-        <Button Grid.Row="1"
-        Text="SAVE"
-        Command="{Binding SaveDataCommand}"
-        HorizontalOptions="Fill"
-        VerticalOptions="End" />
-
-    </Grid>
-
 
 </ContentPage>

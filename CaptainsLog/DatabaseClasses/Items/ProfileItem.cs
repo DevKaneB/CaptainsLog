@@ -9,7 +9,7 @@ namespace CaptainsLog.DatabaseClasses.Items
 {
     public class ProfileItem : INotifyPropertyChanged
     {
-        private string imageSource;
+        private string imageSource = "photodefault.jpg";
 
         public string ImageSource
         {
