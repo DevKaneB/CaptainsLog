@@ -3,14 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.AddHoursPage"
-             Title="Add Engine Hours">
+             Title="Add Engine Hours"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
     <ContentPage.Content>
         <Border Padding="10,10">
             <Grid RowSpacing="6"
                   ColumnSpacing="6">
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="55" />
                     <RowDefinition Height="25" />
                     <RowDefinition Height="160"/>
                     <RowDefinition Height="25" />
@@ -29,43 +34,43 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <!-- Add Select the date title -->
-                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0"
-                   Text="Select the date you wish to update"
-                   HorizontalOptions="Fill"
-                   HorizontalTextAlignment="Center"
-                       FontSize="Medium"
-                       BackgroundColor="LightGrey"/>
+                <!-- Back Button -->
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+                             Clicked="OnBackButtonClicked"
+                             Source="backbutton.png"
+                             HorizontalOptions="Fill"/>
+
+                <ImageButton Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" 
+                             Clicked="OnHelpButtonClicked"
+                             Source="helpbutton.png"
+                             HorizontalOptions="Fill"/>
+
                 <!-- Select the date you wish to edt -->
                 <picker:SfDatePicker
                     x:Name="HoursDatePicker"
                     Format="dd_MMM_yyyy"
                     BackgroundColor="White"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="4"
-                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="2"
                     HorizontalOptions="Fill" 
                     SelectionChanged="OnDateChangedEvent">
 
                     <picker:SfDatePicker.ColumnHeaderView >
                         <picker:DatePickerColumnHeaderView Background="White"/>
                     </picker:SfDatePicker.ColumnHeaderView>
+                    <picker:SfDatePicker.SelectionView >
+                        <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                    </picker:SfDatePicker.SelectionView>
 
                 </picker:SfDatePicker>
 
-                <!-- Add Dates total Hours -->
-                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2"
-                   Text="Add this dates total hours"
-                   HorizontalOptions="Fill"
-                   HorizontalTextAlignment="Center"
-                   FontSize="Medium"
-                   BackgroundColor="LightGrey"/>
                 <!-- Add Diesel Hours -->
-                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3"
+                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4"
                        Text="Leisure"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
-                <Border Padding="1" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
+                <Border Padding="3" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" >
                     <editors:SfNumericEntry 
                         x:Name="sfDiesEntry"
                         Placeholder="Enter Hours"
@@ -75,52 +80,45 @@
                         />
                 </Border>
                 <!-- Add Propulsion Hours -->
-                <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3"
+                <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4"
                        Text="Propulsion"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" />
-                <Border Padding="1" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
+                <Border Padding="1" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2">
                     <editors:SfNumericEntry 
                         x:Name="sfPropEntry"
                         Placeholder="Enter Hours"
                         HorizontalTextAlignment="Center"
                         MaximumNumberDecimalDigits="0"
                         Minimum="0"
-                        />  
+                        />
                 </Border>
-                <!-- Buttons Title -->
-                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="5"
-                    Text="Update or Delete these hours"
-                    HorizontalOptions="Fill"
-                    HorizontalTextAlignment="Center"
-                        FontSize="Medium"
-                        BackgroundColor="LightGrey"/>   
 
                 <!-- Add, Update or delete buttons-->
                 <Button
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
-                    Grid.Row="6"
+                    Grid.Row="7"
                     x:Name="AddHoursBtn"
                     Text="Update Hours" 
                     SemanticProperties.Hint="Add Hours to database"
                     Clicked="OnAddHoursClicked"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <Button
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
-                    Grid.Row="7"
+                    Grid.Row="8"
                     x:Name="DeleteDateBtn"
                     Text="Delete Hours" 
                     SemanticProperties.Hint="Clear hours for this date"
                     Clicked="OnDeleteDateClicked"
-                    HorizontalOptions="Fill" />
-
-                
-                
-
-
-
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
 
             </Grid>
         </Border>

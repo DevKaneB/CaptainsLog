@@ -18,6 +18,22 @@ public partial class AddDieselLitresPage : ContentPage
         LoadDateLitres();
     }
 
+    async void OnBackButtonClicked(object? sender, EventArgs e)
+    {
+        var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+        var navigation = mainWindow?.Page?.Navigation;
+        if (navigation != null)
+        {
+            await navigation.PopAsync();
+        }
+    }
+
+    async void OnHelpButtonClicked(object? sender, EventArgs e)
+    {
+        await DisplayAlert("Help", "Select the date you wish to update, then input the total amount of litres for this day and click Add to Save", "OK");
+        return;
+    }
+
     async void LoadDateLitres()
     {
         try

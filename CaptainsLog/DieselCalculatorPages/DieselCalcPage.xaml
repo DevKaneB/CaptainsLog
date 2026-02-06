@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.DieselCalcPage"
-             Title="Diesel Calculator">
+             Title="Diesel Calculator"
+             Shell.NavBarIsVisible="False"
+            ios:Page.UseSafeArea="true"
+            BackgroundColor="#A7CFCF">
     <ContentPage.Content>
         <Border Padding="10,10">
             <Grid RowSpacing="6"
                   ColumnSpacing="6">
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="25" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
@@ -28,19 +34,30 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+                             Clicked="OnBackButtonClicked"
+                             Source="backbutton.png"
+                             HorizontalOptions="Fill"/>
+
+                <ImageButton Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" 
+                             Clicked="OnHelpButtonClicked"
+                             Source="helpbutton.png"
+                             HorizontalOptions="Fill"/>  
+
                 <!-- Propulsion hours title Label -->
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="3"
-                       Grid.Row="0"
+                       Grid.Row="2"
                        Text="Propulsion %" 
                        HorizontalOptions="Center"
                        VerticalOptions="Center" 
-                       FontSize="Large"/>
+                       FontSize="Title"/>
                 <!-- Propulsion hours output Label -->
                 <Label
                     Grid.Column="1"
                     Grid.ColumnSpan="1"
-                    Grid.Row="1"
+                    Grid.Row="3"
                     x:Name="PropHrsLbl"
                     Text="0%"
                     HorizontalOptions="Fill"
@@ -50,7 +67,7 @@
                 <!-- Divider label -->
                 <Label Grid.Column="2"
                        Grid.ColumnSpan="2"
-                       Grid.Row="1"
+                       Grid.Row="3"
                        Text=":"
                        HorizontalOptions="Center"
                        FontSize="Large"/>
@@ -58,16 +75,16 @@
                 <!-- Leisure hours Title Label -->
                 <Label Grid.Column="3"
                        Grid.ColumnSpan="3"
-                       Grid.Row="0"
+                       Grid.Row="2"
                        Text="Leisure %"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
-                       FontSize="Large"/>
+                       FontSize="Title"/>
                 <!-- Leisure hours output Label -->
                 <Label
                     Grid.Column="4"
                     Grid.ColumnSpan="1"
-                    Grid.Row="1"
+                    Grid.Row="3"
                     x:Name="DiesHrsLbl"
                     Text="0%"                     
                     HorizontalOptions="Fill"
@@ -78,35 +95,12 @@
                 <Label
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="2"
+                    Grid.Row="4"
                     x:Name="LitrePHourLbl"
                     Text="0 Litres/Hour"                     
                     HorizontalOptions="Fill"
                     HorizontalTextAlignment="Center"
                     FontSize="Medium"/>     
-
-                <!-- Litres per Hour Description -->
-                <Label
-                    Grid.Column="0"
-                    Grid.ColumnSpan="6"
-                    Grid.Row="3"
-                    Text="used since last refill"                     
-                    HorizontalOptions="Fill"
-                    HorizontalTextAlignment="Center"
-                    FontSize="Medium"/>      
-
-                
-                <!-- Refresh Buttons Description -->
-                <Label
-                    Grid.Column="0"
-                    Grid.ColumnSpan="6"
-                    Grid.Row="4"
-                    Text="Press to refresh the display"                     
-                    HorizontalOptions="Fill"
-                    HorizontalTextAlignment="Center"
-                    FontSize="Medium"
-                    BackgroundColor="LightGrey"/>
-
 
                 <!-- View Percentages since last refill -->
                 <Button
@@ -118,7 +112,10 @@
                     FontAutoScalingEnabled="True"
                     SemanticProperties.Hint="View Percentages since last refill"
                     Clicked="OnLastRefillClicked"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- View Percentages last 30 days -->
                 <Button
                     Grid.Column="2"
@@ -128,7 +125,10 @@
                     Text="Last 30 Days" 
                     SemanticProperties.Hint="View Percentages over the last 30 days"
                     Clicked="OnLastThirtyDaysClicked"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- View Percentages AllTime -->
                 <Button
                     Grid.Column="4"
@@ -138,47 +138,58 @@
                     Text="All Time" 
                     SemanticProperties.Hint="View Percentages of All Time"
                     Clicked="OnAllTimeClicked"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- Refresh Buttons Description -->
                 <Label
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="6"
-                    Text="Update the Database"                     
+                    Grid.Row="7"
+                    Text="Database Management"                     
                     HorizontalOptions="Fill"
                     HorizontalTextAlignment="Center"
-                    FontSize="Medium"
-                    BackgroundColor="LightGrey"/>
+                    FontSize="Subtitle"/>
                 <!-- Add or Update Hours -->
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="7"
+                    Grid.Row="8"
                     x:Name="AddUpdateHoursBtn"
                     Text="Add/Update Hours" 
                     SemanticProperties.Hint="Add Hours or update current hours"
                     Clicked="OnAddUpdateHoursClicked"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- Add a diesel Refill -->
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="8"
+                    Grid.Row="9"
                     x:Name="DieselRefillBtn"
                     Text="Add a Diesel Refill" 
                     SemanticProperties.Hint="Add diesel refill by litres and date"
                     Clicked="OnDieselRefillClicked"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- View History Log -->
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="9"
+                    Grid.Row="10"
                     x:Name="ViewHistoryBtn"
                     Text="View All Entries" 
                     SemanticProperties.Hint="View History for the last year"
                     Clicked="OnViewHistoryClicked"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
 
 
             </Grid>

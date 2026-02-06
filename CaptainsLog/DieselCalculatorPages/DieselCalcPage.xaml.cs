@@ -15,7 +15,23 @@ public partial class DieselCalcPage : ContentPage
         InitializeComponent();
         database = new DieselDatabaseMethods();
     }
-    
+
+    async void OnBackButtonClicked(object? sender, EventArgs e)
+    {
+        var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+        var navigation = mainWindow?.Page?.Navigation;
+        if (navigation != null)
+        {
+            await navigation.PopAsync();
+        }
+    }
+
+    async void OnHelpButtonClicked(object? sender, EventArgs e)
+    {
+        await DisplayAlert("Help", "Diesel Calculator lets you view your tax declaration and what you use per hour in litres. Please add engine hours and/or diesel refills to view filters.", "OK");
+        return;
+    }
+
     async void OnAddUpdateHoursClicked(object? sender, EventArgs e)
     {
         var nav = this.Window?.Page?.Navigation;

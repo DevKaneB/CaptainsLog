@@ -13,7 +13,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="175"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="150" />
             <RowDefinition Height="150"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
@@ -35,22 +35,38 @@
                      CornerRadius="40"
                      Source="profilepic.png"
                      Clicked="OnBoatProfileClicked"
-                     HorizontalOptions="Fill"/>
+                     HorizontalOptions="Fill"
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     BackgroundColor="#226666"
+                     Margin="3"/>
 
         <ImageButton Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"
                      CornerRadius="40"
                      Source="dieselpic.png"
-                     Clicked="DieselCalcClicked"/>
+                     Clicked="DieselCalcClicked"
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     BackgroundColor="#226666"
+                     Margin="3"/>
 
         <ImageButton Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
                      CornerRadius="40"
                      Source="expenses.png"
-                     Clicked="BoatExpClicked"/>
+                     Clicked="BoatExpClicked"
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     BackgroundColor="#226666"
+                     Margin="3"/>
 
         <ImageButton Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2"
                      CornerRadius="40"
                      Source="diarypic.png"
-                     Clicked="JournalClicked"/>
+                     Clicked="JournalClicked"
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     BackgroundColor="#226666"
+                     Margin="3"/>
     </Grid>
 
 </ContentPage>

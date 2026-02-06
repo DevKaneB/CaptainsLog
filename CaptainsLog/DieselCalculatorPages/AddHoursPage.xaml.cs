@@ -17,6 +17,22 @@ public partial class AddHoursPage : ContentPage
         LoadDateHours();
     }
 
+    async void OnBackButtonClicked(object? sender, EventArgs e)
+    {
+        var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+        var navigation = mainWindow?.Page?.Navigation;
+        if (navigation != null)
+        {
+            await navigation.PopAsync();
+        }
+    }
+
+    async void OnHelpButtonClicked(object? sender, EventArgs e)
+    {
+        await DisplayAlert("Help", "Select the date you wish to update, then input the total amount of hours for this day and update", "OK");
+        return;
+    }
+
     async void LoadDateHours()
     {
         try
@@ -265,7 +281,9 @@ public partial class AddHoursPage : ContentPage
             {
                 // If database has no records for that date, inform user
                 case 0:
-                    await DisplayAlert("Alert", "There is nothing to delete for this date", "OK");
+                    await DisplayAlert("Alert", "There is nothing to delete for this date in the database", "OK");
+                    sfDiesEntry.Value = null;
+                    sfPropEntry.Value = null;
                     break;
                 //Delete the hours for this date by setting them to 0
                 case 1:
