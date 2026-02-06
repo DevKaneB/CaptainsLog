@@ -4,17 +4,41 @@
              xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
              xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses.Items"
              xmlns:converters="clr-namespace:CaptainsLog.Converters"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.DieselLogPage"
              Title="Diesel Usage Log"
              x:DataType="vm:LogViewModel"
-             x:Name="ThisPage">
+             x:Name="ThisPage"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:DateStringToFormattedDateConverter x:Key="DateStringConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <CollectionView ItemsSource="{Binding DatabaseItems}" Background="Transparent" >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="1.0*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+             Source="backbutton.png"
+             HorizontalOptions="Fill"/>
+
+        <ImageButton Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1"
+             Source="helpbutton.png"
+             HorizontalOptions="Fill"/>
+
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding DatabaseItems}" Background="Transparent" >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:DieselDatabase">
                 <ScrollView>
@@ -64,5 +88,16 @@
                 </ScrollView>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-    </CollectionView>
+        </CollectionView>
+
+        <Button Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            x:Name="ApplyFilters"
+            Text="Export"  
+            BackgroundColor="#226666"
+            BorderColor="Black"
+            BorderWidth="3"
+            Margin="5"/>
+    </Grid>
 </ContentPage>
