@@ -2,6 +2,7 @@
 using CaptainsLog.DatabaseClasses.Items;
 using CaptainsLog.DatabaseClasses.Services;
 using CaptainsLog.DieselCalculatorPages;
+using CaptainsLog.Services;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -220,6 +221,51 @@ namespace CaptainsLog.ViewModels
         }
 
         [RelayCommand]
+        //Export the current expenses list as a PDF
+        public async Task ExportAsPDF()
+        {
+            // Get the current page safely
+            var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+            // If no page is available, cancel the delete to avoid throwing
+            if (page == null)
+                return;
+
+            // Ask the user to confirm deletion
+            var confirmed = await page.DisplayAlert(
+                "Confirm Export",
+                "Do you confirm you wish to Export as PDF?",
+                "Yes",
+                "No");
+
+            // If the user cancels, do nothing
+            if (!confirmed)
+                return;
+
+            // Convert DieselDatabase items to ExpensesItem for export
+            var items = DatabaseItems?
+                .Select(d => new ExpensesItem
+                {
+                    ID = d.ID,
+                    ExpenseType = "Diesel", // Or map as needed
+                    Amount = d.DieselRefill,
+                    ExpenseDate = d.EntryDate,
+                    ExpenseDesc = $"Leisure: {d.LeisureHours}, Prop: {d.PropHours}"
+                })
+                .ToList() ?? new List<ExpensesItem>();
+
+            var pdfService = new PdfService();
+            string filePath = await pdfService.ExportListToPdfAsync(items);
+
+            // Share the PDF
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                Title = "Exported Products",
+                File = new ShareFile(filePath)
+            });
+        }
+
+            [RelayCommand]
         public async Task OnBackButtonClicked()
         {
             var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
@@ -267,7 +313,7 @@ namespace CaptainsLog.ViewModels
                 cachedDatabaseItems = await _databaseClient.GetItemsViaQueryAsync($"Select * from DieselDatabase where LeisureHours > 0 or PropHours > 0 or DieselRefill > 0 Order By EntryDate {SortOrder}");
             }
 
-            var filteredList = cachedDatabaseItems.AsEnumerable();
+            var filteredList = (cachedDatabaseItems ?? new List<DieselDatabase>()).AsEnumerable();
             if (SelectedMonth != "All")
             {
                 DateTime selectedDateTime = DateTime.ParseExact(SelectedMonth, "MMMM yyyy", CultureInfo.InvariantCulture);
@@ -293,7 +339,7 @@ namespace CaptainsLog.ViewModels
         {
             var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase where LeisureHours > 0 or PropHours > 0 or DieselRefill > 0 Order By EntryDate DESC");
 
-            if (items.Count == 0)
+            if (items == null || items.Count == 0)
             {
                 // Get the current page safely
                 var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
@@ -307,10 +353,8 @@ namespace CaptainsLog.ViewModels
                     "Alert",
                     "There are no entries to show!",
                     "Ok");
-
-                
             }
-            DatabaseItems = new ObservableCollection<DieselDatabase>(items);
+            DatabaseItems = new ObservableCollection<DieselDatabase>(items ?? new List<DieselDatabase>());
         }
 
         //Generate a list of month names for the last X months

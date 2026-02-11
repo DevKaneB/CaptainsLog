@@ -112,7 +112,7 @@
         <Button Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
-                x:Name="ApplyFilters"
+                x:Name="PDFExporterBtn"
                 Text="Export" 
                 Command="{Binding ExportAsPDFCommand}"/>
     </Grid>

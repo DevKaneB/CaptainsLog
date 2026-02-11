@@ -140,11 +140,12 @@
         <Button Grid.Row="5"
             Grid.Column="0"
             Grid.ColumnSpan="3"
-            x:Name="ApplyFilters"
+            x:Name="PDFExporterBtn"
             Text="Export"  
             BackgroundColor="#226666"
             BorderColor="Black"
             BorderWidth="3"
-            Margin="5"/>
+            Margin="5"
+            Command="{Binding ExportAsPDFCommand}"/>
     </Grid>
 </ContentPage>
