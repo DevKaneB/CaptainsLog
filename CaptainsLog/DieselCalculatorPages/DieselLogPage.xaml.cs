@@ -19,6 +19,7 @@ public partial class DieselLogPage : ContentPage
     {
         base.OnNavigatedTo(args);
         await _logViewModel.LoadDatabaseItemsAsync();   
+        await _logViewModel.LoadDateDropDown();
     }
 
 

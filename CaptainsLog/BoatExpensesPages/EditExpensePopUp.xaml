@@ -11,7 +11,7 @@
             <VerticalStackLayout Padding="4" Spacing="10">
 
                 <Label
-                    Text="Update Expense"
+                    Text="Change Expense"
                     FontAttributes="Bold"
                     FontSize="18"
                     HorizontalOptions="Center"
@@ -25,9 +25,8 @@
                     Margin="0,2"
                     IsEnabled="True">
                     <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>All</x:String>
-                            <x:String>Fuel (Petrol/Diesel)</x:String>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Fuel (Petrol/Diesel)</x:String>
                             <x:String>Coal/Logs</x:String>
                             <x:String>Pumpout/Elsan</x:String>
                             <x:String>Gas</x:String>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:local="clr-namespace:CaptainsLog.DieselCalculatorPages"
+    x:TypeArguments="local:DieselHoursResult"
+    x:Class="CaptainsLog.DieselCalculatorPages.EditDiesCalcPopUp">
+
+    <ScrollView >
+
+        <VerticalStackLayout Padding="4" Spacing="10">
+            <Label
+                Text="Change Diesel or Hour Entry"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Margin="0,4"/>
+            <Entry
+                x:Name="LeisHoursEntry"
+                Placeholder="Leisure"
+                Keyboard="Numeric"
+                HeightRequest="56"
+                FontSize="16"
+                Margin="0,2"
+                IsEnabled="True"/>
+            <Entry
+                x:Name="PropHoursEntry"
+                Placeholder="Propulsion"
+                Keyboard="Numeric"
+                HeightRequest="56"
+                FontSize="16"
+                Margin="0,2"
+                IsEnabled="True"/>      
+            <Entry
+                x:Name="LitresEntry"
+                Placeholder="Diesel"
+                Keyboard="Numeric"
+                HeightRequest="56"
+                FontSize="16"
+                Margin="0,2"
+                IsEnabled="True"/>
+            <HorizontalStackLayout HorizontalOptions="End" Spacing="8" Margin="0,6,0,0">
+                <Button
+                    Text="Save"
+                    Clicked="OnSaveClicked"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+
+</toolkit:Popup>

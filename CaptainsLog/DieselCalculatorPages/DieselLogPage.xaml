@@ -21,7 +21,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="55"/>
-            <RowDefinition Height="55"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="45" />
+            <RowDefinition Height="20"/>
             <RowDefinition Height="1.0*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -31,19 +33,60 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
-             Source="backbutton.png"
-             HorizontalOptions="Fill"/>
+                     Source="backbutton.png"
+                     Command="{Binding BackButtonClickedCommand}"
+                     HorizontalOptions="Fill"/>
 
         <ImageButton Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1"
-             Source="helpbutton.png"
-             HorizontalOptions="Fill"/>
+                     Source="helpbutton.png"
+                     Command="{Binding HelpButtonClickedCommand}"
+                     HorizontalOptions="Fill"/>
 
-        <CollectionView Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding DatabaseItems}" Background="Transparent" >
+        <Picker Grid.Row="2"
+           Grid.Column="0"
+           x:Name="SortPicker"
+           Title="Sort Filter"
+                BackgroundColor="White"
+                Margin="4"
+                SelectedItem="{Binding SelectedSort}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Ascending</x:String>
+                    <x:String>Descending</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Picker Grid.Row="2"
+                Grid.Column="1"
+                x:Name="MonthPicker"
+                Title="Month Filter"
+                SelectedItem="{Binding SelectedMonth}"
+                ItemsSource="{Binding DateDropDownData}"
+                BackgroundColor="White"
+                Margin="4"/>
+
+        <Button Grid.Row="2"
+                Grid.Column="2"
+                Text="GO"
+                FontAttributes="Bold"
+                Margin="6"
+                Command="{Binding ApplyFiltersCommand}"
+                BackgroundColor="#226666"
+                BorderColor="Black"
+                BorderWidth="3">
+        </Button>
+
+        <CollectionView Grid.Row="4" Grid.ColumnSpan="3" ItemsSource="{Binding DatabaseItems}" Background="Transparent" >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:DieselDatabase">
                 <ScrollView>
                     <SwipeView >
-                    <Border Padding="5">
+                    <!-- Styled border around the labels -->
+                    <Border Padding="6"
+                            Stroke="Black"
+                            StrokeThickness="3"
+                            BackgroundColor="White"
+                            Margin="6">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -57,6 +100,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
+
                             <Label Grid.Column="0" Grid.Row="0" Text="Date" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                             <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
 
@@ -69,19 +113,22 @@
                             <Label Grid.Column="3" Grid.Row="0" Text="Diesel Litres" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                             <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center"/>
 
-                            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Text="Swipe Left to Delete" FontAttributes="Italic" HorizontalTextAlignment="Center" FontSize="Micro" BackgroundColor="LightGray"/>
-
                         </Grid>
                     </Border>
                     <SwipeView.RightItems>
                         <SwipeItems Mode="Reveal">
-                            <SwipeItem BackgroundColor="Red"
-						           SemanticProperties.Hint="Delete Entry from Database"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteEntryAsyncCommand}"
-                                    CommandParameter="{Binding ID}"
-						           Text="Delete"
-						           />
-                        </SwipeItems>
+                                    
+                                    <SwipeItem BackgroundColor="PowderBlue"
+                                               SemanticProperties.Hint="Edit Entry in the Database"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditLogCommand}"
+                                               CommandParameter="{Binding ID}"
+                                               Text="Edit" />
+                                    <SwipeItem BackgroundColor="Red"
+                                               SemanticProperties.Hint="Delete Entry from the Database"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteEntryAsyncCommand}"
+                                               CommandParameter="{Binding ID}"
+                                               Text="Delete"/>
+                                </SwipeItems>
                     </SwipeView.RightItems>
 
                     </SwipeView>
@@ -90,7 +137,7 @@
         </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="3"
+        <Button Grid.Row="5"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             x:Name="ApplyFilters"
