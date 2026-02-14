@@ -16,6 +16,22 @@ public partial class ExpensesTopPage : ContentPage
         SQLTools = new ExpensesSQLTools();
     }
 
+    async void OnBackButtonClicked(object? sender, EventArgs e)
+    {
+        var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+        var navigation = mainWindow?.Page?.Navigation;
+        if (navigation != null)
+        {
+            await navigation.PopAsync();
+        }
+    }
+
+    async void OnHelpButtonClicked(object? sender, EventArgs e)
+    {
+        await DisplayAlert("Help", "The Expenses page allows you to view your average spending, log your expenses and export your expenses as a statement", "OK");
+        return;
+    }
+
     async void OnWeeklyExpensesClicked(object? sender, EventArgs e)
     {
         try

@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.BoatExpensesPages.AddExpenseItemPage"
-             Title="Add an Expense">
+             Title="Add an Expense"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
     
     <ContentPage.Content>
         <Border Padding="10,10">
@@ -12,6 +16,7 @@
                   ColumnSpacing="6">
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="55"/>
                     <RowDefinition Height="160"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="25"/>
@@ -22,25 +27,35 @@
 
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+                             Clicked="OnBackButtonClicked"
+                             Source="backbutton.png"
+                             HorizontalOptions="Fill"/>
+
+                <ImageButton Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" 
+                             Clicked="OnHelpButtonClicked"
+                             Source="helpbutton.png"
+                             HorizontalOptions="Fill"/>
 
                 <!--Expense Date-->
                 <Border
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Padding="1">
                     <picker:SfDatePicker
                         x:Name="ExpenseDateEntry"
                         Grid.Column="0"
                         Grid.ColumnSpan="6"
-                        Grid.Row="0"
+                        Grid.Row="1"
                         HeightRequest="150"
                         Format="dd_MMM_yyyy"
                         BackgroundColor="White"
@@ -48,18 +63,22 @@
                         <picker:SfDatePicker.ColumnHeaderView >
                             <picker:DatePickerColumnHeaderView Background="White"/>
                         </picker:SfDatePicker.ColumnHeaderView>
+                        <picker:SfDatePicker.SelectionView >
+                            <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                        </picker:SfDatePicker.SelectionView>
                     </picker:SfDatePicker>
                 </Border>
                 <!-- Select Type -->
                 <Border Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Padding="1">
                     <Picker Grid.Column="0"
                         Grid.ColumnSpan="6"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         x:Name="TypePicker"
-                        Title="Select Expense Type">
+                        Title="Select Expense Type"
+                            BackgroundColor="White">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Fuel (Petrol/Diesel)</x:String>
@@ -68,6 +87,7 @@
                                 <x:String>Gas</x:String>
                                 <x:String>Engine Repair</x:String>
                                 <x:String>Hull Maintenance</x:String>
+                                <x:String>Groceries</x:String>
                                 <x:String>Other</x:String>
                             </x:Array>
                         </Picker.ItemsSource>
@@ -77,42 +97,40 @@
                 <!-- Expense Other / Note-->
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="6"
-                       Grid.Row="2"
+                       Grid.Row="3"
                        Text="Note"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"/>
                 <Border Grid.Column="0"
                         Grid.ColumnSpan="6"
-                        Grid.Row="3"
-                        Padding="1">
+                        Grid.Row="4"
+                        Padding="1"
+                        HorizontalOptions="Fill">
                     <Entry 
                         x:Name="ExpenseReasonEntry"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="6"
-                        Grid.Row="3"
                         Placeholder="Optional or Other Reason"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"/>
+                        VerticalOptions="Center"
+                        BackgroundColor="White"/>
                 </Border>
 
                 <!-- Expense Amount-->
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="6"
-                       Grid.Row="4"
+                       Grid.Row="5"
                        Text="Expense Amount"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"/>
                 <Border
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Padding="1">
                     <editors:SfNumericEntry
                         x:Name="ExpenseAmountEntry"
                         Value="0.00"
                         Grid.Column="0"
                         Grid.ColumnSpan="6"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Padding="1"
                         Placeholder="Enter Amount"
                         HorizontalTextAlignment="Start"
@@ -122,10 +140,13 @@
                 <!-- Save Expense -->
                 <Button Grid.Column="0"
                         Grid.ColumnSpan="6"
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Text="Save Expense"
                         Clicked="OnSaveExpenseClicked"
-                        HorizontalOptions="Fill"/>
+                        HorizontalOptions="Fill"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
 
             </Grid>
         </Border>

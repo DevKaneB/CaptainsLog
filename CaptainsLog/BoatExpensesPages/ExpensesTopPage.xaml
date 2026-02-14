@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.BoatExpensesPages.ExpensesTopPage"
-             Title="Expenses">
+             Title="Expenses"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
     <ContentPage.Content>
         <Border Padding="10,10">
             <Grid RowSpacing="6"
               ColumnSpacing="6">
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="50"/>
@@ -25,17 +30,29 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+                             Clicked="OnBackButtonClicked"
+                             Source="backbutton.png"
+                             HorizontalOptions="Fill"/>
+
+                <ImageButton Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" 
+                             Clicked="OnHelpButtonClicked"
+                             Source="helpbutton.png"
+                             HorizontalOptions="Fill"/>
+
                 <!--Display Expenses Average in per week, month, year-->
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="6"
-                       Grid.Row="0"
+                       Grid.Row="1"
                        Text="Average Expenses"
                        HorizontalOptions="Center"
+                       FontSize="Large"
                        VerticalOptions="Center"/>
                 <Label x:Name="AvgExpensesLbl"
                        Grid.Column="0"
                        Grid.ColumnSpan="6"
-                       Grid.Row="1"
+                       Grid.Row="2"
                        Text="0.00"
                        FontSize="40"
                        HorizontalOptions="Center"
@@ -43,52 +60,67 @@
                 <!-- Expenses Filter Title-->
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="6"
-                       Grid.Row="2"
+                       Grid.Row="3"
                        Text="Rate of Spending Filters"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"/>
                 <!-- Weekly Button-->
                 <Button Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Text="Per Week"
                         Clicked="OnWeeklyExpensesClicked"
-                        HorizontalOptions="Fill"/>
+                        HorizontalOptions="Fill"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- Monthly Button-->
                 <Button Grid.Column="2"
                         Grid.ColumnSpan="2"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Text="Per Month"
                         Clicked="OnMonthlyExpensesClicked"
-                        HorizontalOptions="Fill"/>
+                        HorizontalOptions="Fill"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- Yearly Button-->
                 <Button Grid.Column="4"
                         Grid.ColumnSpan="2"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Text="Per Year"
                         Clicked="OnYearlyExpensesClicked"
-                        HorizontalOptions="Fill"/>
+                        HorizontalOptions="Fill"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- Update Controls-->
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="6"
-                       Grid.Row="4"
+                       Grid.Row="5"
                        Text="Update Buttons"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"/>
                 <!-- Add Expense Button-->
                 <Button Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Text="Add Expense"
                         Clicked="OnAddExpenseClicked"
-                        HorizontalOptions="Fill"/>
+                        HorizontalOptions="Fill"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
                 <!-- View Expenses Button-->
                 <Button Grid.Column="3"
                         Grid.ColumnSpan="3"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Text="View Expenses"
                         Clicked="OnViewExpensesClicked"
-                        HorizontalOptions="Fill"/>
+                        HorizontalOptions="Fill"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"/>
 
             </Grid>
         </Border>

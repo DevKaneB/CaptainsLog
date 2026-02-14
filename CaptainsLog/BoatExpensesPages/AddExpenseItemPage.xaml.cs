@@ -17,6 +17,22 @@ public partial class AddExpenseItemPage : ContentPage
 		database = new ExpensesSQLTools();
     }
 
+    async void OnBackButtonClicked(object? sender, EventArgs e)
+    {
+        var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+        var navigation = mainWindow?.Page?.Navigation;
+        if (navigation != null)
+        {
+            await navigation.PopAsync();
+        }
+    }
+
+    async void OnHelpButtonClicked(object? sender, EventArgs e)
+    {
+        await DisplayAlert("Help", "Please select the date you wish to add expenses to, choose the expense type and enter the amount. Then save your expense.", "OK");
+        return;
+    }
+
     async void OnSaveExpenseClicked(object? sender, EventArgs e)
     {
         //Warning for null, the syncfusion control forces a value
