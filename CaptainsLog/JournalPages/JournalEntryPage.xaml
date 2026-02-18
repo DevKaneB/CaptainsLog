@@ -32,6 +32,9 @@
                                  Source="backbutton.png"
                                  Command="{Binding BackButtonClickedCommand}"
                                  HorizontalOptions="Fill"/>
+                    <ImageButton HeightRequest="55" Grid.Column="4" 
+                                 Source="sharebutton.png"
+                                 HorizontalOptions="Fill"/>
 
                 </Grid>
                 <Label 
@@ -68,7 +71,7 @@
         </ScrollView>
 
         <!-- Fixed button area at bottom -->
-        <Grid Grid.Row="1" ColumnDefinitions="*,*">
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*">
             <Button Grid.Column="0"
                   Text="Previous Page"
                   HorizontalOptions="Fill"
@@ -79,6 +82,14 @@
                     BorderWidth="3"
                     Margin="3"/>
             <Button Grid.Column="1"
+                    Text="Delete"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"
+                    Margin="3"/>
+            <Button Grid.Column="2"
                       Text="Next Page"
                       HorizontalOptions="Fill"
                       VerticalOptions="End"
