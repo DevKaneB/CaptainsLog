@@ -265,7 +265,7 @@ namespace CaptainsLog.ViewModels
             });
         }
 
-            [RelayCommand]
+        [RelayCommand]
         public async Task OnBackButtonClicked()
         {
             var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;

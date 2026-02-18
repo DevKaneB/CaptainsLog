@@ -45,7 +45,7 @@
         <Picker Grid.Row="2"
            Grid.Column="0"
            x:Name="SortPicker"
-           Title="Sort Filter"
+           Title="Sort"
                 BackgroundColor="White"
                 Margin="4"
                 SelectedItem="{Binding SelectedSort}">
@@ -59,7 +59,7 @@
         <Picker Grid.Row="2"
                 Grid.Column="1"
                 x:Name="MonthPicker"
-                Title="Month Filter"
+                Title="Month"
                 SelectedItem="{Binding SelectedMonth}"
                 ItemsSource="{Binding DateDropDownData}"
                 BackgroundColor="White"

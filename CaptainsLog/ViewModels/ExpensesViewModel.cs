@@ -55,6 +55,35 @@ namespace CaptainsLog.ViewModels
             selectedMonth = string.Empty;
         }
 
+        [RelayCommand]
+        public static async Task OnBackButtonClicked()
+        {
+            var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+            var navigation = mainWindow?.Page?.Navigation;
+            if (navigation != null)
+            {
+                await navigation.PopAsync();
+            }
+        }
+
+        [RelayCommand]
+        public static async Task OnHelpButtonClicked()
+        {
+            // Get the current page safely
+            var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+            // If no page is available, cancel the delete to avoid throwing
+            if (page == null)
+                return;
+
+            // Ask the user to confirm deletion
+            await page.DisplayAlert(
+                "Help",
+                "View, filter by month and expense. Swipe left to delete or edit any values.",
+                "Ok");
+            return;
+        }
+
         //Load all expense items from the database
         public async Task LoadExpensesItems()
         {

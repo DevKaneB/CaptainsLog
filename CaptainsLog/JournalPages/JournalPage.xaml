@@ -4,16 +4,21 @@
              xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
              xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses.Items"  
              xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.JournalPages.JournalPage"
              Title="JournalPage"
              x:DataType="vm:JournalViewModel"
-             x:Name="JournalEditPge">
+             x:Name="JournalEditPge"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
 
     <Grid RowDefinitions="*,Auto">
 
         <ScrollView Grid.Row="0">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="55"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -31,12 +36,23 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Profile Image -->
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+                             Source="backbutton.png"
+                             Command="{Binding BackButtonClickedCommand}"
+                             HorizontalOptions="Fill"/>
+
+                <ImageButton Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1"
+                             Source="helpbutton.png"
+                             Command="{Binding HelpButtonClickedCommand}"
+                             HorizontalOptions="Fill"/>
+
+                <!-- Journal Image -->
                 <Image
-                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
-                x:Name="BoatImage"
+                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                x:Name="JournalImage"
                 HeightRequest="185"
                 Aspect="AspectFit"
+                    Margin="4"
                     Source="{Binding JournalPicturePath}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding PickPhotoCommand}" NumberOfTapsRequired="1" />
@@ -44,7 +60,7 @@
                 </Image>
 
                 <picker:SfDatePicker
-                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
                     HeightRequest="150"
                     Format="dd_MMM_yyyy"
                     BackgroundColor="White"
@@ -54,28 +70,34 @@
                     <picker:SfDatePicker.ColumnHeaderView >
                         <picker:DatePickerColumnHeaderView Background="White"/>
                     </picker:SfDatePicker.ColumnHeaderView>
+                    <picker:SfDatePicker.SelectionView >
+                        <picker:PickerSelectionView CornerRadius="10" Stroke="#226666" Padding="10, 5, 10, 5" Background="#226666" />
+                    </picker:SfDatePicker.SelectionView>
                 </picker:SfDatePicker>
 
                 <Entry
-                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
                 x:Name="TitleEntry"
                 Placeholder="Entry Title"
                 FontAttributes="Bold"
                 FontSize="Medium"
                 Margin="0,10,0,0"
+                    BackgroundColor="White"
                 Text="{Binding JournalTitle}"/>
 
                 <Entry
-                Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
+                Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
                 Placeholder="Enter Location"
                 Margin="0,10,0,0"
+                    BackgroundColor="White"
                 Text="{Binding JournalLocation}"/>
 
                 <Entry
-                Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+                Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
                 VerticalTextAlignment="Start"
                 Placeholder="How was your day?"
                 Margin="0,10,0,0"
+                    BackgroundColor="White"
                 Text="{Binding JournalContent}"/>
             </Grid>
 
@@ -87,12 +109,20 @@
                     Text="SAVE"
                     HorizontalOptions="Fill"
                     VerticalOptions="End" 
-                    Command="{Binding SaveJournalEntryCommand}"/>
+                    Command="{Binding SaveJournalEntryCommand}"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"
+                    Margin="3"/>
             <Button Grid.Column="1"
                     Text="Next Page"
                     HorizontalOptions="Fill"
                     VerticalOptions="End" 
-                    Command="{Binding OpenJournalEntryPageCommand}"/>
+                    Command="{Binding OpenJournalEntryPageCommand}"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"
+                    Margin="3"/>
         </Grid>
 
     </Grid>

@@ -4,10 +4,14 @@
              xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
              xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses.Items"
              xmlns:converters="clr-namespace:CaptainsLog.Converters"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.BoatExpensesPages.ViewExpensesPage"
              Title="View Expenses"
              x:DataType="vm:ExpensesViewModel"
-             x:Name="ViewExpPage">
+             x:Name="ViewExpPage"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:DateStringToFormattedDateConverter x:Key="DateStringConverter" />
@@ -16,52 +20,78 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="45"/>
             <RowDefinition Height="1.0*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Picker Grid.Row="0"
+
+        <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+             Source="backbutton.png"
+             Command="{Binding BackButtonClickedCommand}"
+             HorizontalOptions="Fill"/>
+
+        <ImageButton Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1"
+             Source="helpbutton.png"
+             Command="{Binding HelpButtonClickedCommand}"
+             HorizontalOptions="Fill"/>
+
+        <Picker Grid.Row="2"
                 Grid.Column="0"
                 x:Name="TypePicker"
-                Title="Type Filter"
+                Title="Expense"
+                BackgroundColor="White"
+                Margin="4"
                 SelectedItem="{Binding SelectedType}">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
-                    <x:String>All</x:String>
                     <x:String>Fuel (Petrol/Diesel)</x:String>
                     <x:String>Coal/Logs</x:String>
                     <x:String>Pumpout/Elsan</x:String>
                     <x:String>Gas</x:String>
                     <x:String>Engine Repair</x:String>
                     <x:String>Hull Maintenance</x:String>
+                    <x:String>Groceries</x:String>
                     <x:String>Other</x:String>
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-        <Picker Grid.Row="0"
+        <Picker Grid.Row="2"
                 Grid.Column="1"
                 x:Name="MonthPicker"
-                Title="Month Filter"
+                Title="Month"
+                BackgroundColor="White"
+                Margin="4"
                 ItemsSource="{Binding DateDropDownData}"
                 SelectedItem="{Binding SelectedMonth}"/>
 
-        <Button Grid.Row="0"
+        <Button Grid.Row="2"
                 Grid.Column="2"
-                Text="Show"
-                Command="{Binding ApplyFiltersCommand}">
+                Text="Go"
+                Command="{Binding ApplyFiltersCommand}"
+                BackgroundColor="#226666"
+                BorderColor="Black"
+                BorderWidth="3"
+                Margin="6"
+                FontAttributes="Bold">
         </Button>
 
-        <CollectionView Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding ExpensesItems}" Background="Transparent" >
+        <CollectionView Grid.Row="3" Grid.ColumnSpan="3" ItemsSource="{Binding ExpensesItems}" Background="Transparent" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ExpensesItem">
                     <ScrollView>
                         <SwipeView >
-                            <Border Padding="5">
+                            <Border Padding="6"
+                            Stroke="Black"
+                            StrokeThickness="3"
+                            BackgroundColor="White"
+                            Margin="6">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -70,21 +100,20 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
                                         <ColumnDefinition />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="100"/>
                                     </Grid.ColumnDefinitions>
                                     <!--Date-->
                                     <Label Grid.Column="0" Grid.Row="0" Text="Date" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                                     <Label Grid.Column="0" Grid.Row="1" Text="{Binding ExpenseDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
                                     <!--Type-->
-                                    <Label Grid.Column="1" Grid.Row="0" Text="Type" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="0" Text="Expense" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                                     <Label Grid.Column="1" Grid.Row="1" Text="{Binding ExpenseType}" HorizontalTextAlignment="Center"/>
                                     <!--Amount-->
                                     <Label Grid.Column="2" Grid.Row="0" Text="Amount" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                                     <Label Grid.Column="2" Grid.Row="1" Text="{Binding Amount}" HorizontalTextAlignment="Center"/>
                                     <!--Note-->
-                                    <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Text="Note" BackgroundColor="AliceBlue" HorizontalTextAlignment="Start"/>
                                     <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding ExpenseDesc}" HorizontalTextAlignment="Start"/>
                                 </Grid>
                             </Border>
@@ -109,11 +138,15 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="2"
+        <Button Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 x:Name="PDFExporterBtn"
-                Text="Export" 
+                Text="Export"  
+            BackgroundColor="#226666"
+            BorderColor="Black"
+            BorderWidth="3"
+            Margin="5"
                 Command="{Binding ExportAsPDFCommand}"/>
     </Grid>
 
