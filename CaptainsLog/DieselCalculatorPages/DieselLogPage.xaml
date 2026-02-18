@@ -94,23 +94,23 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                        <ColumnDefinition Width="1.3*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
 
                             <Label Grid.Column="0" Grid.Row="0" Text="Date" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                             <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
 
-                            <Label Grid.Column="1" Grid.Row="0" Text="Leisure Hours" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="Leisure" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                             <Label Grid.Column="1" Grid.Row="1" Text="{Binding LeisureHours}" HorizontalTextAlignment="Center"/>
 
-                            <Label Grid.Column="2" Grid.Row="0" Text="Prop Hours" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="2" Grid.Row="0" Text="Propulsion" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                             <Label Grid.Column="2" Grid.Row="1" Text="{Binding PropHours}" HorizontalTextAlignment="Center"/>
 
-                            <Label Grid.Column="3" Grid.Row="0" Text="Diesel Litres" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="3" Grid.Row="0" Text="Diesel Ltrs" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
                             <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center"/>
 
                         </Grid>

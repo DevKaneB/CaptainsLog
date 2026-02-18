@@ -18,7 +18,7 @@ namespace CaptainsLog.Converters
                 return string.Empty;
 
             // Allow overriding format via ConverterParameter
-            var format = parameter as string ?? "dd-MMM-yyyy";
+            var format = parameter as string ?? "dd MMMM yyyy";
 
             // If already a DateTime, format directly
             if (value is DateTime dt)

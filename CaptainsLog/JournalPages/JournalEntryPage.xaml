@@ -2,41 +2,68 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
+             xmlns:converters="clr-namespace:CaptainsLog.Converters"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="CaptainsLog.JournalPages.JournalEntryPage"
              Title="JournalEntryPage"
              x:DataType="vm:JournalViewModel"
-             x:Name="JournalEntryPge">
+             x:Name="JournalEntryPge"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:DateStringToFormattedDateConverter x:Key="DateStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="*,Auto">
 
         <ScrollView>
             <VerticalStackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ImageButton HeightRequest="55" Grid.Column="0" 
+                                 Source="backbutton.png"
+                                 Command="{Binding BackButtonClickedCommand}"
+                                 HorizontalOptions="Fill"/>
+
+                </Grid>
                 <Label 
-            Text="{Binding JournalVEntryDate}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+                    Text="{Binding JournalVEntryDate, Converter={StaticResource DateStringConverter}}"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
+                    Margin="10"
+                    FontSize="Large"/>   
                 <Label 
-            Text="{Binding JournalVTitle}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+                    Text="{Binding JournalVTitle}"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" 
+                    Margin="10"
+                    FontSize="Large"/>
                 <Image
-            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
-            x:Name="BoatImage"
-            HeightRequest="185"
-            Aspect="AspectFit"
-            Source="{Binding JournalVPicturePath}">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding PickPhotoCommand}" NumberOfTapsRequired="1" />
-                    </Image.GestureRecognizers>
+                     Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                    x:Name="BoatImage"
+                    HeightRequest="185"
+                    Aspect="AspectFit"
+                    Source="{Binding JournalVPicturePath}"
+                    Margin="10">
                 </Image>
                 <Label 
-            Text="{Binding JournalVLocation}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+                    Text="{Binding JournalVLocation}"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" 
+                    Margin="0,0,0,15"/>
                 <Label 
-            Text="{Binding JournalVContent}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+                    Text="{Binding JournalVContent}"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" 
+                    Margin="10"/>
             </VerticalStackLayout>
         </ScrollView>
 
@@ -46,12 +73,20 @@
                   Text="Previous Page"
                   HorizontalOptions="Fill"
                   VerticalOptions="End"
-                    Command="{Binding NextPageCommand}"/>
+                    Command="{Binding NextPageCommand}"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"
+                    Margin="3"/>
             <Button Grid.Column="1"
-                  Text="Next Page"
-                  HorizontalOptions="Fill"
-                  VerticalOptions="End"
-                    Command="{Binding PrevPageCommand}"/>
+                      Text="Next Page"
+                      HorizontalOptions="Fill"
+                      VerticalOptions="End"
+                    Command="{Binding PrevPageCommand}"
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"
+                    Margin="3"/>
         </Grid>
 
 
