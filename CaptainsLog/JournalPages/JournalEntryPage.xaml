@@ -34,7 +34,8 @@
                                  HorizontalOptions="Fill"/>
                     <ImageButton HeightRequest="55" Grid.Column="4" 
                                  Source="sharebutton.png"
-                                 HorizontalOptions="Fill"/>
+                                 HorizontalOptions="Fill"
+                                 Command="{Binding ShareEntryCommand}"/>
 
                 </Grid>
                 <Label 
@@ -88,7 +89,8 @@
                     BackgroundColor="#226666"
                     BorderColor="Black"
                     BorderWidth="3"
-                    Margin="3"/>
+                    Margin="3"
+                    Command="{Binding DeleteEntryCommand}"/>
             <Button Grid.Column="2"
                       Text="Next Page"
                       HorizontalOptions="Fill"

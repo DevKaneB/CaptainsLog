@@ -1,6 +1,7 @@
 ﻿using CaptainsLog.DatabaseClasses.Items;
 using CaptainsLog.DatabaseClasses.Services;
-using CaptainsLog.JournalPages; // For DisplayAlert
+using CaptainsLog.JournalPages;
+using CaptainsLog.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
@@ -49,7 +50,7 @@ namespace CaptainsLog.ViewModels
         }
 
         [RelayCommand]
-        public async Task OnBackButtonClicked()
+        public static async Task OnBackButtonClicked()
         {
             var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
             var navigation = mainWindow?.Page?.Navigation;
@@ -60,7 +61,7 @@ namespace CaptainsLog.ViewModels
         }
 
         [RelayCommand]
-        public async Task OnHelpButtonClicked()
+        public static async Task OnHelpButtonClicked()
         {
             // Get the current page safely
             var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
@@ -210,7 +211,7 @@ namespace CaptainsLog.ViewModels
         }
 
         // Add this method to JournalViewModel to resolve CS0103 for ShowAlertAsync
-        private async Task ShowAlertAsync(string title, string message, string cancel)
+        private static async Task ShowAlertAsync(string title, string message, string cancel)
         {
             // If using MAUI, you can use Application.Current.MainPage.DisplayAlert
             await Application.Current.MainPage.DisplayAlert(title, message, cancel);
@@ -377,6 +378,76 @@ namespace CaptainsLog.ViewModels
             catch (Exception ex)
             {
                 CurrentID = 0;
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteEntry()
+        {
+            // Confirm save with the user before proceeding
+            var confirmDelete = await Application.Current.MainPage.DisplayAlert(
+                "Confirm Delete",
+                "Do you want to delete this journal entry?",
+                "Yes",
+                "No");
+
+            if (!confirmDelete)
+                return;
+
+            var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync($"SELECT * FROM JournalItem WHERE ID = {CurrentID}");
+
+            if (ReadEntry != null && ReadEntry.Count != 0)
+            {
+                await _journalSQLTools.DeleteItemAsync(ReadEntry[0]);
+                await OnBackButtonClicked();
+            }
+            else
+            {
+                await ShowAlertAsync("Delete Error", "No entry found to delete.", "OK");
+            }
+
+        }
+
+        [RelayCommand]
+        private async Task ShareEntry()
+        {
+            var ReadEntry = await _journalSQLTools.GetItemsViaQueryAsync($"SELECT * FROM JournalItem WHERE ID = {CurrentID} ORDER BY EntryDate");
+
+            if (ReadEntry != null && ReadEntry.Count != 0)
+            {
+                // Get the current page safely
+                var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+                // If no page is available, cancel the delete to avoid throwing
+                if (page == null)
+                    return;
+
+                // Ask the user to confirm deletion
+                var confirmed = await page.DisplayAlert(
+                    "Confirm Export",
+                    "Do you confirm you wish to Export as PDF?",
+                    "Yes",
+                    "No");
+
+                // If the user cancels, do nothing
+                if (!confirmed)
+                    return;
+
+                List<JournalItem> items = ReadEntry.ToList();
+
+                var pdfService = new PdfService();
+                string filePath = await pdfService.ExportJournalToPdfAsync(items);
+
+                // Share the PDF
+                await Share.RequestAsync(new ShareFileRequest
+                {
+                    Title = "Diary",
+                    File = new ShareFile(filePath)
+                });
+            }
+            else
+            {
+                await ShowAlertAsync("Share Error", "No entries found to share.", "OK");
             }
         }
     }
