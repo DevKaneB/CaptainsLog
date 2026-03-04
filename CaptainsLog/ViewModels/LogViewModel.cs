@@ -244,18 +244,18 @@ namespace CaptainsLog.ViewModels
 
             // Convert DieselDatabase items to ExpensesItem for export
             var items = DatabaseItems?
-                .Select(d => new ExpensesItem
+                .Select(d => new DieselDatabase
                 {
                     ID = d.ID,
-                    ExpenseType = "Diesel", // Or map as needed
-                    Amount = d.DieselRefill,
-                    ExpenseDate = d.EntryDate,
-                    ExpenseDesc = $"Leisure: {d.LeisureHours}, Prop: {d.PropHours}"
+                    EntryDate = d.EntryDate,
+                    LeisureHours = d.LeisureHours,
+                    PropHours = d.PropHours,
+                    DieselRefill = d.DieselRefill,
                 })
-                .ToList() ?? new List<ExpensesItem>();
+                .ToList() ?? new List<DieselDatabase>();
 
             var pdfService = new PdfService();
-            string filePath = await pdfService.ExportListToPdfAsync(items);
+            string filePath = await pdfService.ExportHoursToPdfAsync(items);
 
             // Share the PDF
             await Share.RequestAsync(new ShareFileRequest

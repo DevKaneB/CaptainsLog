@@ -16,51 +16,425 @@ namespace CaptainsLog.Services
 {
     public class PdfService
     {
-        public async Task<string> ExportListToPdfAsync(List<ExpensesItem> items)
+
+        public async Task<string> ExportHoursToPdfAsync(List<DieselDatabase> items)
         {
-            // Create a new PDF document
-            using var document = new PdfDocument();
-
-            // Add a page
-            PdfPage page = document.Pages.Add();
-
-            // Create a PdfGrid to display tabular data
-            PdfGrid pdfGrid = new PdfGrid();
-
-            // Assign the data source
-            pdfGrid.DataSource = items.Select(x => new
+            // Helper: try to get property by many possible names
+            object? GetPropValue(object src, params string[] names)
             {
-                ExpenseDate = DateTime.TryParse(x.ExpenseDate, out var dt)
-                              ? dt.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)
-                              : x.ExpenseDate,
-                ExpenseType = x.ExpenseType,
-                ExpenseDesc = x.ExpenseDesc,
-                Amount = x.Amount
-            }).ToList();
+                if (src == null) return null;
+                var type = src.GetType();
+                foreach (var n in names)
+                {
+                    var p = type.GetProperty(n);
+                    if (p != null)
+                    {
+                        try { return p.GetValue(src); } catch { continue; }
+                    }
+                }
+                return null;
+            }
 
-            // Create the header row
-            PdfGridRow header = pdfGrid.Headers[0];
-            header.Cells[0].Value = "Date";
-            header.Cells[1].Value = "Type";
-            header.Cells[2].Value = "Description";
-            header.Cells[3].Value = "Amount";
+            DateTime? TryExtractDate(object item)
+            {
+                var val = GetPropValue(item, "Date", "EntryDate", "LogDate", "CreatedDate", "RecordDate", "ExpenseDate");
+                if (val == null) return null;
+                if (val is DateTime dt) return dt;
+                if (val is string s && !string.IsNullOrWhiteSpace(s) && DateTime.TryParse(s, out var parsed)) return parsed;
+                if (val is long l) return DateTime.FromFileTimeUtc(l);
+                // sometimes ticks stored as double/int
+                try
+                {
+                    if (val is double db) return DateTime.FromFileTimeUtc(Convert.ToInt64(db));
+                    if (val is int i) return DateTime.FromFileTimeUtc(i);
+                }
+                catch { }
+                return null;
+            }
 
-            // Customize the grid style
-            pdfGrid.Style.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 12);
-            pdfGrid.Style.CellPadding = new PdfPaddings(5, 5, 5, 5);
+            string TryExtractString(object item, params string[] names)
+            {
+                var val = GetPropValue(item, names);
+                if (val == null) return "-";
+                if (val is string s)
+                {
+                    if (string.IsNullOrWhiteSpace(s)) return "-";
+                    return s;
+                }
+                return val.ToString() ?? "-";
+            }
 
-            // Draw the grid on the page
-            pdfGrid.Draw(page, new Syncfusion.Drawing.PointF(10, 10));
+            decimal? TryExtractDecimal(object item, params string[] names)
+            {
+                var val = GetPropValue(item, names);
+                if (val == null) return null;
+                if (val is decimal d) return d;
+                if (val is double db) return Convert.ToDecimal(db);
+                if (val is float f) return Convert.ToDecimal(f);
+                if (val is int i) return Convert.ToDecimal(i);
+                if (val is long l) return Convert.ToDecimal(l);
+                var s = val as string;
+                if (!string.IsNullOrWhiteSpace(s) && decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed)) return parsed;
+                return null;
+            }
 
-            // Save to memory stream
+            // 1. Prepare ordered items with parsed dates
+            var prepared = (items ?? new List<DieselDatabase>())
+                .Select(it => new
+                {
+                    Item = it,
+                    ParsedDate = TryExtractDate(it)
+                })
+                .OrderBy(x => x.ParsedDate ?? DateTime.MaxValue)
+                .ToList();
+
+            // compute date range text using dd-MMM-yyyy format
+            var dates = prepared.Select(x => x.ParsedDate).Where(d => d.HasValue).Select(d => d!.Value).ToList();
+            string dateRangeText;
+            if (dates.Count == 0)
+            {
+                dateRangeText = "No dates available";
+            }
+            else if (dates.Count == 1)
+            {
+                dateRangeText = dates[0].ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                var min = dates.Min();
+                var max = dates.Max();
+                dateRangeText = $"From {min:dd-MMM-yyyy} to {max:dd-MMM-yyyy}";
+            }
+
+            // 2. Build rows: Date, Leisure, Propulsion, Diesel (litres)
+            var rows = new List<object>();
+            decimal totalLeisure = 0m;
+            decimal totalPropulsion = 0m;
+
+            foreach (var entry in prepared)
+            {
+                var it = entry.Item;
+                string dateStr = entry.ParsedDate.HasValue
+                    ? entry.ParsedDate.Value.ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture)
+                    : TryExtractString(it, "EntryDate");
+
+                // Leisure hours 
+                var leisureDec = TryExtractDecimal(it, "LeisureHours");
+                string leisureStr = leisureDec.HasValue ? leisureDec.Value.ToString("0.##", CultureInfo.CurrentCulture) : "-";
+
+                // Propulsion hours
+                var propulsionDec = TryExtractDecimal(it, "PropHours");
+                string propulsionStr = propulsionDec.HasValue ? propulsionDec.Value.ToString("0.##", CultureInfo.CurrentCulture) : "-";
+
+                // Accumulate totals for percentages (treat nulls as zero)
+                if (leisureDec.HasValue) totalLeisure += leisureDec.Value;
+                if (propulsionDec.HasValue) totalPropulsion += propulsionDec.Value;
+
+                // Diesel litres
+                var dieselDec = TryExtractDecimal(it, "DieselRefill");
+                string dieselStr = dieselDec.HasValue ? dieselDec.Value.ToString("0.##", CultureInfo.CurrentCulture) : "-";
+
+                rows.Add(new
+                {
+                    Date = dateStr,
+                    Leisure = leisureStr,
+                    Propulsion = propulsionStr,
+                    Diesel = dieselStr
+                });
+            }
+
+            // Compute percentage title
+            int propulsionPct = 0;
+            int leisurePct = 0;
+            var totalHours = totalLeisure + totalPropulsion;
+            if (totalHours > 0m)
+            {
+                // compute propulsion percentage rounded to nearest integer
+                propulsionPct = (int)Math.Round((double)((totalPropulsion / totalHours) * 100.0m), MidpointRounding.AwayFromZero);
+                // ensure the two add to 100
+                leisurePct = 100 - propulsionPct;
+                if (leisurePct < 0) leisurePct = 0;
+            }
+
+            string percentTitle = $"Propulsion {propulsionPct}% : {leisurePct}% Leisure";
+
+            // 3. Create PDF and draw title/subtitle and percentage title row
+            using var document = new PdfDocument();
+            PdfPage page = document.Pages.Add();
+            var pageSize = page.GetClientSize();
+            const float margin = 20f;
+            float contentX = margin;
+            float currentY = margin;
+
+            // Title
+            PdfFont titleFont = new PdfStandardFont(PdfFontFamily.Helvetica, 20, PdfFontStyle.Bold);
+            string title = "Engine Hours Log";
+            var titleSize = titleFont.MeasureString(title);
+            float titleX = (pageSize.Width - titleSize.Width) / 2f;
+            page.Graphics.DrawString(title, titleFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(titleX, currentY));
+            currentY += titleSize.Height + 6f;
+
+            // Subtitle: date range
+            PdfFont subFont = new PdfStandardFont(PdfFontFamily.Helvetica, 10, PdfFontStyle.Regular);
+            var subSize = subFont.MeasureString(dateRangeText);
+            float subX = (pageSize.Width - subSize.Width) / 2f;
+            page.Graphics.DrawString(dateRangeText, subFont, PdfBrushes.Gray, new Syncfusion.Drawing.PointF(subX, currentY));
+            currentY += subSize.Height + 8f;
+
+            // Percentage title row (centered, slightly larger/bold)
+            PdfFont percentFont = new PdfStandardFont(PdfFontFamily.Helvetica, 11, PdfFontStyle.Bold);
+            var pctSize = percentFont.MeasureString(percentTitle);
+            float pctX = (pageSize.Width - pctSize.Width) / 2f;
+            page.Graphics.DrawString(percentTitle, percentFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(pctX, currentY));
+            currentY += pctSize.Height + 12f;
+
+            if (rows.Count == 0)
+            {
+                PdfFont noTxFont = new PdfStandardFont(PdfFontFamily.Helvetica, 12, PdfFontStyle.Italic);
+                string noTx = "No records found for the selected period.";
+                var noSize = noTxFont.MeasureString(noTx);
+                float noX = (pageSize.Width - noSize.Width) / 2f;
+                page.Graphics.DrawString(noTx, noTxFont, PdfBrushes.DarkGray, new Syncfusion.Drawing.PointF(noX, currentY));
+            }
+            else
+            {
+                PdfGrid pdfGrid = new PdfGrid();
+                pdfGrid.DataSource = rows;
+
+                if (pdfGrid.Headers.Count == 0)
+                    pdfGrid.Headers.Add(1);
+
+                var header = pdfGrid.Headers[0];
+
+                // Ensure header cells exist then set titles
+                if (header.Cells.Count >= 4)
+                {
+                    header.Cells[0].Value = "Date";
+                    header.Cells[1].Value = "Leisure (hrs)";
+                    header.Cells[2].Value = "Propulsion (hrs)";
+                    header.Cells[3].Value = "Diesel (L)";
+                }
+
+                pdfGrid.Style.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 10);
+                pdfGrid.Style.CellPadding = new PdfPaddings(4, 6, 4, 6);
+                pdfGrid.Style.AllowHorizontalOverflow = false;
+
+                for (int i = 0; i < header.Cells.Count; i++)
+                {
+                    if (header.Cells[i] is PdfGridCell cell)
+                    {
+                        cell.Style.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 11, PdfFontStyle.Bold);
+                        cell.Style.BackgroundBrush = new PdfSolidBrush(Syncfusion.Drawing.Color.FromArgb(230, 230, 230));
+                        cell.Style.StringFormat = new PdfStringFormat { Alignment = PdfTextAlignment.Center, LineAlignment = PdfVerticalAlignment.Middle };
+                    }
+                }
+
+                // Right-align numeric columns (Leisure index 1, Propulsion index 2, Diesel index 3)
+                if (pdfGrid.Columns.Count > 1) pdfGrid.Columns[1].Format = new PdfStringFormat { Alignment = PdfTextAlignment.Right };
+                if (pdfGrid.Columns.Count > 2) pdfGrid.Columns[2].Format = new PdfStringFormat { Alignment = PdfTextAlignment.Right };
+                if (pdfGrid.Columns.Count > 3) pdfGrid.Columns[3].Format = new PdfStringFormat { Alignment = PdfTextAlignment.Right };
+
+                float availableWidth = pageSize.Width - (2 * margin);
+                float availableHeight = pageSize.Height - currentY - margin;
+                var gridRect = new RectangleF(contentX, currentY, availableWidth, availableHeight);
+
+                if (pdfGrid.Columns.Count >= 4)
+                {
+                    // Date 20%, Leisure 26.5%, Propulsion 26.5%, Diesel 27% (balanced for numeric columns)
+                    pdfGrid.Columns[0].Width = availableWidth * 0.20f; // Date
+                    pdfGrid.Columns[1].Width = availableWidth * 0.27f; // Leisure
+                    pdfGrid.Columns[2].Width = availableWidth * 0.27f; // Propulsion
+                    pdfGrid.Columns[3].Width = availableWidth * 0.26f; // Diesel
+                }
+
+                var layoutFormat = new PdfLayoutFormat { Layout = PdfLayoutType.Paginate };
+                pdfGrid.Draw(page, gridRect, layoutFormat);
+            }
+
+            // 4. Save document
             using var stream = new MemoryStream();
             document.Save(stream);
             document.Close(true);
 
+            string folderName = "Hours_Statements";
+            string fileName = DateTime.Now.ToString("dd_MMM_yyyy_HHmmss") + "_Hours.pdf";
+            string fullFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), folderName);
 
-            string folderName = "Boat_Expenses";
-            string fileName = DateTime.Now.ToString("dd_MMM_yyyy_HHmmss") + "_Expenses.pdf";
+            try
+            {
+                if (!Directory.Exists(fullFolderPath))
+                    Directory.CreateDirectory(fullFolderPath);
 
+                string filePath = Path.Combine(fullFolderPath, fileName);
+                File.WriteAllBytes(filePath, stream.ToArray());
+                await Task.CompletedTask;
+                return filePath;
+            }
+            catch
+            {
+                // If filesystem write fails, still return an empty string after completing async
+                await Task.CompletedTask;
+                return string.Empty;
+            }
+        }
+
+        public async Task<string> ExportListToPdfAsync(List<ExpensesItem> items)
+        {
+            // 1. Create PDF document and page
+            using var document = new PdfDocument();
+            PdfPage page = document.Pages.Add();
+
+            // Page metrics
+            var pageSize = page.GetClientSize();
+            const float margin = 20f;
+            float contentX = margin;
+            float currentY = margin;
+
+            // 2. Draw title
+            PdfFont titleFont = new PdfStandardFont(PdfFontFamily.Helvetica, 20, PdfFontStyle.Bold);
+            string title = "Boat Expense Statement";
+            var titleSize = titleFont.MeasureString(title);
+            float titleX = (pageSize.Width - titleSize.Width) / 2f;
+            page.Graphics.DrawString(title, titleFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(titleX, currentY));
+            currentY += titleSize.Height + 6f;
+
+            // Draw statement/date line
+            PdfFont metaFont = new PdfStandardFont(PdfFontFamily.Helvetica, 10, PdfFontStyle.Regular);
+            string statementDate = $"Statement generated: {DateTime.Now:dd MMM yyyy}";
+            var metaSize = metaFont.MeasureString(statementDate);
+            float metaX = (pageSize.Width - metaSize.Width) / 2f;
+            page.Graphics.DrawString(statementDate, metaFont, PdfBrushes.Gray, new Syncfusion.Drawing.PointF(metaX, currentY));
+            currentY += metaSize.Height + 12f;
+
+            // 3. Prepare items ordered by date
+            var ordered = (items ?? new List<ExpensesItem>())
+                .Select(x =>
+                {
+                    var parsed = DateTime.TryParse(x.ExpenseDate, out var dt) ? dt : (DateTime?)null;
+                    return new { Item = x, ParsedDate = parsed };
+                })
+                .OrderBy(x => x.ParsedDate ?? DateTime.MaxValue)
+                .ToList();
+
+            // 4. Build rows for grid (no balance)
+            var rows = new List<object>();
+
+            foreach (var entry in ordered)
+            {
+                var it = entry.Item;
+
+                // Try to convert amount to decimal safely
+                decimal amt = 0m;
+                try
+                {
+                    amt = Convert.ToDecimal(it.Amount);
+                }
+                catch
+                {
+                    amt = 0m;
+                }
+
+                string dateStr = entry.ParsedDate.HasValue ? entry.ParsedDate.Value.ToString("dd MMM yyyy", CultureInfo.InvariantCulture) : it.ExpenseDate;
+                string desc = string.IsNullOrWhiteSpace(it.ExpenseDesc) ? "(no description)" : it.ExpenseDesc;
+                string type = string.IsNullOrWhiteSpace(it.ExpenseType) ? "-" : it.ExpenseType;
+                string amountStr = amt != 0m ? amt.ToString("C", CultureInfo.CurrentCulture) : "-";
+
+                rows.Add(new
+                {
+                    Date = dateStr,
+                    Description = desc,
+                    Type = type,
+                    Amount = amountStr
+                });
+            }
+
+            // 5. If no transactions, write a friendly message
+            if (rows.Count == 0)
+            {
+                PdfFont noTxFont = new PdfStandardFont(PdfFontFamily.Helvetica, 12, PdfFontStyle.Italic);
+                string noTx = "No transactions for the selected period.";
+                var noSize = noTxFont.MeasureString(noTx);
+                float noX = (pageSize.Width - noSize.Width) / 2f;
+                page.Graphics.DrawString(noTx, noTxFont, PdfBrushes.DarkGray, new Syncfusion.Drawing.PointF(noX, currentY));
+            }
+            else
+            {
+                // 6. Create and style PdfGrid (Date, Description, Type, Amount)
+                PdfGrid pdfGrid = new PdfGrid();
+                pdfGrid.DataSource = rows;
+
+                // Ensure header exists and set custom column headers
+                if (pdfGrid.Headers.Count == 0)
+                    pdfGrid.Headers.Add(1);
+
+                var header = pdfGrid.Headers[0];
+
+                // Set header titles - expect 4 columns: Date, Description, Type, Amount
+                // If the header currently doesn't have cells yet, ensure DataSource has produced columns
+                if (header.Cells.Count >= 4)
+                {
+                    header.Cells[0].Value = "Date";
+                    header.Cells[1].Value = "Description";
+                    header.Cells[2].Value = "Type";
+                    header.Cells[3].Value = "Amount";
+                }
+
+                // Style
+                pdfGrid.Style.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 10);
+                pdfGrid.Style.CellPadding = new PdfPaddings(4, 6, 4, 6);
+
+                // Prevent horizontal overflow so we can fit the grid into our rectangle
+                pdfGrid.Style.AllowHorizontalOverflow = false;
+
+                // Header style
+                for (int i = 0; i < header.Cells.Count; i++)
+                {
+                    if (header.Cells[i] is PdfGridCell cell)
+                    {
+                        cell.Style.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 11, PdfFontStyle.Bold);
+                        cell.Style.BackgroundBrush = new PdfSolidBrush(Syncfusion.Drawing.Color.FromArgb(230, 230, 230));
+                        cell.Style.StringFormat = new PdfStringFormat { Alignment = PdfTextAlignment.Center, LineAlignment = PdfVerticalAlignment.Middle };
+                    }
+                }
+
+                // Right-align the Amount column (index 3)
+                if (pdfGrid.Columns.Count > 3)
+                {
+                    pdfGrid.Columns[3].Format = new PdfStringFormat { Alignment = PdfTextAlignment.Right };
+                }
+
+                // Compute drawing rectangle: full document width minus margins, and remaining height
+                float availableWidth = pageSize.Width - (2 * margin);
+                float availableHeight = pageSize.Height - currentY - margin;
+                var gridRect = new RectangleF(contentX, currentY, availableWidth, availableHeight);
+
+                // Set column widths as proportions of available width for a balanced layout
+                if (pdfGrid.Columns.Count >= 4)
+                {
+                    // Example proportions: Date 15%, Description 55%, Type 15%, Amount 15%
+                    pdfGrid.Columns[0].Width = availableWidth * 0.15f;
+                    pdfGrid.Columns[1].Width = availableWidth * 0.55f;
+                    pdfGrid.Columns[2].Width = availableWidth * 0.15f;
+                    pdfGrid.Columns[3].Width = availableWidth * 0.15f;
+                }
+
+                // Use a layout format that allows pagination so grid can flow across multiple pages
+                var layoutFormat = new PdfLayoutFormat
+                {
+                    Layout = PdfLayoutType.Paginate
+                };
+
+                // Draw the grid into the rectangle. This will make the grid fit the document's content area width
+                pdfGrid.Draw(page, gridRect, layoutFormat);
+            }
+
+            // 7. Save to memory stream and to disk
+            using var stream = new MemoryStream();
+            document.Save(stream);
+            document.Close(true);
+
+            string folderName = "Boat_Expenses_Statements";
+            string fileName = DateTime.Now.ToString("dd_MMM_yyyy_HHmmss") + "_Statement.pdf";
             string fullFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), folderName);
 
             if (!Directory.Exists(fullFolderPath))
@@ -68,10 +442,11 @@ namespace CaptainsLog.Services
                 Directory.CreateDirectory(fullFolderPath);
             }
 
-            // Save to app data directory
             string filePath = Path.Combine(fullFolderPath, fileName);
             File.WriteAllBytes(filePath, stream.ToArray());
 
+            // 8. small await to satisfy async usage
+            await Task.CompletedTask;
             return filePath;
         }
 
