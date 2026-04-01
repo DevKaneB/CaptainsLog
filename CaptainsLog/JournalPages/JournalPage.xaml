@@ -82,14 +82,14 @@
                 FontAttributes="Bold"
                 FontSize="Medium"
                 Margin="10"
-                    BackgroundColor="White"
+                    BackgroundColor="White" TextColor="Black"
                 Text="{Binding JournalTitle}"/>
 
                 <Entry
                 Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
                 Placeholder="Enter Location"
                 Margin="10"
-                    BackgroundColor="White"
+                    BackgroundColor="White" TextColor="Black"
                 Text="{Binding JournalLocation}"/>
 
                 <Entry
@@ -97,7 +97,7 @@
                 VerticalTextAlignment="Start"
                 Placeholder="How was your day?"
                 Margin="10"
-                    BackgroundColor="White"
+                    BackgroundColor="White" TextColor="Black"
                 Text="{Binding JournalContent}"/>
             </Grid>
 
