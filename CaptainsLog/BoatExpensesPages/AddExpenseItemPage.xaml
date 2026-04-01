@@ -78,7 +78,8 @@
                         Grid.Row="2"
                         x:Name="TypePicker"
                         Title="Select Expense Type"
-                            BackgroundColor="White">
+                            BackgroundColor="White"
+                            TextColor="Black">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Fuel (Petrol/Diesel)</x:String>
@@ -110,7 +111,8 @@
                         x:Name="ExpenseReasonEntry"
                         Placeholder="Optional or Other Reason"
                         VerticalOptions="Center"
-                        BackgroundColor="White"/>
+                        BackgroundColor="White"
+                        TextColor="Black"/>
                 </Border>
 
                 <!-- Expense Amount-->

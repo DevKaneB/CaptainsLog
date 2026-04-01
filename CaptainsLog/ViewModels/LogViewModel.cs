@@ -38,19 +38,38 @@ namespace CaptainsLog.ViewModels
         //Load the date dropdown with months from the earliest expense date to now
         public async Task LoadDateDropDown()
         {
-            cachedDatabaseItems = await _databaseClient.GetItemsViaQueryAsync("Select EntryDate FROM DieselDatabase where LeisureHours > 0 or PropHours > 0 or DieselRefill > 0 ORDER BY EntryDate ASC LIMIT 1");
-
-            int monthDifference = GetMonthDifference(cachedDatabaseItems[0].EntryDate);
-            if (monthDifference > 0)
+            try
             {
+                cachedDatabaseItems = await _databaseClient.GetItemsViaQueryAsync("Select EntryDate FROM DieselDatabase where LeisureHours > 0 or PropHours > 0 or DieselRefill > 0 ORDER BY EntryDate ASC LIMIT 1");
 
-                var items = GetLastMonths(monthDifference);
-                DateDropDownData = new ObservableCollection<string>(items);
+                if (cachedDatabaseItems is null || cachedDatabaseItems.Count == 0)
+                    return;
+
+                int monthDifference = GetMonthDifference(cachedDatabaseItems[0].EntryDate);
+                if (monthDifference > 0)
+                {
+
+                    var items = GetLastMonths(monthDifference);
+                    DateDropDownData = new ObservableCollection<string>(items);
+
+                }
+
+                cachedDatabaseItems = null;
+            }
+            catch (Exception ex)
+            {
+                // Get the current page safely
+                var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+                // If no page is available, cancel the delete to avoid throwing
+                if (page == null)
+                    return;
+                // Alert the user of the error
+                await page.DisplayAlert(
+                    "Error",
+                    $"An error occurred while loading data: {ex.Message}",
+                    "Ok");
 
             }
-
-            cachedDatabaseItems = null;
-
         }
 
         //Calculate the number of months between now and the given date string
@@ -337,24 +356,50 @@ namespace CaptainsLog.ViewModels
         [RelayCommand]
         public async Task LoadDatabaseItemsAsync()
         {
-            var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase where LeisureHours > 0 or PropHours > 0 or DieselRefill > 0 Order By EntryDate DESC");
+            try
+            {
+                var items = await _databaseClient.GetItemsViaQueryAsync("Select * from DieselDatabase where LeisureHours > 0 or PropHours > 0 or DieselRefill > 0 Order By EntryDate DESC");
 
-            if (items == null || items.Count == 0)
+                if (items == null || items.Count == 0)
+                {
+                    // Get the current page safely
+                    var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+                    // If no page is available, cancel the delete to avoid throwing
+                    if (page == null)
+                        return;
+
+                    // Alert the user there are no entries
+                    await page.DisplayAlert(
+                        "Alert",
+                        "There are no entries to show!",
+                        "Ok");
+
+                    // Leave the page to avoid a crash with no data
+                    var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
+                    var navigation = mainWindow?.Page?.Navigation;
+                    if (navigation != null)
+                    {
+                        await navigation.PopAsync();
+                    }
+
+                    return;
+                }
+                DatabaseItems = new ObservableCollection<DieselDatabase>(items);
+            }
+            catch (Exception ex)
             {
                 // Get the current page safely
                 var page = Microsoft.Maui.Controls.Application.Current?.MainPage;
-
                 // If no page is available, cancel the delete to avoid throwing
                 if (page == null)
                     return;
-
-                // Ask the user to confirm deletion
+                // Alert the user of the error
                 await page.DisplayAlert(
-                    "Alert",
-                    "There are no entries to show!",
+                    "Error",
+                    $"An error occurred while loading data: {ex.Message}",
                     "Ok");
             }
-            DatabaseItems = new ObservableCollection<DieselDatabase>(items ?? new List<DieselDatabase>());
         }
 
         //Generate a list of month names for the last X months

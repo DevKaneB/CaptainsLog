@@ -204,7 +204,17 @@ namespace CaptainsLog.ViewModels
                                 {
                                     profileItem.ImageSource = candidate;
                                 }
-                                // else leave original value; Image may handle other schemes
+                                else
+                                {
+                                    // The saved absolute path is stale (e.g. old bundle path whose GUID
+                                    // changed between builds). Fall back to just the filename so MAUI
+                                    // can resolve it as a bundled resource from Resources/Images.
+                                    var fileName = Path.GetFileName(imageValue);
+                                    if (!string.IsNullOrWhiteSpace(fileName))
+                                    {
+                                        profileItem.ImageSource = fileName;
+                                    }
+                                }
                             }
                         }
                     }
