@@ -364,9 +364,4 @@ FodyWeavers.xsd
 /CaptainsLog/APIKeys/LocalKeys.cs
 /CaptainsLog/BoatExpensesPages/DeleteDudClass.cs
 /CaptainsLog/BoatExpensesPages/DeleteDudClass2.cs
-/CaptainsLog/Resources/.DS_Store
 /CaptainsLog/.DS_Store
-/.DS_Store
-
-# Local iOS/Mac signing properties
-Directory.Build.props

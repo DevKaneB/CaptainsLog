@@ -1,0 +1,8 @@
+<Project>
+  <!-- iOS code signing - this file is gitignored and should not be committed -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
+    <ProvisioningType>manual</ProvisioningType>
+    <CodesignKey>Apple Distribution: Kane Brennan (7BFTL8Y9U2)</CodesignKey>
+    <CodesignProvision>NarrowNotesProfile</CodesignProvision>
+  </PropertyGroup>
+</Project>
