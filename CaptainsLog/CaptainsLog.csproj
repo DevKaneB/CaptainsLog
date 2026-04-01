@@ -43,12 +43,6 @@
 
 		</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
-	  <ProvisioningType>manual</ProvisioningType>
-	  <CodesignKey>Apple Distribution: Kane Brennan (7BFTL8Y9U2)</CodesignKey>
-	  <CodesignProvision>NarrowNotesProfile</CodesignProvision>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\iconboat.png" Color="#A7CFCF" BaseSize="1024,1024" />

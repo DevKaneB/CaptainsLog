@@ -367,3 +367,6 @@ FodyWeavers.xsd
 /CaptainsLog/Resources/.DS_Store
 /CaptainsLog/.DS_Store
 /.DS_Store
+
+# Local iOS/Mac signing properties
+Directory.Build.props
