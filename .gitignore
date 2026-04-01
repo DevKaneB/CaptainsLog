@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /CaptainsLog/BoatExpensesPages/DeleteDudClass.cs
 /CaptainsLog/BoatExpensesPages/DeleteDudClass2.cs
 /CaptainsLog/.DS_Store
+/Directory.Build.props
+/CaptainsLog/Resources/.DS_Store
