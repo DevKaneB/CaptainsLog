@@ -14,7 +14,7 @@
                 <!-- Define number of rows and columns -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="55" />
-                    <RowDefinition Height="20" />
+                    <RowDefinition Height="10" />
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="30"/>
@@ -53,7 +53,8 @@
                        TextColor="Black"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" 
-                       FontSize="Title"/>
+                       FontSize="Title"
+                       />
                 <!-- Propulsion hours output Label -->
                 <Label
                     Grid.Column="1"
@@ -64,7 +65,7 @@
                     Text="0%"
                     HorizontalOptions="Fill"
                     HorizontalTextAlignment="Center"
-                    FontSize="Large"/>
+                    FontSize="25"/>
 
                 <!-- Divider label -->
                 <Label Grid.Column="2"
@@ -94,7 +95,7 @@
                     Text="0%"                     
                     HorizontalOptions="Fill"
                     HorizontalTextAlignment="Center"
-                    FontSize="Large"/>
+                    FontSize="25"/>
 
                 <!-- Litres Per Hour Label -->
                 <Label
@@ -116,6 +117,7 @@
                     x:Name="LastRefillBtn"
                     Text="Last Refuel"
                     TextColor="White"
+                    FontSize="15"
                     FontAutoScalingEnabled="True"
                     SemanticProperties.Hint="View Percentages since last refill"
                     Clicked="OnLastRefillClicked"
@@ -129,7 +131,8 @@
                     Grid.ColumnSpan="2"
                     Grid.Row="5"
                     x:Name="LastThirtyDaysBtn"
-                    Text="Last 30 Days" 
+                    Text="30 Days" 
+                    FontSize="15"
                     TextColor="White"
                     SemanticProperties.Hint="View Percentages over the last 30 days"
                     Clicked="OnLastThirtyDaysClicked"
@@ -143,6 +146,7 @@
                     Grid.ColumnSpan="2"
                     Grid.Row="5"
                     x:Name="AllTimeBtn"
+                    FontSize="15"
                     Text="All Time" 
                     TextColor="White"
                     SemanticProperties.Hint="View Percentages of All Time"
@@ -173,7 +177,8 @@
                     HorizontalOptions="Fill" 
                     BackgroundColor="#226666"
                     TextColor="White"
-                    BorderWidth="3"/>
+                    BorderWidth="3"
+                    FontSize="18"/>
                 <!-- Add a diesel Refill -->
                 <Button
                     Grid.Column="0"
@@ -186,7 +191,8 @@
                     HorizontalOptions="Fill" 
                     BackgroundColor="#226666"
                     TextColor="White"
-                    BorderWidth="3"/>
+                    BorderWidth="3"
+                    FontSize="18"/>
                 <!-- View History Log -->
                 <Button
                     Grid.Column="0"
@@ -199,7 +205,8 @@
                     HorizontalOptions="Fill" 
                     BackgroundColor="#226666"
                     TextColor="White"
-                    BorderWidth="3"/>
+                    BorderWidth="3"
+                    FontSize="18"/>
 
 
             </Grid>

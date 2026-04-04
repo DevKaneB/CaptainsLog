@@ -51,7 +51,7 @@ public partial class DieselCalcPage : ContentPage
 
             if (RefillItems.Count == 0)
             {
-                await DisplayAlert("Alert", "No diesel refill entries found in database", "OK");
+                await DisplayAlert("Alert", "No entries found", "OK");
                 return;
 
             }

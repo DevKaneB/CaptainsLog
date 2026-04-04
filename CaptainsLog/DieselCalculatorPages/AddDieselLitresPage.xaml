@@ -72,6 +72,7 @@
                         HorizontalTextAlignment="Center"
                         Minimum="0"
                         MaximumNumberDecimalDigits="0"
+                        FontSize="18"
                         />  
                 </Border>
                 <!-- Select an update button -->
@@ -86,7 +87,9 @@
                     HorizontalOptions="Fill" 
                     BackgroundColor="#226666"
                     BorderColor="Black"
-                    BorderWidth="3"/>
+                    TextColor="White"
+                    BorderWidth="3"
+                    FontSize="20"/>
                 <Button
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
@@ -98,7 +101,9 @@
                     HorizontalOptions="Fill"  
                     BackgroundColor="#226666"
                     BorderColor="Black"
-                    BorderWidth="3"/>
+                    TextColor="White"
+                    BorderWidth="3"
+                    FontSize="20"/>
             </Grid>
         </Border>
     </ContentPage.Content>

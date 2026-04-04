@@ -48,6 +48,7 @@
            Title="Sort"
                 BackgroundColor="White" TextColor="Black"
                 Margin="4"
+                FontSize="18"
                 SelectedItem="{Binding SelectedSort}">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
@@ -59,6 +60,7 @@
         <Picker Grid.Row="2"
                 Grid.Column="1"
                 x:Name="MonthPicker"
+                FontSize="18"
                 Title="Month"
                 SelectedItem="{Binding SelectedMonth}"
                 ItemsSource="{Binding DateDropDownData}"
@@ -69,6 +71,7 @@
                 Grid.Column="2"
                 Text="GO"
                 FontAttributes="Bold"
+                FontSize="16"
                 Margin="6"
                 Command="{Binding ApplyFiltersCommand}"
                 BackgroundColor="#226666"
@@ -106,13 +109,13 @@
                             <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center" TextColor="Black"/>
 
                             <Label Grid.Column="1" Grid.Row="0" Text="Leisure" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
-                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding LeisureHours}" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding LeisureHours}" HorizontalTextAlignment="Center" TextColor="Black"/>
 
                             <Label Grid.Column="2" Grid.Row="0" Text="Propulsion" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
-                            <Label Grid.Column="2" Grid.Row="1" Text="{Binding PropHours}" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="2" Grid.Row="1" Text="{Binding PropHours}" HorizontalTextAlignment="Center" TextColor="Black"/>
 
                             <Label Grid.Column="3" Grid.Row="0" Text="Diesel Ltrs" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
-                            <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center" TextColor="Black"/>
 
                         </Grid>
                     </Border>
@@ -144,9 +147,10 @@
             x:Name="PDFExporterBtn"
             Text="Export"  
             BackgroundColor="#226666"
+                FontSize="18"
             BorderColor="Black"
             BorderWidth="3"
-            Margin="5"
+            Margin="6"
             Command="{Binding ExportAsPDFCommand}"/>
     </Grid>
 </ContentPage>

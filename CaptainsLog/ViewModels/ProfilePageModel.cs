@@ -26,6 +26,11 @@ namespace CaptainsLog.ViewModels
             database = new DieselDatabaseMethods();
         }
 
+        public double ImageMaxHeight =>
+            DeviceDisplay.Current.MainDisplayInfo.Height
+            / DeviceDisplay.Current.MainDisplayInfo.Density
+            / 3;
+
         [ObservableProperty]
         public ObservableCollection<ProfileItem>? profileItems = new();
 

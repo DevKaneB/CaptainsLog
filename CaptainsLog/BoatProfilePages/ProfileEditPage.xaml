@@ -42,6 +42,7 @@ Plan (pseudocode):
                             x:Name="BoatImage"
                             Source="{Binding ImageSource}"
                             Aspect="AspectFit"
+                            MaximumHeightRequest="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ImageMaxHeight}"
                             HorizontalOptions="Fill"
                             VerticalOptions="Fill" >
                             <Image.GestureRecognizers>
