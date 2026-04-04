@@ -42,32 +42,35 @@
                     Text="{Binding JournalVEntryDate, Converter={StaticResource DateStringConverter}}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center"
-                    Margin="10"
-                    FontSize="Large"/>   
+                    FontSize="26"/>   
                 <Label 
                     Text="{Binding JournalVTitle}"
                     VerticalOptions="Center" 
-                    HorizontalOptions="Center" 
-                    Margin="10"
-                    FontSize="Large"/>
+                    HorizontalOptions="Center"
+                    Margin="5"
+                    FontSize="30"/>
                 <Image
                      Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
                     x:Name="BoatImage"
-                    HeightRequest="185"
+                    MaximumHeightRequest="350"
                     Aspect="AspectFit"
                     Source="{Binding JournalVPicturePath}"
-                    Margin="10">
+                    Margin="0"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill" >    
                 </Image>
                 <Label 
                     Text="{Binding JournalVLocation}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center" 
-                    Margin="0,0,0,15"/>
+                    FontSize="16"
+                    Margin="0,0,0,8"/>
                 <Label 
                     Text="{Binding JournalVContent}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center" 
-                    Margin="10"/>
+                    Margin="4"
+                    FontSize="22"/>
             </VerticalStackLayout>
         </ScrollView>
 
