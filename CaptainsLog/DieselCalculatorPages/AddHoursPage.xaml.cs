@@ -154,8 +154,8 @@ public partial class AddHoursPage : ContentPage
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
-                    if (sfDiesEntry.Value == databaseItems[0].LeisureHours &&
-                        sfPropEntry.Value == databaseItems[0].PropHours)
+                    if ((sfDiesEntry.Value ?? 0) == databaseItems[0].LeisureHours &&
+                        (sfPropEntry.Value ?? 0) == databaseItems[0].PropHours)
                     {
                         await DisplayAlert("Alert", "No changes detected to the hours for this date", "OK");
                         return;
@@ -168,18 +168,24 @@ public partial class AddHoursPage : ContentPage
             }
 
             //check user has entered at least one value
-            if (sfDiesEntry.Value < 1 && sfPropEntry.Value < 1)
+            if ((sfDiesEntry.Value is null or < 1) && (sfPropEntry.Value is null or < 1))
             {
                 await DisplayAlert("Alert", "Please enter hours for either Diesel or Leisure", "OK");
                 return;
             }
 
             //Set any empty entries to 0
-            if (sfDiesEntry.Value < 1)
+            if (sfDiesEntry.Value is null or < 1)
                 sfDiesEntry.Value = 0;
             //set any empty entries to 0
-            if (sfPropEntry.Value < 1)
+            if (sfPropEntry.Value is null or < 1)
                 sfPropEntry.Value = 0;
+
+            if (sfDiesEntry.Value + sfPropEntry.Value == 0)
+            {
+                await DisplayAlert("Alert", "You are about to enter no hours, please press the tick to apply the hours before saving", "OK");
+                return;
+            }
 
             //Confirm user wants to add
             bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these hours?", "Yes", "No");

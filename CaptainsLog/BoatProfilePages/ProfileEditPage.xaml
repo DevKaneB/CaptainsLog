@@ -41,17 +41,18 @@ Plan (pseudocode):
                         <Image
                             x:Name="BoatImage"
                             Source="{Binding ImageSource}"
-                            HeightRequest="185"
-                            Aspect="AspectFit">
+                            Aspect="AspectFit"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill" >
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.PickPhotoCommand}" NumberOfTapsRequired="1" />
                             </Image.GestureRecognizers>
                         </Image>
 
                         <!-- Boat Metric-->
-                        <Label Text="Boat Metrics" FontSize="25" HorizontalTextAlignment="Center"/>
+                        <Label Text="Boat Metrics" FontSize="25" HorizontalTextAlignment="Center" BackgroundColor="#58ADAD" TextColor="Black"/>
                         <!--Boat Name-->
-                        <Label Text="Boat Name" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Boat Name" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                             <Border Padding="1">
                                 <Entry
                                 Text="{Binding BoatName, Mode=TwoWay}"
@@ -62,7 +63,7 @@ Plan (pseudocode):
                             </Border>
 
                             <!--Build Year -->
-                        <Label Text="Build Year" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Build Year" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding BuildYear, Mode=TwoWay}"
@@ -75,7 +76,7 @@ Plan (pseudocode):
                         </Border>
 
                         <!--Registration Number-->
-                        <Label Text="Registration Number" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Registration Number" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding RegNumber, Mode=TwoWay}"
@@ -87,7 +88,7 @@ Plan (pseudocode):
                         </Border>
 
                         <!--Boat Length -->
-                        <Label Text="Boat Length (ft)" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Boat Length (ft)" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding Length, Mode=TwoWay}"
@@ -98,7 +99,7 @@ Plan (pseudocode):
                         </Border>
 
                         <!--Boat Beam -->
-                        <Label Text="Boat Beam (ft)" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Boat Beam (ft)" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding Beam, Mode=TwoWay}"
@@ -109,7 +110,7 @@ Plan (pseudocode):
                         </Border>
 
                         <!--Boats Draught-->
-                        <Label Text="Boats Draught (ft)" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Boats Draught (ft)" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding Draft, Mode=TwoWay}"
@@ -120,9 +121,9 @@ Plan (pseudocode):
                         </Border>
 
                         <!--Re-occuring bills and stuff-->
-                        <Label Text="The Paperwork" HorizontalTextAlignment="Center" FontSize="25"/>
+                        <Label Text="The Paperwork" HorizontalTextAlignment="Center" FontSize="25" TextColor="Black" BackgroundColor="#58ADAD"/>
                         <!--Licence Expiry Date-->
-                        <Label Text="Licence Expiry Date" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Licence Expiry Date" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding LicenseExpiryDate, Mode=TwoWay}"
                             MinimumDate="{x:Static system:DateTime.Today}"
@@ -139,7 +140,7 @@ Plan (pseudocode):
                         </picker:SfDatePicker>
 
                         <!--Insurance Expiry Date-->
-                        <Label Text="Insurance Expiry Date" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Insurance Expiry Date" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding InsuranceExpiryDate, Mode=TwoWay}"
                             MinimumDate="{x:Static system:DateTime.Today}"
@@ -156,7 +157,7 @@ Plan (pseudocode):
                         </picker:SfDatePicker>
 
                         <!--BSS expiry Date-->
-                        <Label Text="BSS Expiry Date" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="BSS Expiry Date" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding BSSExpiryDate, Mode=TwoWay}"
                             MinimumDate="{x:Static system:DateTime.Today}"
@@ -173,7 +174,7 @@ Plan (pseudocode):
                         </picker:SfDatePicker>
 
                         <!--Last Hull Service Date-->
-                        <Label Text="Last Hull Service" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Last Hull Service" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding LastHullServiceDate, Mode=TwoWay}"
                             MaximumDate="{x:Static system:DateTime.Today}"
@@ -190,9 +191,9 @@ Plan (pseudocode):
                         </picker:SfDatePicker>
 
                             <!--Service Intervals -->
-                        <Label Text="Service Intervals"  HorizontalTextAlignment="Center" FontSize="25"/>
+                        <Label Text="Service Intervals"  HorizontalTextAlignment="Center" FontSize="25"  BackgroundColor="#58ADAD" TextColor="Black"/>
                         <!--Enter Service Hours-->
-                        <Label Text="Engine Service Interval (Hours)" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Engine Service Interval (Hours)" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <Border Padding="1">
                             <editors:SfNumericEntry
                                 Value="{Binding EngineServiceIntervalHours, Mode=TwoWay}"
@@ -203,7 +204,7 @@ Plan (pseudocode):
                         </Border>
 
                         <!--Enter last service Date-->
-                        <Label Text="Enter Last Service Date" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Label Text="Enter Last Service Date" HorizontalTextAlignment="Center" FontSize="20" TextColor="Black"/>
                         <picker:SfDatePicker
                             SelectedDate="{Binding LastServiceDate, Mode=TwoWay}"
                             MaximumDate="{x:Static system:DateTime.Today}"
@@ -219,7 +220,7 @@ Plan (pseudocode):
                             </picker:SfDatePicker.SelectionView>
                         </picker:SfDatePicker>
 
-                        <Label Text="Last Service Date and Service Hours will update on your profile view, with the values added to the diesel calculator" HorizontalTextAlignment="Center"/>
+                        <Label Text="Last Service Date and Service Hours will update on your profile view, with the values added to the diesel calculator" HorizontalTextAlignment="Center" TextColor="Black"/>
 
                         </VerticalStackLayout>
                 </ScrollView>

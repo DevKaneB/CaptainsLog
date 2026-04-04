@@ -8,45 +8,50 @@
     x:Class="CaptainsLog.BoatExpensesPages.EditExpensePopup">
 
     <ScrollView>
-            <VerticalStackLayout Padding="4" Spacing="10">
+        <VerticalStackLayout Padding="4" Spacing="10">
 
-                <Label
+            <Label
                     Text="Change Expense"
+                    TextColor="Black"
                     FontAttributes="Bold"
                     FontSize="18"
                     HorizontalOptions="Center"
                     Margin="0,4"/>
 
-                <Picker
+            <Picker
                     x:Name="TypePicker"
                     Title="Type"
                     HeightRequest="56"
                     FontSize="16"
                     Margin="0,2"
-                    IsEnabled="True">
-                    <Picker.ItemsSource>
+                    IsEnabled="True"
+                    TextColor="Black">
+
+                <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Fuel (Petrol/Diesel)</x:String>
-                            <x:String>Coal/Logs</x:String>
-                            <x:String>Pumpout/Elsan</x:String>
-                            <x:String>Gas</x:String>
-                            <x:String>Engine Repair</x:String>
-                            <x:String>Hull Maintenance</x:String>
-                            <x:String>Other</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                        <x:String>Coal/Logs</x:String>
+                        <x:String>Pumpout/Elsan</x:String>
+                        <x:String>Gas</x:String>
+                        <x:String>Engine Repair</x:String>
+                        <x:String>Hull Maintenance</x:String>
+                        <x:String>Other</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
-                <Entry
+            <Entry
                     x:Name="ExpenseDescEntry"
+                    TextColor="Black"
                     Placeholder="Note"
                     HeightRequest="56"
                     FontSize="16"
                     Margin="0,2"
                     IsEnabled="True"/>
 
-                <Entry
+            <Entry
                     x:Name="AmountEntry"
+                    TextColor="Black"
                     Placeholder="Amount"
                     Keyboard="Numeric"
                     HeightRequest="56"
@@ -54,16 +59,18 @@
                     Margin="0,2"
                     IsEnabled="True"/>
 
-                <HorizontalStackLayout HorizontalOptions="End" Spacing="8" Margin="0,6,0,0">
-                    <Button
+            <HorizontalStackLayout HorizontalOptions="End" Spacing="8" Margin="0,6,0,0">
+                <Button
                         Text="Save"
                         Clicked="OnSaveClicked"
                         FontSize="16"
-                        IsEnabled="True"/>
-                </HorizontalStackLayout>
+                        IsEnabled="True"
+                        BackgroundColor="#226666"
+                        BorderColor="Black"
+                        TextColor="White"
+                        BorderWidth="3"/>
+            </HorizontalStackLayout>
 
-            </VerticalStackLayout>
-        </ScrollView>
-
+        </VerticalStackLayout>
+    </ScrollView>
 </toolkit:Popup>
-

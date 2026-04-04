@@ -10,7 +10,7 @@
       ColumnSpacing="20">
         <!-- Define number of rows and columns -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="75"/>
             <RowDefinition Height="175"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="150" />

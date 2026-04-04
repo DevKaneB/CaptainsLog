@@ -111,7 +111,7 @@
                     VerticalOptions="End" 
                     Command="{Binding SaveJournalEntryCommand}"
                     BackgroundColor="#226666"
-                    BorderColor="Black"
+                    BorderColor="White"
                     BorderWidth="3"
                     Margin="3"/>
             <Button Grid.Column="1"
@@ -120,7 +120,7 @@
                     VerticalOptions="End" 
                     Command="{Binding OpenJournalEntryPageCommand}"
                     BackgroundColor="#226666"
-                    BorderColor="Black"
+                    BorderColor="White"
                     BorderWidth="3"
                     Margin="3"/>
         </Grid>

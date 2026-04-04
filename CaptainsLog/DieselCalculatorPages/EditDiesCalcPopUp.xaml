@@ -12,12 +12,14 @@
         <VerticalStackLayout Padding="4" Spacing="10">
             <Label
                 Text="Change Diesel or Hour Entry"
+                TextColor="Black"
                 FontAttributes="Bold"
                 FontSize="18"
                 HorizontalOptions="Center"
                 Margin="0,4"/>
             <Entry
                 x:Name="LeisHoursEntry"
+                TextColor="Black"
                 Placeholder="Leisure"
                 Keyboard="Numeric"
                 HeightRequest="56"
@@ -27,6 +29,7 @@
             <Entry
                 x:Name="PropHoursEntry"
                 Placeholder="Propulsion"
+                TextColor="Black"
                 Keyboard="Numeric"
                 HeightRequest="56"
                 FontSize="16"
@@ -35,6 +38,7 @@
             <Entry
                 x:Name="LitresEntry"
                 Placeholder="Diesel"
+                TextColor="Black"
                 Keyboard="Numeric"
                 HeightRequest="56"
                 FontSize="16"
@@ -46,6 +50,7 @@
                     Clicked="OnSaveClicked"
                     BackgroundColor="#226666"
                     BorderColor="Black"
+                    TextColor="White"
                     BorderWidth="3"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>

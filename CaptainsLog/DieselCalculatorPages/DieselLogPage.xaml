@@ -46,7 +46,7 @@
            Grid.Column="0"
            x:Name="SortPicker"
            Title="Sort"
-                BackgroundColor="White"
+                BackgroundColor="White" TextColor="Black"
                 Margin="4"
                 SelectedItem="{Binding SelectedSort}">
             <Picker.ItemsSource>
@@ -62,7 +62,7 @@
                 Title="Month"
                 SelectedItem="{Binding SelectedMonth}"
                 ItemsSource="{Binding DateDropDownData}"
-                BackgroundColor="White"
+                BackgroundColor="White" TextColor="Black"
                 Margin="4"/>
 
         <Button Grid.Row="2"
@@ -73,6 +73,7 @@
                 Command="{Binding ApplyFiltersCommand}"
                 BackgroundColor="#226666"
                 BorderColor="Black"
+                TextColor="White"
                 BorderWidth="3">
         </Button>
 
