@@ -47,6 +47,7 @@
                 x:Name="TypePicker"
                 Title="Expense"
                 BackgroundColor="White"
+                TextColor="Black"
                 Margin="4"
                 SelectedItem="{Binding SelectedType}">
             <Picker.ItemsSource>
@@ -67,6 +68,7 @@
                 x:Name="MonthPicker"
                 Title="Month"
                 BackgroundColor="White"
+                TextColor="Black"
                 Margin="4"
                 ItemsSource="{Binding DateDropDownData}"
                 SelectedItem="{Binding SelectedMonth}"/>
@@ -77,6 +79,7 @@
                 Command="{Binding ApplyFiltersCommand}"
                 BackgroundColor="#226666"
                 BorderColor="Black"
+                TextColor="White"
                 BorderWidth="3"
                 Margin="6"
                 FontAttributes="Bold">
@@ -105,23 +108,23 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <!--Date-->
-                                    <Label Grid.Column="0" Grid.Row="0" Text="Date" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding ExpenseDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="0" Grid.Row="0" Text="Date" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding ExpenseDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center" TextColor="Black"/>
                                     <!--Type-->
-                                    <Label Grid.Column="1" Grid.Row="0" Text="Expense" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding ExpenseType}" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="0" Text="Expense" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding ExpenseType}" HorizontalTextAlignment="Center" TextColor="Black"/>
                                     <!--Amount-->
-                                    <Label Grid.Column="2" Grid.Row="0" Text="Amount" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center"/>
-                                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding Amount}" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="2" Grid.Row="0" Text="Amount" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding Amount}" HorizontalTextAlignment="Center" TextColor="Black"/>
                                     <!--Note-->
-                                    <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding ExpenseDesc}" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding ExpenseDesc}" HorizontalTextAlignment="Start" TextColor="Black"/>
                                 </Grid>
                             </Border>
                             <SwipeView.RightItems>
                                 <SwipeItems Mode="Reveal">
                                     <SwipeItem BackgroundColor="PowderBlue"
                                                SemanticProperties.Hint="Delete Expense from Database"
-                                               Text="Edit" 
+                                               Text="Edit"
                                                Command="{Binding Source={x:Reference ViewExpPage}, Path=BindingContext.EditExpenseCommand}"
                                                CommandParameter="{Binding ID}"
                                                />
@@ -145,6 +148,7 @@
                 Text="Export"  
             BackgroundColor="#226666"
             BorderColor="Black"
+                TextColor="White"
             BorderWidth="3"
             Margin="5"
                 Command="{Binding ExportAsPDFCommand}"/>

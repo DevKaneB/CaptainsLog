@@ -101,7 +101,8 @@
                        Grid.Row="3"
                        Text="Note"
                        HorizontalOptions="Start"
-                       VerticalOptions="Center"/>
+                       VerticalOptions="Center"
+                       TextColor="Black"/>
                 <Border Grid.Column="0"
                         Grid.ColumnSpan="6"
                         Grid.Row="4"
@@ -121,7 +122,8 @@
                        Grid.Row="5"
                        Text="Expense Amount"
                        HorizontalOptions="Start"
-                       VerticalOptions="Center"/>
+                       VerticalOptions="Center"
+                       TextColor="Black"/>
                 <Border
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
@@ -148,7 +150,9 @@
                         HorizontalOptions="Fill"
                     BackgroundColor="#226666"
                     BorderColor="Black"
-                    BorderWidth="3"/>
+                    BorderWidth="3"
+                        TextColor="White"
+                        FontSize="16"/>
 
             </Grid>
         </Border>

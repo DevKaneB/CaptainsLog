@@ -42,13 +42,15 @@
                     Text="{Binding JournalVEntryDate, Converter={StaticResource DateStringConverter}}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center"
-                    FontSize="26"/>   
+                    FontSize="26"
+                    TextColor="Black"/>   
                 <Label 
                     Text="{Binding JournalVTitle}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center"
                     Margin="5"
-                    FontSize="30"/>
+                    FontSize="30"
+                    TextColor="Black"/>
                 <Image
                      Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
                     x:Name="BoatImage"
@@ -64,13 +66,15 @@
                     VerticalOptions="Center" 
                     HorizontalOptions="Center" 
                     FontSize="16"
-                    Margin="0,0,0,8"/>
+                    Margin="0,0,0,8"
+                    TextColor="Black"/>
                 <Label 
                     Text="{Binding JournalVContent}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center" 
                     Margin="4"
-                    FontSize="22"/>
+                    FontSize="22"
+                    TextColor="Black"/>
             </VerticalStackLayout>
         </ScrollView>
 
@@ -84,7 +88,8 @@
                     BackgroundColor="#226666"
                     BorderColor="Black"
                     BorderWidth="3"
-                    Margin="3"/>
+                    Margin="3"
+                    TextColor="White"/>
             <Button Grid.Column="1"
                     Text="Delete"
                     HorizontalOptions="Fill"
@@ -93,13 +98,15 @@
                     BorderColor="Black"
                     BorderWidth="3"
                     Margin="3"
-                    Command="{Binding DeleteEntryCommand}"/>
+                    Command="{Binding DeleteEntryCommand}"
+                    TextColor="White"/>
             <Button Grid.Column="2"
                       Text="Next Page"
                       HorizontalOptions="Fill"
                       VerticalOptions="End"
                     Command="{Binding PrevPageCommand}"
                     BackgroundColor="#226666"
+                    TextColor="White"
                     BorderColor="Black"
                     BorderWidth="3"
                     Margin="3"/>
