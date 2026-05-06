@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             x:Class="CaptainsLog.SettingsPages.Set_MainPage"
+             Title="Set_MainPage"
+             xmlns:vm="clr-namespace:CaptainsLog.ViewModels"
+             xmlns:models="clr-namespace:CaptainsLog.DatabaseClasses.Items"
+             x:DataType="vm:SettingsViewModel"
+             x:Name="settings_mainpage"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
+    
+    <VerticalStackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+              
+                
+                <ImageButton HeightRequest="55" Grid.Column="0" Grid.Row="0" 
+                         Source="backbutton.png"
+                         Command="{Binding BackButtonClickedCommand}"
+                         HorizontalOptions="Fill"/>
+
+            <ScrollView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="20">
+                <VerticalStackLayout>
+                    <!-- View History Log -->
+                    <Button
+                        HeightRequest="50" 
+                        Margin="5"
+                        Text="Delete Profile Data"
+                        Command="{Binding Del_ProfileDataCommand}"
+                        HorizontalOptions="Fill" 
+                        BackgroundColor="#226666"
+                        TextColor="White"
+                        BorderWidth="3"
+                        FontSize="18"/>
+                    <Button
+                        HeightRequest="50" 
+                        Margin="5"
+                        Text="Delete Diesel Data"
+                        Command="{Binding Del_DieselDataCommand}"
+                        HorizontalOptions="Fill" 
+                        BackgroundColor="#226666"
+                        TextColor="White"
+                        BorderWidth="3"
+                        FontSize="18"/>
+                    <Button
+                        HeightRequest="50" 
+                        Margin="5"
+                        Text="Delete Expenses Data"
+                        Command="{Binding Del_ExpensesDataCommand}"
+                        HorizontalOptions="Fill" 
+                        BackgroundColor="#226666"
+                        TextColor="White"
+                        BorderWidth="3"
+                        FontSize="18"/>
+                    <Button
+                        HeightRequest="50" 
+                        Margin="5"
+                        Text="Delete Journal Data"
+                        Command="{Binding Del_JournalDataCommand}"
+                        HorizontalOptions="Fill" 
+                        BackgroundColor="#226666"
+                        TextColor="White"
+                        BorderWidth="3"
+                        FontSize="18"/>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+        </Grid>
+        </VerticalStackLayout>
+
+</ContentPage>

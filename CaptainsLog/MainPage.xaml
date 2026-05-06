@@ -10,12 +10,12 @@
       ColumnSpacing="20">
         <!-- Define number of rows and columns -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="75"/>
-            <RowDefinition Height="175"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="175"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="150" />
             <RowDefinition Height="150"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -63,6 +63,15 @@
                      CornerRadius="40"
                      Source="diarypic.png"
                      Clicked="JournalClicked"
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     BackgroundColor="#226666"
+                     Margin="3"/>
+
+        <ImageButton Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"
+                     CornerRadius="40"
+                     Source="settingspic.png"
+                     Clicked="SettingsClicked"
                      BorderColor="Black"
                      BorderWidth="3"
                      BackgroundColor="#226666"

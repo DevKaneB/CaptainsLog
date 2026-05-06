@@ -54,6 +54,13 @@ namespace CaptainsLog.DatabaseClasses.Services
             return await database.DeleteAsync(item);
         }
 
+        //Delete all items in the database
+        public async Task<int> DeleteAllItemsAsync()
+        {
+            await Init();
+            return await database.DeleteAllAsync<DieselDatabase>();
+        }
+
 
 
     }

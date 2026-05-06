@@ -31,10 +31,5 @@ namespace CaptainsLog.DatabaseClasses
         public static string ProfileImageFilename =>
             Path.Combine(FileSystem.AppDataDirectory, "BoatPicture.png");
 
-        //Journal JSON Database Variables
-        public static string JournalJSONDatabaseFilename = "JournalData.json";
-
-        public static string JournalJSONDatabasePath =>
-            Path.Combine(FileSystem.AppDataDirectory, JournalJSONDatabaseFilename);
     }
 }

@@ -135,8 +135,6 @@ namespace CaptainsLog.ViewModels
                 
             }
 
-         
-
             try
             {
                 // If no image specified, use existing saved file if available
