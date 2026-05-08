@@ -65,40 +65,102 @@
 
                 </picker:SfDatePicker>
 
-                <!-- Add Diesel Hours -->
-                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4"
-                       Text="Leisure"
-                       TextColor="Black"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" 
-                       FontSize="20"/>
-                <Border Padding="3" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" >
-                    <editors:SfNumericEntry 
-                        x:Name="sfDiesEntry"
-                        Placeholder="Enter Hours"
-                        HorizontalTextAlignment="Center"
-                        MaximumNumberDecimalDigits="0"
-                        Minimum="0"
-                        FontSize="16"
-                        />
-                </Border>
+                
+
+                    <!-- Add Diesel Hours -->
+                    <Label Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4"
+                           Text="Leisure"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" 
+                           FontSize="20"/>
+                    
+                    <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"
+                          HorizontalOptions="Center" VerticalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Padding="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
+                            <editors:SfNumericEntry 
+                                x:Name="sfDiesEntry"
+                                Placeholder="HH"
+                                HorizontalTextAlignment="Center"
+                                MaximumNumberDecimalDigits="0"
+                                Minimum="0"
+                                FontSize="16"
+                                WidthRequest="70"/>
+                        </Border>
+
+                        <Label Grid.Column="1"
+                               Text=":"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" 
+                               FontSize="20"
+                               Margin="8,0"/>
+
+                        <Border Padding="1" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
+                            <editors:SfNumericEntry 
+                                x:Name="sfDiesMinEntry"
+                                Placeholder="MM"
+                                HorizontalTextAlignment="Center"
+                                MaximumNumberDecimalDigits="0"
+                                Minimum="0"
+                                FontSize="16"
+                                WidthRequest="70"/>
+                        </Border>
+                    </Grid>
+
                 <!-- Add Propulsion Hours -->
-                <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4"
-                       Text="Propulsion"
-                       TextColor="Black"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" 
-                       FontSize="20"/>
-                <Border Padding="1" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2">
-                    <editors:SfNumericEntry 
-                        x:Name="sfPropEntry"
-                        Placeholder="Enter Hours"
-                        HorizontalTextAlignment="Center"
-                        MaximumNumberDecimalDigits="0"
-                        Minimum="0"
-                        FontSize="18"
-                        />
-                </Border>
+                    <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="4"
+                           Text="Propulsion"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" 
+                           FontSize="20"/>
+                
+                    <Grid Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3"
+                          HorizontalOptions="Center" VerticalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Padding="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
+                            <editors:SfNumericEntry 
+                                x:Name="sfPropEntry"
+                                Placeholder="HH"
+                                HorizontalTextAlignment="Center"
+                                MaximumNumberDecimalDigits="0"
+                                Minimum="0"
+                                FontSize="18"
+                                WidthRequest="70"/>
+                        </Border>
+
+                        <Label Grid.Column="1"
+                               Text=":"
+                               TextColor="Black"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" 
+                               FontSize="20"
+                               Margin="8,0"/>
+
+                        <Border Padding="1" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
+                            <editors:SfNumericEntry 
+                                x:Name="sfPropMinEntry"
+                                Placeholder="MM"
+                                HorizontalTextAlignment="Center"
+                                MaximumNumberDecimalDigits="0"
+                                Minimum="0"
+                                FontSize="18"
+                                WidthRequest="70"/>
+                        </Border>
+                    </Grid>
+
 
                 <!-- Add, Update or delete buttons-->
                 <Button
