@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace CaptainsLog;
 
+[QueryProperty("EntryDate","entryDate")]
 public partial class AddHoursPage : ContentPage
 {
     private DieselDatabaseMethods database;
@@ -14,7 +15,32 @@ public partial class AddHoursPage : ContentPage
 	{
 		InitializeComponent();
         database = new DieselDatabaseMethods();
-        LoadDateHours();
+        _ = LoadDateHours();
+    }
+
+    // This property is set when navigating via Shell with a query parameter e.g. "AddHoursPage?entryDate=2026-05-14"
+    public string EntryDate
+    {
+        set
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(value) && DateTime.TryParse(value, out var parsed))
+                {
+                    // Ensure the DatePicker exists and set its SelectedDate
+                        if (HoursDatePicker != null)
+                        {
+                            HoursDatePicker.SelectedDate = parsed;
+                            // After setting date, load associated data
+                            _ = LoadDateHours();
+                        }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
     }
 
     async void OnBackButtonClicked(object? sender, EventArgs e)
@@ -33,7 +59,7 @@ public partial class AddHoursPage : ContentPage
         return;
     }
 
-    async void LoadDateHours()
+    async Task LoadDateHours()
     {
         try
         {
@@ -55,7 +81,7 @@ public partial class AddHoursPage : ContentPage
                 //Populate the entries with the hours from the database
                 case 1:
                     sfDiesEntry.Value = databaseItems[0].LeisureHours;
-                    sfDiesMinEntry.Value = databaseItems[0].LeiureMinutes;
+                    sfDiesMinEntry.Value = databaseItems[0].LeisureMinutes;
                     sfPropEntry.Value = databaseItems[0].PropHours;
                     sfPropMinEntry.Value = databaseItems[0].PropMinutes;
                     
@@ -94,7 +120,7 @@ public partial class AddHoursPage : ContentPage
                 //Populate the entries with the hours from the database
                 case 1:
                     sfDiesEntry.Value = databaseItems[0].LeisureHours;
-                    sfDiesMinEntry.Value = databaseItems[0].LeiureMinutes;
+                    sfDiesMinEntry.Value = databaseItems[0].LeisureMinutes;
                     sfPropEntry.Value = databaseItems[0].PropHours;
                     sfPropMinEntry.Value = databaseItems[0].PropMinutes;
                     break;
@@ -133,7 +159,7 @@ public partial class AddHoursPage : ContentPage
                 //Populate the entries with the hours from the database
                 case 1:
                     sfDiesEntry.Value = databaseItems[0].LeisureHours;
-                    sfDiesMinEntry.Value = databaseItems[0].LeiureMinutes;
+                    sfDiesMinEntry.Value = databaseItems[0].LeisureMinutes;
                     sfPropEntry.Value = databaseItems[0].PropHours;
                     sfPropMinEntry.Value = databaseItems[0].PropMinutes;
                     break;
@@ -170,7 +196,7 @@ public partial class AddHoursPage : ContentPage
                     if ((sfDiesEntry.Value ?? 0) == databaseItems[0].LeisureHours &&
                         (sfPropEntry.Value ?? 0) == databaseItems[0].PropHours &&
                         (sfPropMinEntry.Value ?? 0 ) == databaseItems[0].PropMinutes &&
-                        (sfDiesMinEntry.Value ?? 0) == databaseItems[0].LeiureMinutes)
+                        (sfDiesMinEntry.Value ?? 0) == databaseItems[0].LeisureMinutes)
                     {
                         await DisplayAlert("Alert", "No changes detected to the hours or minutes for this date", "OK");
                         return;
@@ -243,7 +269,7 @@ public partial class AddHoursPage : ContentPage
                                 EntryDate = dateSelected,
                                 ID = 0,
                                 LeisureHours = Convert.ToInt32(sfDiesEntry.Value),
-                                LeiureMinutes = Convert.ToInt32(sfDiesMinEntry.Value),
+                                LeisureMinutes = Convert.ToInt32(sfDiesMinEntry.Value),
                                 PropHours = Convert.ToInt32(sfPropEntry.Value),
                                 PropMinutes = Convert.ToInt32(sfPropMinEntry.Value),
                                 DieselRefill = 0
@@ -273,7 +299,7 @@ public partial class AddHoursPage : ContentPage
                         {
                             databaseItems[0].LeisureHours = Convert.ToInt32(sfDiesEntry.Value);
                             databaseItems[0].PropHours = Convert.ToInt32(sfPropEntry.Value);
-                            databaseItems[0].LeiureMinutes = Convert.ToInt32(sfDiesMinEntry.Value);
+                            databaseItems[0].LeisureMinutes = Convert.ToInt32(sfDiesMinEntry.Value);
                             databaseItems[0].PropMinutes = Convert.ToInt32(sfPropMinEntry.Value);
                             continueWrite = true;
                         }
@@ -334,7 +360,7 @@ public partial class AddHoursPage : ContentPage
                 case 1:
                     databaseItems[0].LeisureHours = 0;
                     databaseItems[0].PropHours = 0;
-                    databaseItems[0].LeiureMinutes = 0;
+                    databaseItems[0].LeisureMinutes = 0;
                     databaseItems[0].PropMinutes = 0;
                     await database.SaveItemAsync(databaseItems[0]);
                     sfDiesEntry.Value = null;

@@ -12,7 +12,7 @@ namespace CaptainsLog.DatabaseClasses.Items
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         public int LeisureHours { get; set; }
-        public int LeiureMinutes { get; set; }
+        public int LeisureMinutes { get; set; }
         public int PropHours { get; set; }
         public int PropMinutes { get; set; }
         public int DieselRefill { get; set; }

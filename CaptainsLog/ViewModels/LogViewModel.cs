@@ -135,28 +135,52 @@ namespace CaptainsLog.ViewModels
         [RelayCommand]
         public async Task EditLog(int ID)
         {
-            var popup = new EditDiesCalcPopUp();
-
-            var page = Application.Current?.MainPage as Page;
-            if (page == null)
+            // Get the entry from the database to obtain its date
+            var item = await _databaseClient.GetItemAsync(ID);
+            if (item == null)
                 return;
 
-            var result = await PopupExtensions.ShowPopupAsync<DieselHoursResult>(page, popup);
+            var entryDate = item.EntryDate ?? string.Empty; // expected format "yyyy-MM-dd"
 
-            if (result is not null)
+            // Prefer Shell navigation with a query parameter (AddHoursPage should accept a query property like "entryDate")
+            if (Shell.Current != null)
             {
-                // Store the popup's result in the view model field for later use
-                if (result is IPopupResult<DieselHoursResult> popupResult && popupResult.Result is not null)
+                var route = $"{nameof(AddHoursPage)}?entryDate={Uri.EscapeDataString(entryDate)}";
+                await Shell.Current.GoToAsync(route);
+                return;
+            }
+
+            // Fallback to classic Navigation.PushAsync if Shell is not available
+            var mainPage = Application.Current?.MainPage as Page;
+            if (mainPage == null)
+                return;
+
+            var navigation = mainPage.Navigation;
+            try
+            {
+                var addPage = new AddHoursPage();
+
+                // Try to set a strongly-named property on the page (EntryDate or SelectedDate) via reflection if present
+                var pageType = addPage.GetType();
+                var entryProp = pageType.GetProperty("EntryDate") ?? pageType.GetProperty("SelectedDate");
+                if (entryProp != null && entryProp.CanWrite)
                 {
-
-                    dieselHoursResult = popupResult.Result;
-                    dieselHoursResult.DieselHoursID = ID;
-
-                    // Perform the 24-hour check before writing to the database
-                    await TwentyFourHourCheck(dieselHoursResult);                    
-
-                    dieselHoursResult = null;
+                    // If the page expects a DateTime, try to parse; otherwise set the string
+                    if (entryProp.PropertyType == typeof(DateTime) && DateTime.TryParseExact(entryDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
+                    {
+                        entryProp.SetValue(addPage, dt);
+                    }
+                    else if (entryProp.PropertyType == typeof(string))
+                    {
+                        entryProp.SetValue(addPage, entryDate);
+                    }
                 }
+
+                await navigation.PushAsync(addPage);
+            }
+            catch
+            {
+                // ignore navigation errors silently
             }
         }
 

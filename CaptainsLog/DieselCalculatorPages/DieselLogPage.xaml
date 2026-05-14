@@ -109,10 +109,28 @@
                             <Label Grid.Column="0" Grid.Row="1" Text="{Binding EntryDate, Converter={StaticResource DateStringConverter}}" HorizontalTextAlignment="Center" TextColor="Black"/>
 
                             <Label Grid.Column="1" Grid.Row="0" Text="Leisure" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
-                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding LeisureHours}" HorizontalTextAlignment="Center" TextColor="Black"/>
+                            <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" TextColor="Black">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding LeisureHours}" />
+                                        <Span Text="h : " />
+                                        <Span Text="{Binding LeisureMinutes}" />
+                                        <Span Text="m" />
+                                            </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
                             <Label Grid.Column="2" Grid.Row="0" Text="Propulsion" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
-                            <Label Grid.Column="2" Grid.Row="1" Text="{Binding PropHours}" HorizontalTextAlignment="Center" TextColor="Black"/>
+                            <Label Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" TextColor="Black">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding PropHours}" />
+                                        <Span Text="h : " />
+                                        <Span Text="{Binding PropMinutes}" />
+                                        <Span Text="m" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
                             <Label Grid.Column="3" Grid.Row="0" Text="Diesel Ltrs" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
                             <Label Grid.Column="3" Grid.Row="1" Text="{Binding DieselRefill}" HorizontalTextAlignment="Center" TextColor="Black"/>
