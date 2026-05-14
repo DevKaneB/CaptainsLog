@@ -30,6 +30,8 @@
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
+		<!-- Ensure PackageVersion is consistent across TFMs to avoid NU1105 -->
+		<PackageVersion>1.0.3</PackageVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
