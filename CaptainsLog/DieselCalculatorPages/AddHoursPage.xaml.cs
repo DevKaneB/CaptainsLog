@@ -49,11 +49,16 @@ public partial class AddHoursPage : ContentPage
                 case 0:
                     sfDiesEntry.Value = null;
                     sfPropEntry.Value = null;
+                    sfDiesMinEntry.Value = null;
+                    sfPropMinEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
                     sfDiesEntry.Value = databaseItems[0].LeisureHours;
+                    sfDiesMinEntry.Value = databaseItems[0].LeiureMinutes;
                     sfPropEntry.Value = databaseItems[0].PropHours;
+                    sfPropMinEntry.Value = databaseItems[0].PropMinutes;
+                    
                     break;
                 //Should never see this, it is an error
                 default:
@@ -83,11 +88,15 @@ public partial class AddHoursPage : ContentPage
                 case 0:
                     sfDiesEntry.Value = null;
                     sfPropEntry.Value = null;
+                    sfDiesMinEntry.Value = null;
+                    sfPropMinEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
                     sfDiesEntry.Value = databaseItems[0].LeisureHours;
+                    sfDiesMinEntry.Value = databaseItems[0].LeiureMinutes;
                     sfPropEntry.Value = databaseItems[0].PropHours;
+                    sfPropMinEntry.Value = databaseItems[0].PropMinutes;
                     break;
                 //Should never see this, it is an error
                 default:
@@ -118,11 +127,15 @@ public partial class AddHoursPage : ContentPage
                 case 0:
                     sfDiesEntry.Value = null;
                     sfPropEntry.Value = null;
+                    sfDiesMinEntry.Value = null;
+                    sfPropMinEntry.Value = null;
                     break;
                 //Populate the entries with the hours from the database
                 case 1:
                     sfDiesEntry.Value = databaseItems[0].LeisureHours;
+                    sfDiesMinEntry.Value = databaseItems[0].LeiureMinutes;
                     sfPropEntry.Value = databaseItems[0].PropHours;
+                    sfPropMinEntry.Value = databaseItems[0].PropMinutes;
                     break;
                 //Should never see this, it is an error
                 default:
@@ -155,9 +168,11 @@ public partial class AddHoursPage : ContentPage
                 //Populate the entries with the hours from the database
                 case 1:
                     if ((sfDiesEntry.Value ?? 0) == databaseItems[0].LeisureHours &&
-                        (sfPropEntry.Value ?? 0) == databaseItems[0].PropHours)
+                        (sfPropEntry.Value ?? 0) == databaseItems[0].PropHours &&
+                        (sfPropMinEntry.Value ?? 0 ) == databaseItems[0].PropMinutes &&
+                        (sfDiesMinEntry.Value ?? 0) == databaseItems[0].LeiureMinutes)
                     {
-                        await DisplayAlert("Alert", "No changes detected to the hours for this date", "OK");
+                        await DisplayAlert("Alert", "No changes detected to the hours or minutes for this date", "OK");
                         return;
                     }
                     break;
@@ -168,9 +183,9 @@ public partial class AddHoursPage : ContentPage
             }
 
             //check user has entered at least one value
-            if ((sfDiesEntry.Value is null or < 1) && (sfPropEntry.Value is null or < 1))
+            if ((sfDiesEntry.Value is null or < 1) && (sfPropEntry.Value is null or < 1) && (sfDiesMinEntry.Value is null or < 1) && (sfPropMinEntry.Value is null or < 1))
             {
-                await DisplayAlert("Alert", "Please enter hours for either Diesel or Leisure", "OK");
+                await DisplayAlert("Alert", "Please enter hours or minutes for either Diesel or Leisure", "OK");
                 return;
             }
 
@@ -180,15 +195,19 @@ public partial class AddHoursPage : ContentPage
             //set any empty entries to 0
             if (sfPropEntry.Value is null or < 1)
                 sfPropEntry.Value = 0;
+            if (sfDiesMinEntry.Value is null or < 1)
+                sfDiesMinEntry.Value = 0;
+            if (sfPropMinEntry.Value is null or < 1)
+                sfPropMinEntry.Value = 0;
 
-            if (sfDiesEntry.Value + sfPropEntry.Value == 0)
+            if (sfDiesEntry.Value + sfPropEntry.Value + sfDiesMinEntry.Value + sfPropMinEntry.Value == 0)
             {
-                await DisplayAlert("Alert", "You are about to enter no hours, please press the tick to apply the hours before saving", "OK");
+                await DisplayAlert("Alert", "You are about to enter no hours, please press the tick to apply the hours or minutes before saving", "OK");
                 return;
             }
 
             //Confirm user wants to add
-            bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these hours?", "Yes", "No");
+            bool answer = await DisplayAlert("Confirm Add", "Are you sure you want to add these hours and minutes?", "Yes", "No");
             if (!answer)
                 return;
 
@@ -203,43 +222,61 @@ public partial class AddHoursPage : ContentPage
             {
                 // If database has no records for that date, insert a new record
                 case 0:
-                    //Check hours for this date are not above 24 hours
-                    if (sfDiesEntry.Value + sfPropEntry.Value > 24)
                     {
-                        await DisplayAlert("Alert", "Total amount of hours is above 24 for this date", "OK");
-                        continueWrite = false;
-                        Debug.WriteLine("Total amount of hours is above 24 for this date");
-                    }
-                    else
-                    {
-                        databaseItems.Add(new DieselDatabase
+                        int diesH = Convert.ToInt32(sfDiesEntry.Value ?? 0);
+                        int propH = Convert.ToInt32(sfPropEntry.Value ?? 0);
+                        int diesM = Convert.ToInt32(sfDiesMinEntry.Value ?? 0);
+                        int propM = Convert.ToInt32(sfPropMinEntry.Value ?? 0);
+                        int totalMinutes = diesH * 60 + diesM + propH * 60 + propM;
+
+                        //Check total combined hours/minutes for this date are not above 24 hours
+                        if (totalMinutes > 24 * 60)
                         {
-                            EntryDate = dateSelected,
-                            ID = 0,
-                            LeisureHours = Convert.ToInt32(sfDiesEntry.Value),
-                            PropHours = Convert.ToInt32(sfPropEntry.Value),
-                            DieselRefill = 0
-                        });
-                        continueWrite = true;
+                            await DisplayAlert("Alert", "Total combined hours and minutes exceed 24 hours for this date", "OK");
+                            continueWrite = false;
+                            Debug.WriteLine("Total combined hours and minutes exceed 24 for this date");
+                        }
+                        else
+                        {
+                            databaseItems.Add(new DieselDatabase
+                            {
+                                EntryDate = dateSelected,
+                                ID = 0,
+                                LeisureHours = Convert.ToInt32(sfDiesEntry.Value),
+                                LeiureMinutes = Convert.ToInt32(sfDiesMinEntry.Value),
+                                PropHours = Convert.ToInt32(sfPropEntry.Value),
+                                PropMinutes = Convert.ToInt32(sfPropMinEntry.Value),
+                                DieselRefill = 0
+                            });
+                            continueWrite = true;
+                        }
                     }
                     break;
 
                 //Otherwise add the inputted hours onto the database entry
                 case 1:
-                    //Check hours for this date are not above 24 hours 
-                    if (
-                        sfDiesEntry.Value + sfPropEntry.Value > 24
-                    )
                     {
-                        await DisplayAlert("Alert", "Total amount of hours is above 24 for this date", "OK");
-                        continueWrite = false;
-                        Debug.WriteLine("Total amount of hours is above 24 for this date");
-                    }
-                    else
-                    {
-                        databaseItems[0].LeisureHours = Convert.ToInt32(sfDiesEntry.Value);
-                        databaseItems[0].PropHours = Convert.ToInt32(sfPropEntry.Value);
-                        continueWrite = true;
+                        int diesH = Convert.ToInt32(sfDiesEntry.Value ?? 0);
+                        int propH = Convert.ToInt32(sfPropEntry.Value ?? 0);
+                        int diesM = Convert.ToInt32(sfDiesMinEntry.Value ?? 0);
+                        int propM = Convert.ToInt32(sfPropMinEntry.Value ?? 0);
+                        int totalMinutes = diesH * 60 + diesM + propH * 60 + propM;
+
+                        //Check total combined hours/minutes for this date are not above 24 hours 
+                        if (totalMinutes > 24 * 60)
+                        {
+                            await DisplayAlert("Alert", "Total combined hours and minutes exceed 24 hours for this date", "OK");
+                            continueWrite = false;
+                            Debug.WriteLine("Total combined hours and minutes exceed 24 for this date");
+                        }
+                        else
+                        {
+                            databaseItems[0].LeisureHours = Convert.ToInt32(sfDiesEntry.Value);
+                            databaseItems[0].PropHours = Convert.ToInt32(sfPropEntry.Value);
+                            databaseItems[0].LeiureMinutes = Convert.ToInt32(sfDiesMinEntry.Value);
+                            databaseItems[0].PropMinutes = Convert.ToInt32(sfPropMinEntry.Value);
+                            continueWrite = true;
+                        }
                     }
                     break;
 
@@ -289,15 +326,21 @@ public partial class AddHoursPage : ContentPage
                 case 0:
                     await DisplayAlert("Alert", "There is nothing to delete for this date in the database", "OK");
                     sfDiesEntry.Value = null;
+                    sfDiesMinEntry.Value = null;
                     sfPropEntry.Value = null;
+                    sfPropMinEntry.Value = null;
                     break;
                 //Delete the hours for this date by setting them to 0
                 case 1:
                     databaseItems[0].LeisureHours = 0;
                     databaseItems[0].PropHours = 0;
+                    databaseItems[0].LeiureMinutes = 0;
+                    databaseItems[0].PropMinutes = 0;
                     await database.SaveItemAsync(databaseItems[0]);
                     sfDiesEntry.Value = null;
+                    sfDiesMinEntry.Value = null;
                     sfPropEntry.Value = null;
+                    sfPropMinEntry.Value = null;
                     break;
                 //Should never see this, it is an error
                 default:
