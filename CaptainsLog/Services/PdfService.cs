@@ -78,6 +78,33 @@ namespace CaptainsLog.Services
                 return null;
             }
 
+            int? TryExtractInt(object item, params string[] names)
+            {
+                var val = GetPropValue(item, names);
+                if (val == null) return null;
+                try
+                {
+                    switch (val)
+                    {
+                        case int i: return i;
+                        case long l: return Convert.ToInt32(l);
+                        case decimal d: return Convert.ToInt32(d);
+                        case double db: return Convert.ToInt32(db);
+                        case float f: return Convert.ToInt32(f);
+                        case string s when !string.IsNullOrWhiteSpace(s) && int.TryParse(s, out var parsed): return parsed;
+                        default: return null;
+                    }
+                }
+                catch { return null; }
+            }
+
+            string FormatMinutes(int totalMinutes)
+            {
+                var hours = totalMinutes / 60;
+                var mins = Math.Abs(totalMinutes % 60);
+                return $"{hours}h:{mins}m";
+            }
+
             // 1. Prepare ordered items with parsed dates
             var prepared = (items ?? new List<DieselDatabase>())
                 .Select(it => new
@@ -108,8 +135,8 @@ namespace CaptainsLog.Services
 
             // 2. Build rows: Date, Leisure, Propulsion, Diesel (litres)
             var rows = new List<object>();
-            decimal totalLeisure = 0m;
-            decimal totalPropulsion = 0m;
+            int totalLeisureMinutes = 0;
+            int totalPropulsionMinutes = 0;
 
             foreach (var entry in prepared)
             {
@@ -118,17 +145,37 @@ namespace CaptainsLog.Services
                     ? entry.ParsedDate.Value.ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture)
                     : TryExtractString(it, "EntryDate");
 
-                // Leisure hours 
-                var leisureDec = TryExtractDecimal(it, "LeisureHours");
-                string leisureStr = leisureDec.HasValue ? leisureDec.Value.ToString("0.##", CultureInfo.CurrentCulture) : "-";
+                // Leisure: may have hours (decimal) and/or minutes (int)
+                var leisureDec = TryExtractDecimal(it, "LeisureHours", "LeisureHour", "LeisureH");
+                var leisureMins = TryExtractInt(it, "LeisureMinutes", "LeisureMins", "LeisureMin", "LeisureMinute");
+                int? leisureTotalMins = null;
+                if (leisureDec.HasValue || leisureMins.HasValue)
+                {
+                    int mins = 0;
+                    if (leisureDec.HasValue)
+                        mins += (int)Math.Round((double)(leisureDec.Value * 60.0m), MidpointRounding.AwayFromZero);
+                    if (leisureMins.HasValue)
+                        mins += Math.Max(0, leisureMins.Value);
+                    leisureTotalMins = mins;
+                    totalLeisureMinutes += mins;
+                }
+                string leisureStr = leisureTotalMins.HasValue ? FormatMinutes(leisureTotalMins.Value) : "-";
 
-                // Propulsion hours
-                var propulsionDec = TryExtractDecimal(it, "PropHours");
-                string propulsionStr = propulsionDec.HasValue ? propulsionDec.Value.ToString("0.##", CultureInfo.CurrentCulture) : "-";
-
-                // Accumulate totals for percentages (treat nulls as zero)
-                if (leisureDec.HasValue) totalLeisure += leisureDec.Value;
-                if (propulsionDec.HasValue) totalPropulsion += propulsionDec.Value;
+                // Propulsion: may have hours (decimal) and/or minutes (int)
+                var propulsionDec = TryExtractDecimal(it, "PropHours", "PropulsionHours", "PropH");
+                var propulsionMins = TryExtractInt(it, "PropMinutes", "PropMins", "PropMin", "PropMinute");
+                int? propulsionTotalMins = null;
+                if (propulsionDec.HasValue || propulsionMins.HasValue)
+                {
+                    int mins = 0;
+                    if (propulsionDec.HasValue)
+                        mins += (int)Math.Round((double)(propulsionDec.Value * 60.0m), MidpointRounding.AwayFromZero);
+                    if (propulsionMins.HasValue)
+                        mins += Math.Max(0, propulsionMins.Value);
+                    propulsionTotalMins = mins;
+                    totalPropulsionMinutes += mins;
+                }
+                string propulsionStr = propulsionTotalMins.HasValue ? FormatMinutes(propulsionTotalMins.Value) : "-";
 
                 // Diesel litres
                 var dieselDec = TryExtractDecimal(it, "DieselRefill");
@@ -143,15 +190,13 @@ namespace CaptainsLog.Services
                 });
             }
 
-            // Compute percentage title
+            // Compute percentage title based on total minutes
             int propulsionPct = 0;
             int leisurePct = 0;
-            var totalHours = totalLeisure + totalPropulsion;
-            if (totalHours > 0m)
+            var totalMinutes = totalLeisureMinutes + totalPropulsionMinutes;
+            if (totalMinutes > 0)
             {
-                // compute propulsion percentage rounded to nearest integer
-                propulsionPct = (int)Math.Round((double)((totalPropulsion / totalHours) * 100.0m), MidpointRounding.AwayFromZero);
-                // ensure the two add to 100
+                propulsionPct = (int)Math.Round((double)totalPropulsionMinutes / totalMinutes * 100.0, MidpointRounding.AwayFromZero);
                 leisurePct = 100 - propulsionPct;
                 if (leisurePct < 0) leisurePct = 0;
             }
@@ -210,8 +255,8 @@ namespace CaptainsLog.Services
                 if (header.Cells.Count >= 4)
                 {
                     header.Cells[0].Value = "Date";
-                    header.Cells[1].Value = "Leisure (hrs)";
-                    header.Cells[2].Value = "Propulsion (hrs)";
+                    header.Cells[1].Value = "Leisure";
+                    header.Cells[2].Value = "Propulsion";
                     header.Cells[3].Value = "Diesel (L)";
                 }
 
@@ -240,7 +285,7 @@ namespace CaptainsLog.Services
 
                 if (pdfGrid.Columns.Count >= 4)
                 {
-                    // Date 20%, Leisure 26.5%, Propulsion 26.5%, Diesel 27% (balanced for numeric columns)
+                    // Date 20%, Leisure 27%, Propulsion 27%, Diesel 26% (balanced for numeric columns)
                     pdfGrid.Columns[0].Width = availableWidth * 0.20f; // Date
                     pdfGrid.Columns[1].Width = availableWidth * 0.27f; // Leisure
                     pdfGrid.Columns[2].Width = availableWidth * 0.27f; // Propulsion

@@ -292,7 +292,9 @@ namespace CaptainsLog.ViewModels
                     ID = d.ID,
                     EntryDate = d.EntryDate,
                     LeisureHours = d.LeisureHours,
+                    LeisureMinutes = d.LeisureMinutes,
                     PropHours = d.PropHours,
+                    PropMinutes = d.PropMinutes,
                     DieselRefill = d.DieselRefill,
                 })
                 .ToList() ?? new List<DieselDatabase>();
