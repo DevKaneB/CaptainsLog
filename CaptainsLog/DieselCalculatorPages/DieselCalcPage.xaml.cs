@@ -72,7 +72,7 @@ public partial class DieselCalcPage : ContentPage
                 databaseItems.Clear();
 
                 databaseItems =
-                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours, SUM(DieselRefill) AS DieselRefill FROM DieselDatabase WHERE EntryDate > (SELECT EntryDate FROM DieselDatabase WHERE DieselRefill != '0' ORDER BY EntryDate DESC LIMIT 1)");
+                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(LeisureMinutes) AS LeisureMinutes, SUM(PropHours) AS PropHours, SUM(PropMinutes) AS PropMinutes, SUM(DieselRefill) AS DieselRefill FROM DieselDatabase WHERE EntryDate > (SELECT EntryDate FROM DieselDatabase WHERE DieselRefill != '0' ORDER BY EntryDate DESC LIMIT 1)");
                 
                 switch (databaseItems.Count)
                 {
@@ -90,8 +90,8 @@ public partial class DieselCalcPage : ContentPage
 
 
                         var item = databaseItems[0];
-                        float DHours = item.LeisureHours;
-                        float PHours = item.PropHours;
+                        float DHours = item.LeisureHours + (item.LeisureMinutes / 60f);
+                        float PHours = item.PropHours + (item.PropMinutes / 60f);
                         float DieselRefill = dieselRefillItems[0].DieselRefill;
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
@@ -137,7 +137,7 @@ public partial class DieselCalcPage : ContentPage
                 databaseItems.Clear();
 
                 databaseItems =
-                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours,SUM(PropHours) AS PropHours from DieselDatabase where EntryDate > date('now','-30 day')");
+                       await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(LeisureMinutes) AS LeisureMinutes, SUM(PropHours) AS PropHours, SUM(PropMinutes) AS PropMinutes from DieselDatabase where EntryDate > date('now','-30 day')");
 
                 switch (databaseItems.Count)
                 {
@@ -150,8 +150,8 @@ public partial class DieselCalcPage : ContentPage
                             return;
                         }
                         var item = databaseItems[0];
-                        float DHours = item.LeisureHours;
-                        float PHours = item.PropHours;
+                        float DHours = item.LeisureHours + (item.LeisureMinutes / 60f);
+                        float PHours = item.PropHours + (item.PropMinutes / 60f);
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
                         PropHrsLbl.Text = $"{PropPercent}%";
@@ -193,7 +193,7 @@ public partial class DieselCalcPage : ContentPage
                 databaseItems.Clear();
 
                 databaseItems =
-                       await database.GetItemsViaQueryAsync($"Select SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours From DieselDatabase");
+                       await database.GetItemsViaQueryAsync($"Select SUM(LeisureHours) AS LeisureHours, SUM(LeisureMinutes) AS LeisureMinutes, SUM(PropHours) AS PropHours, SUM(PropMinutes) AS PropMinutes From DieselDatabase");
 
                 //Calculate and display percentages
                 switch (databaseItems.Count)
@@ -208,8 +208,8 @@ public partial class DieselCalcPage : ContentPage
                         }
 
                         var item = databaseItems[0];
-                        float DHours = item.LeisureHours;
-                        float PHours = item.PropHours;
+                        float DHours = item.LeisureHours + (item.LeisureMinutes / 60f);
+                        float PHours = item.PropHours + (item.PropMinutes / 60f);
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
                         PropHrsLbl.Text = $"{PropPercent}%";
