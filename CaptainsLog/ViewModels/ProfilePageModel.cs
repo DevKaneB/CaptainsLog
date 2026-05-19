@@ -26,7 +26,7 @@ namespace CaptainsLog.ViewModels
             database = new DieselDatabaseMethods();
         }
 
-        public double ImageMaxHeight =>
+        public static double ImageMaxHeight =>
             DeviceDisplay.Current.MainDisplayInfo.Height
             / DeviceDisplay.Current.MainDisplayInfo.Density
             / 3;
@@ -48,7 +48,7 @@ namespace CaptainsLog.ViewModels
         // - CA1826: Do not use LINQ's FirstOrDefault() on indexable collections; use direct indexing if possible.
 
         [RelayCommand]
-        private async Task BackButtonClicked()
+        private static async Task BackButtonClicked()
         {
             var mainWindow = Application.Current?.Windows.Count > 0 ? Application.Current.Windows[0] : null;
             var navigation = mainWindow?.Page?.Navigation;
@@ -283,7 +283,7 @@ namespace CaptainsLog.ViewModels
             {
                 //Are there any diesel Refill entries in the database?
                 databaseItems =
-                    await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where LeisureHours != '0' or PropHours != '0' ");
+                    await database.GetItemsViaQueryAsync($"Select * from DieselDatabase where LeisureHours != '0' or PropHours != '0' or LeisureMinutes != '0' or PropMinutes != '0' ");
 
                 if (databaseItems.Count == 0)
                 {
@@ -316,14 +316,15 @@ namespace CaptainsLog.ViewModels
                     }
 
                     databaseItems =
-                           await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours FROM DieselDatabase WHERE EntryDate > '{ServiceDate}'");
+                           await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, SUM(PropHours) AS PropHours, SUM(LeisureMinutes) AS LeisureMinutes, SUM(PropMinutes) AS PropMinutes" +
+                           $" FROM DieselDatabase WHERE EntryDate > '{ServiceDate}'");
 
                     switch (databaseItems.Count)
                     {
                         //Calculate and display percentages
                         case 1:
 
-                            var EngineHoursUsed = databaseItems[0].PropHours + databaseItems[0].LeisureHours;
+                            var EngineHoursUsed = ((databaseItems[0].PropHours * 60) + databaseItems[0].PropMinutes) / 60 + ((databaseItems[0].LeisureHours * 60) + databaseItems[0].LeisureMinutes) / 60;
                             var ServiceIntervalHours = ProfileItems[0].EngineServiceIntervalHours - EngineHoursUsed;
 
                             if (ServiceIntervalHours < 0)
