@@ -125,26 +125,26 @@ public partial class DieselCalcPage : ContentPage
         try
         {
             //Load all database entries
-            var dieselUseData = await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, " +
-                                                                    $"       SUM(LeisureMinutes) AS LeisureMinutes, " +
-                                                                    $"       SUM(PropHours) AS PropHours, " +
-                                                                    $"       SUM(PropMinutes) AS PropMinutes, " +
-                                                                    $"       SUM(DieselRefill) AS DieselRefill " +
-                                                                    $"FROM DieselDatabase " +
-                                                                    $"WHERE EntryDate >= ( " +
-                                                                    $"        SELECT EntryDate " +
+            var dieselUseData = await database.GetItemsViaQueryAsync($"SELECT " +
+                                                                    $"    SUM(d.LeisureHours) AS LeisureHours, " +
+                                                                    $"    SUM(d.LeisureMinutes) AS LeisureMinutes, " +
+                                                                    $"    SUM(d.PropHours) AS PropHours, " +
+                                                                    $"    SUM(d.PropMinutes) AS PropMinutes, " +
+                                                                    $"    r2.DieselRefill AS DieselRefill " +
+                                                                    $"FROM DieselDatabase r1 " +
+                                                                    $"JOIN DieselDatabase r2 " +
+                                                                    $"    ON r2.EntryDate = ( " +
+                                                                    $"        SELECT MIN(EntryDate) " +
                                                                     $"        FROM DieselDatabase " +
-                                                                    $"        WHERE DieselRefill != '0' " +
-                                                                    $"        ORDER BY EntryDate " +
-                                                                    $"        LIMIT 1 " +
+                                                                    $"        WHERE EntryDate > r1.EntryDate " +
+                                                                    $"          AND DieselRefill != '0' " +
                                                                     $"    ) " +
-                                                                    $"  AND EntryDate < ( " +
-                                                                    $"        SELECT EntryDate " +
-                                                                    $"        FROM DieselDatabase " +
-                                                                    $"        WHERE DieselRefill != '0' " +
-                                                                    $"        ORDER BY EntryDate " +
-                                                                    $"        LIMIT 1 OFFSET 1 " +
-                                                                    $"    )");
+                                                                    $"JOIN DieselDatabase d " +
+                                                                    $"    ON d.EntryDate > r1.EntryDate " +
+                                                                    $"   AND d.EntryDate < r2.EntryDate " +
+                                                                    $"WHERE r1.DieselRefill != '0' " +
+                                                                    $"GROUP BY r1.EntryDate, r2.EntryDate " +
+                                                                    $"ORDER BY r1.EntryDate;");
 
 
             if (dieselUseData.Count > 0) 
