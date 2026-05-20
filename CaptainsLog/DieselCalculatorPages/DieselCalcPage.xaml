@@ -103,7 +103,6 @@
                     Grid.ColumnSpan="6"
                     Grid.Row="4"
                     x:Name="LitrePHourLbl"
-                    Text="0 Litres/Hour"  
                     TextColor="Black"
                     HorizontalOptions="Fill"
                     HorizontalTextAlignment="Center"

@@ -95,10 +95,10 @@ public partial class DieselCalcPage : ContentPage
                         float DieselRefill = dieselRefillItems[0].DieselRefill;
                         var DieselPercent = Math.Round((DHours / (PHours + DHours)) * 100, 0);
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
-                        var DieselPerLitre = Math.Round(DieselRefill / (PHours + DHours), 2);
                         PropHrsLbl.Text = $"{PropPercent}%";
                         DiesHrsLbl.Text = $"{DieselPercent}%";
-                        LitrePHourLbl.Text = $"{DieselPerLitre} Litres/Hour";
+
+                        FuelUseRate();
 
                         dieselRefillItems.Clear();
                         break;
@@ -117,6 +117,59 @@ public partial class DieselCalcPage : ContentPage
         {
             Debug.WriteLine(ex.Message);
         }
+    }
+
+    async void FuelUseRate()
+    {
+
+        try
+        {
+            //Load all database entries
+            var dieselUseData = await database.GetItemsViaQueryAsync($"SELECT SUM(LeisureHours) AS LeisureHours, " +
+                                                                    $"       SUM(LeisureMinutes) AS LeisureMinutes, " +
+                                                                    $"       SUM(PropHours) AS PropHours, " +
+                                                                    $"       SUM(PropMinutes) AS PropMinutes, " +
+                                                                    $"       SUM(DieselRefill) AS DieselRefill " +
+                                                                    $"FROM DieselDatabase " +
+                                                                    $"WHERE EntryDate >= ( " +
+                                                                    $"        SELECT EntryDate " +
+                                                                    $"        FROM DieselDatabase " +
+                                                                    $"        WHERE DieselRefill != '0' " +
+                                                                    $"        ORDER BY EntryDate " +
+                                                                    $"        LIMIT 1 " +
+                                                                    $"    ) " +
+                                                                    $"  AND EntryDate < ( " +
+                                                                    $"        SELECT EntryDate " +
+                                                                    $"        FROM DieselDatabase " +
+                                                                    $"        WHERE DieselRefill != '0' " +
+                                                                    $"        ORDER BY EntryDate " +
+                                                                    $"        LIMIT 1 OFFSET 1 " +
+                                                                    $"    )");
+
+
+            if (dieselUseData.Count > 0) 
+            {
+                var item = dieselUseData[0];
+                float DHours = item.LeisureHours + (item.LeisureMinutes / 60f);
+                float PHours = item.PropHours + (item.PropMinutes / 60f);
+                float DieselRefill = item.DieselRefill;
+                var DieselPerHour = Math.Round(DieselRefill / (PHours + DHours), 2);
+                //Read from database still populates a row when it returns null. 
+                if (item.DieselRefill > 0)
+                {
+                    LitrePHourLbl.Text = $"{DieselPerHour} Litres/Hour";
+                } else 
+                {
+                    LitrePHourLbl.Text = "";
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+
     }
 
     async void OnLastThirtyDaysClicked(object? sender, EventArgs e)
@@ -156,6 +209,7 @@ public partial class DieselCalcPage : ContentPage
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
                         PropHrsLbl.Text = $"{PropPercent}%";
                         DiesHrsLbl.Text = $"{DieselPercent}%";
+                        FuelUseRate();
                         break;
                     //error condition - multiple records found
                     default:
@@ -214,6 +268,7 @@ public partial class DieselCalcPage : ContentPage
                         var PropPercent = Math.Round((PHours / (PHours + DHours)) * 100, 0);
                         PropHrsLbl.Text = $"{PropPercent}%";
                         DiesHrsLbl.Text = $"{DieselPercent}%";
+                        FuelUseRate();
                         break;
 
                     //error condition - multiple records found
