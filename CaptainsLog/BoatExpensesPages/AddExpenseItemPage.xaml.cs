@@ -35,12 +35,19 @@ public partial class AddExpenseItemPage : ContentPage
 
     async void OnSaveExpenseClicked(object? sender, EventArgs e)
     {
-        //Warning for null, the syncfusion control forces a value
-        DateTime date = ExpenseDateEntry.SelectedDate.Value;
+        // Validate date selection (SelectedDate is nullable)
+        var selectedDate = ExpenseDateEntry?.SelectedDate;
+        if (!selectedDate.HasValue)
+        {
+            await DisplayAlert("Alert", "Please select a date for the expense.", "OK");
+            return;
+        }
+        DateTime date = selectedDate.Value;
         var dateSelected = date.ToString("yyyy-MM-dd");
 
-        //Check for a number, they are restricted what they input via the XAML
-        if (ExpenseAmountEntry.Value < 0.01 )
+        // Get amount safely (Value may be nullable)
+        double amountDouble = ExpenseAmountEntry?.Value ?? 0.0;
+        if (amountDouble < 0.01 )
         {
             await DisplayAlert("Alert", "Amount is required.", "OK");
             return;
@@ -65,7 +72,7 @@ public partial class AddExpenseItemPage : ContentPage
                                                             $"WHERE ExpenseType = '{TypePicker.Items[TypePicker.SelectedIndex]}' " +
                                                             $"AND (ExpenseDesc = '{ExpenseReasonEntry.Text}' OR ExpenseDesc IS NULL) " +
                                                             $"AND ExpenseDate = '{dateSelected}' " +
-                                                            $"AND Amount = {(decimal)(ExpenseAmountEntry.Value ?? 0.0)}");
+                                                            $"AND Amount = {(decimal)amountDouble}");
 
         if (ExpenseItems.Count > 0)
         {
@@ -93,11 +100,14 @@ public partial class AddExpenseItemPage : ContentPage
                 ExpenseDesc = ExpenseReasonEntry.Text,
                 ExpenseDate = dateSelected,
                 ID = 0,
-                Amount = (decimal)(ExpenseAmountEntry.Value ?? 0.0)
+                Amount = (decimal)amountDouble
             });
 
         //Save to database
         await database.SaveItemAsync(ExpenseItems[0]);
         ExpenseItems.Clear();
+
+        //Show confirmation and return to previous page
+        await DisplayAlert("Success", "Expense item added successfully.", "OK");
     }
 }

@@ -115,7 +115,7 @@
                                     <Label Grid.Column="1" Grid.Row="1" Text="{Binding ExpenseType}" HorizontalTextAlignment="Center" TextColor="Black"/>
                                     <!--Amount-->
                                     <Label Grid.Column="2" Grid.Row="0" Text="Amount" FontAttributes="Bold" BackgroundColor="AliceBlue" HorizontalTextAlignment="Center" TextColor="Black"/>
-                                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding Amount}" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding Amount, StringFormat='£{0:N2}'}" HorizontalTextAlignment="Center" TextColor="Black"/>
                                     <!--Note-->
                                     <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding ExpenseDesc}" HorizontalTextAlignment="Start" TextColor="Black"/>
                                 </Grid>

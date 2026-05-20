@@ -37,7 +37,7 @@ public partial class ExpensesTopPage : ContentPage
         try
         {
             var AmountItem = await SQLTools.GetItemsViaQueryAsync("SELECT printf('%.2f',SUM(Amount) / 3) * 1 AS AMOUNT From ExpensesItem Where ExpenseDate > DATE('now','-21 days')");
-            AvgExpensesLbl.Text = AmountItem[0].Amount.ToString("F2") + "p/w";
+            AvgExpensesLbl.Text = "£" + AmountItem[0].Amount.ToString("F2") + "p/w";
             AmountItem.Clear();
 
         }
@@ -52,7 +52,7 @@ public partial class ExpensesTopPage : ContentPage
         try
         {
             var AmountItem = await SQLTools.GetItemsViaQueryAsync("SELECT printf('%.2f',SUM(Amount) / 3) * 1 AS AMOUNT From ExpensesItem Where ExpenseDate > DATE('now','-90 days')");
-            AvgExpensesLbl.Text = AmountItem[0].Amount.ToString("F2") + "p/m";
+            AvgExpensesLbl.Text = "£" + AmountItem[0].Amount.ToString("F2") + "p/m";
             AmountItem.Clear();
 
         }
@@ -68,7 +68,7 @@ public partial class ExpensesTopPage : ContentPage
         try
         {
             var AmountItem = await SQLTools.GetItemsViaQueryAsync("SELECT printf('%.2f',SUM(Amount) / 3) * 1 AS AMOUNT From ExpensesItem Where ExpenseDate > DATE('now','-365 days')");
-            AvgExpensesLbl.Text = AmountItem[0].Amount.ToString("F2") + "p/y";
+            AvgExpensesLbl.Text = "£" + AmountItem[0].Amount.ToString("F2") + "p/y";
             AmountItem.Clear();
 
         }

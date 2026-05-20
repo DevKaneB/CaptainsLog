@@ -55,7 +55,7 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="6"
                        Grid.Row="2"
-                       Text="0.00"
+                       Text="£0.00"
                        TextColor="Black"
                        FontSize="40"
                        HorizontalOptions="Center"

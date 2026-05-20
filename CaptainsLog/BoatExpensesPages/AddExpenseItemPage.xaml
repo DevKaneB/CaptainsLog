@@ -120,7 +120,7 @@
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="6"
                        Grid.Row="5"
-                       Text="Expense Amount"
+                       Text="Expense Amount (£)"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"
                        TextColor="Black"/>
