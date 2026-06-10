@@ -3,6 +3,7 @@ using CaptainsLog.BoatProfilePages;
 using CaptainsLog.BoatExpensesPages;
 using CaptainsLog.JournalPages;
 using CaptainsLog.SettingsPages;
+using CaptainsLog.MapPages;
 
 namespace CaptainsLog
 {
@@ -76,5 +77,18 @@ namespace CaptainsLog
             }
             // Optionally, handle the case where navigation is null (e.g., show an error or do nothing)
         }
+        
+        async void MapClicked(object? sender, EventArgs e)
+        {
+            // Fixes CS0618 and CS8602 by using the current window's page and null-checking
+            var window = Application.Current?.Windows.FirstOrDefault();
+            var navigation = window?.Page?.Navigation;
+            if (navigation != null)
+            {
+                await navigation.PushAsync(new MapHomePage());
+            }
+            // Optionally, handle the case where navigation is null (e.g., show an error or do nothing)
+        }
+
     }
 }

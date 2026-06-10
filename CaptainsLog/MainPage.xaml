@@ -80,7 +80,7 @@
         <ImageButton Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
                      CornerRadius="40"
                      Source="mappic.png"
-                     
+                     Clicked="MapClicked"
                      BorderColor="Black"
                      BorderWidth="3"
                      BackgroundColor="#226666"

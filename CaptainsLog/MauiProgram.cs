@@ -3,6 +3,9 @@ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
+using Microsoft.Maui.Controls; // if needed
+using Microsoft.Maui.Controls.Maps; // if needed
+
 
 namespace CaptainsLog
 {
@@ -15,6 +18,7 @@ namespace CaptainsLog
                 .ConfigureSyncfusionToolkit()
                 .ConfigureSyncfusionCore()
                 .UseMauiApp<App>()
+                .UseMauiMaps()                // <-- add this
                 .UseMauiApp<App>().UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
