@@ -135,4 +135,8 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Resources\CRTData\" />
+	</ItemGroup>
+
 </Project>
