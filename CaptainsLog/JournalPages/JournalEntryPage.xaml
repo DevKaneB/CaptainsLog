@@ -72,6 +72,8 @@
                     Text="{Binding JournalVContent}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center" 
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
                     Margin="4"
                     FontSize="22"
                     TextColor="Black"/>

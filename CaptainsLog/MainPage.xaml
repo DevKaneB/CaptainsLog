@@ -68,7 +68,7 @@
                      BackgroundColor="#226666"
                      Margin="3"/>
 
-        <ImageButton Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2"
+        <ImageButton Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"
                      CornerRadius="40"
                      Source="settingspic.png"
                      Clicked="SettingsClicked"
@@ -77,14 +77,14 @@
                      BackgroundColor="#226666"
                      Margin="3"/>
 
-        <ImageButton Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+        <!-- <ImageButton Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
                      CornerRadius="40"
                      Source="mappic.png"
                      Clicked="MapClicked"
                      BorderColor="Black"
                      BorderWidth="3"
                      BackgroundColor="#226666"
-                     Margin="3"/>
+                     Margin="3"/> -->
         
         
     </Grid>
