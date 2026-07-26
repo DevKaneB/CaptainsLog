@@ -93,14 +93,16 @@
                     BackgroundColor="White" TextColor="Black"
                 Text="{Binding JournalLocation}"/>
 
-                <Entry
-                Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
-                VerticalTextAlignment="Start"
-                Placeholder="How was your day?"
+                <Editor
+                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
+                    VerticalOptions="Start"
+                    AutoSize="TextChanges"
+                    Placeholder="How was your day?"
                     FontSize="16"
-                Margin="10"
-                    BackgroundColor="White" TextColor="Black"
-                Text="{Binding JournalContent}"/>
+                    Margin="10"
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    Text="{Binding JournalContent}" />
             </Grid>
 
         </ScrollView>
