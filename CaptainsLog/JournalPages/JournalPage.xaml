@@ -10,7 +10,6 @@
              x:DataType="vm:JournalViewModel"
              x:Name="JournalEditPge"
              Shell.NavBarIsVisible="False"
-             ios:Page.UseSafeArea="true"
              BackgroundColor="#A7CFCF">
 
     <Grid RowDefinitions="*,Auto">

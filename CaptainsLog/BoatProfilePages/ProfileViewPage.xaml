@@ -9,7 +9,6 @@
              x:Name="ProfileViewContentPage"
              x:DataType="vm:ProfilePageModel"
              Shell.NavBarIsVisible="False"
-             ios:Page.UseSafeArea="true"
              BackgroundColor="#A7CFCF">
 
     <CollectionView ItemsSource="{Binding ProfileItems}" Background="Transparent" >

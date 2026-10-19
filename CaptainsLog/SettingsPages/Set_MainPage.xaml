@@ -9,7 +9,6 @@
              x:DataType="vm:SettingsViewModel"
              x:Name="settings_mainpage"
              Shell.NavBarIsVisible="False"
-             ios:Page.UseSafeArea="true"
              BackgroundColor="#A7CFCF">
     
     <VerticalStackLayout>

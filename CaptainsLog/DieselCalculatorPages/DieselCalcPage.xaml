@@ -5,7 +5,6 @@
              x:Class="CaptainsLog.DieselCalcPage"
              Title="Diesel Calculator"
              Shell.NavBarIsVisible="False"
-            ios:Page.UseSafeArea="true"
             BackgroundColor="#A7CFCF">
     <ContentPage.Content>
         <Border Padding="10,10">

@@ -9,7 +9,6 @@
              x:DataType="vm:JournalViewModel"
              x:Name="JournalEntryPge"
              Shell.NavBarIsVisible="False"
-             ios:Page.UseSafeArea="true"
              BackgroundColor="#A7CFCF">
     <ContentPage.Resources>
         <ResourceDictionary>

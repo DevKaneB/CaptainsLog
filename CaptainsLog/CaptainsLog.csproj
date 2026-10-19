@@ -21,6 +21,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
 
 		<!-- Display name -->
 		<ApplicationTitle>NarrowNotes</ApplicationTitle>
@@ -55,7 +56,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-ios'">
-		<CodesignKey>iPhone Developer</CodesignKey>
+		<CodesignKey>Apple Distribution: Kane Brennan (7BFTL8Y9U2)</CodesignKey>
+		<ProvisioningType>manual</ProvisioningType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -94,6 +96,9 @@
 	<!-- Pin Android-specific native SQLite library for android TFM only to avoid intra-project divergence -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
 		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.12-pre20260709125052" />
+		<!-- Ensure CoordinatorLayout and Material design libraries are available to Android builds -->
+		<PackageReference Include="Xamarin.AndroidX.CoordinatorLayout" Version="1.3.0.3" />
+		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.12.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
