@@ -7,6 +7,7 @@
              x:Class="CaptainsLog.AddDieselLitresPage"
              Title="Add Diesel Litres"
              Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
              BackgroundColor="#A7CFCF">
     <ContentPage.Content>
         <Border Padding="10,10">
