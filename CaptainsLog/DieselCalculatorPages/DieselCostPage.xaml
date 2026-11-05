@@ -21,7 +21,7 @@
                     <RowDefinition Height="55" />
                     <RowDefinition Height="55" />
                     <RowDefinition Height="55" />
-                    <RowDefinition Height="55" />
+                    <RowDefinition Height="20" />
                     <RowDefinition Height="55" />
                     <RowDefinition Height="55" />
                     <RowDefinition Height="55" />
@@ -48,21 +48,21 @@
                          Source="helpbutton.png"
                          HorizontalOptions="Fill"/>
 
-                <Label Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
+                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"
                        Text="Domestic"
                        TextColor="Black"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" 
                        FontSize="20"/>
 
-                <Label Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="2"
+                <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2"
                        Text="Propulsion"
                        TextColor="Black"
                        HorizontalOptions="Center"
                        VerticalOptions="Center" 
                        FontSize="20"/>
 
-                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center">
                     <editors:SfNumericEntry 
                         x:Name="sfDomesticCostEntry"
                         Placeholder="Cost Per Litre"
@@ -72,7 +72,7 @@
                         FontSize="16"/>
                 </Border>
 
-                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center">
                     <editors:SfNumericEntry 
                         x:Name="sfPropulsionCostEntry"
                         Placeholder="Cost Per Litre"
@@ -82,7 +82,7 @@
                         FontSize="16"/>
                 </Border>
 
-                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="4" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="4" HorizontalOptions="Center" VerticalOptions="Center">
                     <editors:SfNumericEntry 
                         x:Name="sfDomesticDeclareEntry"
                         Placeholder="Percentage"
@@ -92,7 +92,7 @@
                         FontSize="16"/>
                 </Border>
 
-                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="4" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="4" HorizontalOptions="Center" VerticalOptions="Center">
                     <editors:SfNumericEntry 
                         x:Name="sfPropulsionDeclareEntry"
                         Placeholder="Percentage"
@@ -123,7 +123,15 @@
                     BorderWidth="3"
                     FontSize="18" TextColor="White"/>
 
-                <Border Padding="1" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="7" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="7"
+                    x:Name="InputLbl"
+                    Text="Input the Litres you wish to buy"
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" 
+                    FontSize="14"/>
+
+                <Border Padding="1" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="8" HorizontalOptions="Center" VerticalOptions="Center">
                     <editors:SfNumericEntry 
                         x:Name="sfCashLitreEntry"
                         Placeholder="ENTER LITRES"
@@ -136,7 +144,7 @@
                 <Button
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
-                    Grid.Row="8"
+                    Grid.Row="9"
                     x:Name="CalculateBtn"
                     Text="Calculate Cost" 
                     SemanticProperties.Hint="Calculate"
@@ -147,7 +155,7 @@
                     BorderWidth="3"
                     FontSize="18" TextColor="White"/>
 
-                <Border Padding="1" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="9" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border Padding="1" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="10" HorizontalOptions="Center" VerticalOptions="Center">
                     <editors:SfNumericEntry 
                         x:Name="sfOutputEntry"
                         Placeholder="COST OUTPUT"
