@@ -1,5 +1,6 @@
 using CaptainsLog.DatabaseClasses.Items;
 using CaptainsLog.DatabaseClasses.Services;
+using CaptainsLog.DieselCalculatorPages;
 using CaptainsLog.ViewModels;
 using System.Diagnostics;
 
@@ -293,6 +294,15 @@ public partial class DieselCalcPage : ContentPage
         if (nav != null)
         {
             await nav.PushAsync(new AddDieselLitresPage());
+        }
+    }
+
+    async void OnDieselCostClicked(object? sender, EventArgs e)
+    {
+        var nav = this.Window?.Page?.Navigation;
+        if (nav != null)
+        {
+            await nav.PushAsync(new DieselCostPage());
         }
     }
 

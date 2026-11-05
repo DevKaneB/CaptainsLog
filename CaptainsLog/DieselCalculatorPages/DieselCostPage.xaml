@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Toolkit.NumericEntry;assembly=Syncfusion.Maui.Toolkit"
+             x:Class="CaptainsLog.DieselCalculatorPages.DieselCostPage"
+             Title="DieselCostPage"
+             Shell.NavBarIsVisible="False"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="#A7CFCF">
+    <ContentPage.Content>
+        <Border Padding="10,10">
+            <Grid RowSpacing="6"
+              ColumnSpacing="6">
+                <!-- Define number of rows and columns -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                    <RowDefinition Height="55" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <ImageButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+                         Clicked="OnBackButtonClicked"
+                         Source="backbutton.png"
+                         HorizontalOptions="Fill"/>
+
+                <ImageButton Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" 
+                         Clicked="OnHelpButtonClicked"
+                         Source="helpbutton.png"
+                         HorizontalOptions="Fill"/>
+
+                <Label Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
+                       Text="Domestic"
+                       TextColor="Black"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" 
+                       FontSize="20"/>
+
+                <Label Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="2"
+                       Text="Propulsion"
+                       TextColor="Black"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" 
+                       FontSize="20"/>
+
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center">
+                    <editors:SfNumericEntry 
+                        x:Name="sfDomesticCostEntry"
+                        Placeholder="Cost Per Litre"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="2"
+                        Minimum="0"
+                        FontSize="16"/>
+                </Border>
+
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center">
+                    <editors:SfNumericEntry 
+                        x:Name="sfPropulsionCostEntry"
+                        Placeholder="Cost Per Litre"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="2"
+                        Minimum="0"
+                        FontSize="16"/>
+                </Border>
+
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="4" HorizontalOptions="Center" VerticalOptions="Center">
+                    <editors:SfNumericEntry 
+                        x:Name="sfDomesticDeclareEntry"
+                        Placeholder="Percentage"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="0"
+                        Minimum="0"
+                        FontSize="16"/>
+                </Border>
+
+                <Border Padding="1" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="4" HorizontalOptions="Center" VerticalOptions="Center">
+                    <editors:SfNumericEntry 
+                        x:Name="sfPropulsionDeclareEntry"
+                        Placeholder="Percentage"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="0"
+                        Minimum="0"
+                        FontSize="16"/>
+                </Border>
+
+                <Label Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="5"
+                   Text="Calculate Cost or Litres"
+                   TextColor="Black"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" 
+                   FontSize="20"/>
+
+                <Button
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="6"
+                    x:Name="FlipCashBtn"
+                    Text="Cost" 
+                    SemanticProperties.Hint="Add Hours to database"
+                    Clicked="OnCostLitreClicked"
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"
+                    FontSize="18" TextColor="White"/>
+
+                <Border Padding="1" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="7" HorizontalOptions="Center" VerticalOptions="Center">
+                    <editors:SfNumericEntry 
+                        x:Name="sfCashLitreEntry"
+                        Placeholder="ENTER LITRES"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="2"
+                        Minimum="0"
+                        FontSize="16"/>
+                </Border>
+
+                <Button
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="8"
+                    x:Name="CalculateBtn"
+                    Text="Calculate Cost" 
+                    SemanticProperties.Hint="Calculate"
+                    Clicked="OnCalcClicked"
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    BorderColor="Black"
+                    BorderWidth="3"
+                    FontSize="18" TextColor="White"/>
+
+                <Border Padding="1" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="9" HorizontalOptions="Center" VerticalOptions="Center">
+                    <editors:SfNumericEntry 
+                        x:Name="sfOutputEntry"
+                        Placeholder="COST OUTPUT"
+                        HorizontalTextAlignment="Center"
+                        MaximumNumberDecimalDigits="0"
+                        Minimum="0"
+                        FontSize="16"
+                        IsEditable="False"/>
+                </Border>
+
+            </Grid>
+        </Border>
+    </ContentPage.Content>
+</ContentPage>

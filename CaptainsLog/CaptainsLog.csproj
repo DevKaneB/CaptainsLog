@@ -129,6 +129,9 @@
 		<MauiXaml Update="DieselCalculatorPages\DieselCalcPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="DieselCalculatorPages\DieselCostPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="DieselCalculatorPages\DieselLogPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

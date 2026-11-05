@@ -25,6 +25,7 @@
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -192,11 +193,25 @@
                     TextColor="White"
                     BorderWidth="3"
                     FontSize="18"/>
-                <!-- View History Log -->
+                <!-- Open diesel cost calculator -->
                 <Button
                     Grid.Column="0"
                     Grid.ColumnSpan="6"
                     Grid.Row="10"
+                    x:Name="DieselCostBtn"
+                    Text="Diesel Cost Calculator" 
+                    SemanticProperties.Hint="Calculate how much diesel you can buy"
+                    Clicked="OnDieselCostClicked"
+                    HorizontalOptions="Fill" 
+                    BackgroundColor="#226666"
+                    TextColor="White"
+                    BorderWidth="3"
+                    FontSize="18"/>
+                <!-- View History Log -->
+                <Button
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Grid.Row="11"
                     x:Name="ViewHistoryBtn"
                     Text="View All Entries" 
                     SemanticProperties.Hint="View History for the last year"
