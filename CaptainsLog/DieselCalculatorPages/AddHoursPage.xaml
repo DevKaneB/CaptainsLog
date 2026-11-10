@@ -87,6 +87,7 @@
                             <editors:SfNumericEntry 
                                 x:Name="sfDiesEntry"
                                 Placeholder="HH"
+                                PlaceholderColor="Gray"
                                 HorizontalTextAlignment="Center"
                                 MaximumNumberDecimalDigits="0"
                                 Minimum="0"
@@ -106,6 +107,7 @@
                             <editors:SfNumericEntry 
                                 x:Name="sfDiesMinEntry"
                                 Placeholder="MM"
+                                PlaceholderColor="Gray"
                                 HorizontalTextAlignment="Center"
                                 MaximumNumberDecimalDigits="0"
                                 Minimum="0"
@@ -134,6 +136,7 @@
                             <editors:SfNumericEntry 
                                 x:Name="sfPropEntry"
                                 Placeholder="HH"
+                                PlaceholderColor="Gray"
                                 HorizontalTextAlignment="Center"
                                 MaximumNumberDecimalDigits="0"
                                 Minimum="0"
@@ -153,6 +156,7 @@
                             <editors:SfNumericEntry 
                                 x:Name="sfPropMinEntry"
                                 Placeholder="MM"
+                                PlaceholderColor="Gray"
                                 HorizontalTextAlignment="Center"
                                 MaximumNumberDecimalDigits="0"
                                 Minimum="0"

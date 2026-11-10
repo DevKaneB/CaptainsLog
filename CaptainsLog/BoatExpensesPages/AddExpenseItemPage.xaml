@@ -111,6 +111,7 @@
                     <Entry 
                         x:Name="ExpenseReasonEntry"
                         Placeholder="Optional or Other Reason"
+                        PlaceholderColor="Gray"
                         VerticalOptions="Center"
                         BackgroundColor="White"
                         TextColor="Black"/>

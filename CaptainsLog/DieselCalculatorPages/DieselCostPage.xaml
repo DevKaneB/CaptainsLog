@@ -66,6 +66,7 @@
                     <editors:SfNumericEntry 
                         x:Name="sfDomesticCostEntry"
                         Placeholder="Cost Per Litre"
+                        PlaceholderColor="Gray"
                         HorizontalTextAlignment="Center"
                         MaximumNumberDecimalDigits="2"
                         Minimum="0"
@@ -76,6 +77,7 @@
                     <editors:SfNumericEntry 
                         x:Name="sfPropulsionCostEntry"
                         Placeholder="Cost Per Litre"
+                        PlaceholderColor="Gray"
                         HorizontalTextAlignment="Center"
                         MaximumNumberDecimalDigits="2"
                         Minimum="0"
@@ -86,6 +88,7 @@
                     <editors:SfNumericEntry 
                         x:Name="sfDomesticDeclareEntry"
                         Placeholder="Percentage"
+                        PlaceholderColor="Gray"
                         HorizontalTextAlignment="Center"
                         MaximumNumberDecimalDigits="0"
                         Minimum="0"
@@ -96,6 +99,7 @@
                     <editors:SfNumericEntry 
                         x:Name="sfPropulsionDeclareEntry"
                         Placeholder="Percentage"
+                        PlaceholderColor="Gray"
                         HorizontalTextAlignment="Center"
                         MaximumNumberDecimalDigits="0"
                         Minimum="0"
@@ -135,6 +139,7 @@
                     <editors:SfNumericEntry 
                         x:Name="sfCashLitreEntry"
                         Placeholder="ENTER LITRES"
+                        PlaceholderColor="Gray"
                         HorizontalTextAlignment="Center"
                         MaximumNumberDecimalDigits="2"
                         Minimum="0"
@@ -159,6 +164,7 @@
                     <editors:SfNumericEntry 
                         x:Name="sfOutputEntry"
                         Placeholder="COST OUTPUT"
+                        PlaceholderColor="Gray"
                         HorizontalTextAlignment="Center"
                         MaximumNumberDecimalDigits="0"
                         Minimum="0"

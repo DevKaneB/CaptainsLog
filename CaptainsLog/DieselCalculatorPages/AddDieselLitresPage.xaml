@@ -69,6 +69,7 @@
                     <editors:SfNumericEntry 
                         x:Name="sfDiesLitreEntry"
                         Placeholder="Enter Litres"
+                        PlaceholderColor="Gray"
                         HorizontalTextAlignment="Center"
                         Minimum="0"
                         MaximumNumberDecimalDigits="0"
