@@ -18,8 +18,8 @@ namespace CaptainsLog
                 .ConfigureSyncfusionToolkit()
                 .ConfigureSyncfusionCore()
                 .UseMauiApp<App>()
-                .UseMauiMaps()                // <-- add this
-                .UseMauiApp<App>().UseMauiCommunityToolkit()
+                .UseMauiMaps()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

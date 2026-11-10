@@ -11,12 +11,43 @@ namespace CaptainsLog
     {
         public MainPage()
         {
-            var apiKey = APIKeys.APIKeys.syncfusionKey;
+            try
+            {
+                var apiKey = APIKeys.APIKeys.syncfusionKey;
+                if (!string.IsNullOrWhiteSpace(apiKey))
+                {
+                    try
+                    {
+                        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(apiKey);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Syncfusion license registration failed: {ex.Message}");
+                    }
+                }
 
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(apiKey);
-
-
-            InitializeComponent();
+                InitializeComponent();
+                System.Diagnostics.Debug.WriteLine("MainPage: InitializeComponent completed.");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"MainPage startup failed: {ex}");
+                Content = new Grid
+                {
+                    BackgroundColor = Colors.White,
+                    Children =
+                    {
+                        new Label
+                        {
+                            Text = $"Startup error: {ex.GetType().Name}",
+                            TextColor = Colors.Black,
+                            HorizontalOptions = LayoutOptions.Center,
+                            VerticalOptions = LayoutOptions.Center,
+                            HorizontalTextAlignment = TextAlignment.Center
+                        }
+                    }
+                };
+            }
         }
 
         async void OnBoatProfileClicked(object? sender, EventArgs e)
